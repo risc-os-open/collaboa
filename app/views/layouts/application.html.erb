@@ -1,11 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="imagetoolbar" content="false" />
     <meta name="robots" content="all" />
     <meta name="MSSmartTagsPreventParsing" content="true" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
     <title>RISC OS Open: Bugs and sources: <%= @page_title %></title>
 
@@ -24,8 +27,9 @@
     <% end -%>
     <%= javascript_include_tag "prototype" %>
   </head>
+
   <body>
-<%= render 'shared/fixed_header' %>
+    <%= render 'shared/fixed_header' %>
 
     <div id="template_main">
 
@@ -34,8 +38,7 @@
       <div id="template_body">
         <div id="template_body_content">
           <%= hubssolib_flash_tags -%>
-
-<%= @content_for_layout %>
+          <%= yield %>
         </div>
       </div>
 
@@ -55,24 +58,24 @@
             </div>
           </div>
 
-<%= render 'shared/fixed_sidebar' %>
+          <%= render 'shared/fixed_sidebar' %>
 
-<% if hubssolib_privileged? -%>
-          <p />
-          <div class="template_sidebar_node">
-          <% if current_user.login == 'Public' %>
-            <h3>Collaboa admin</h3>
-
+          <% if hubssolib_privileged? -%>
             <p />
-            <ul><li><%= link_to 'Log in', :controller => '/login', :action => 'login' -%></li></ul>
-          <% else %>
-            <h3>Collaboa admin</h3>
+            <div class="template_sidebar_node">
+            <% if current_user.login == 'Public' %>
+              <h3>Collaboa admin</h3>
 
-            <p />
-            <ul><li>Logged in as <%= current_user.login %> <%= link_to '(Log out)', :controller => '/login', :action => 'logout' -%></li></ul>
-          <% end %>
-          </div>
-<% end -%>
+              <p />
+              <ul><li><%= link_to 'Log in', :controller => '/login', :action => 'login' -%></li></ul>
+            <% else %>
+              <h3>Collaboa admin</h3>
+
+              <p />
+              <ul><li>Logged in as <%= current_user.login %> <%= link_to '(Log out)', :controller => '/login', :action => 'logout' -%></li></ul>
+            <% end %>
+            </div>
+          <% end -%>
 
           <p />
           <div class="template_sidebar_node">
