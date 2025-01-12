@@ -1,0 +1,70 @@
+<% @page_title = 'Browsing repository' %>
+
+<div id="content">
+<%= render :partial => 'breadcrumbs', :locals => { :trail => true, :last_clickable => false } %>
+
+<div id="filter-selector">
+  <dl>
+    <dt>Revision:</dt>
+    <dd><%= @current_entry.revision -%></dd>
+  </dl>
+  <dl>
+    <dt>Log:</dt>
+    <dd><%= format_and_make_links(h(@current_entry.log)) -%></dd>
+  </dl>
+  <dl>
+    <dt>Author:</dt>
+    <dd><%= @current_entry.author -%></dd>
+  </dl>
+  <dl>
+    <dt>Date:</dt>
+    <dd><%= @current_entry.date -%></dd>
+  </dl>
+  <% unless @current_entry.proplist.empty? -%>
+  <dl>
+    <dt>Properties:</dt>
+  <% @current_entry.proplist.each do |name, value| %>
+    <dd>Property <%= name -%> is set <%= value.empty? ? '' : "to #{value}" -%></dd>
+  <% end %>
+  </dl>
+  <% end -%>
+</div>
+
+<table id="browser" class="listing">
+ <thead>
+  <tr>
+    <th class="name">Name</th>
+    <th class="age">Age</th>
+    <th class="rev">Rev.</th>
+    <th class="msg">Last commit message</th>
+  </tr>
+ </thead>
+ <tbody>
+  <% unless params[:path].empty? %>
+  <tr class="parent">
+  <% paths = params[:path]; paths.pop %>
+    <td class="name parent"><%= link_to '..', :path => paths %></td>
+    <td class="age"></td>
+    <td class="rev"></td>
+    <td class="msg"></td>
+  </tr>
+  <% end %>
+  <% @node_entries.cycle do |entry, css| %>
+
+  <tr class="<%= css -%>">
+    <td class="name <%= entry.type -%>"><%= link_to entry.name, url_for_svn_path(entry.path) -%></td>
+    <td class="age"><%= distance_of_time_in_words(entry.date, Time.now) -%></td>
+    <td class="rev"><%= entry.revision -%></td>
+    <td class="msg">[<%= entry.author -%>] <%= truncate(h(entry.log), 50) -%> </td>
+  </tr>
+  <% end %>
+ </tbody>
+</table>
+
+<!--<div class="rev-chooser">
+  <%= start_form_tag({:action => 'browse', :path => params[:path]}, :method => 'get') %>
+    <p>Revision: <input id="rev" name="rev" type="text" value="<%= @rev -%>" /></p>
+  <% end_form_tag %>
+</div>-->
+
+</div>

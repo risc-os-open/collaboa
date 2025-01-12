@@ -1,0 +1,50 @@
+The Subversion Ruby bindings
+============================
+
+The bindings for Ruby is available from Subversion 1.2 and up. Installation 
+is fairly straight forwards, as long as you meet the requirements of the svn bindings 
+(see the INSTALL/NOTES in $SVN_SRC_DIR/subversion/bindings/swig).
+
+Be sure to note the requirements for the SWIG version in that file!
+
+The correct way to install the Ruby bindings once you've configured, maked and 
+installed subversion is (unfortunately this doesn't seem to be covered in the 
+current svn docs):
+
+$ make swig-rb
+$ make check-swig-rb (optional, but you probably want to run these tests)
+$ make install-swig-rb (as root)
+
+Configuring Collaboa
+====================
+
+1.  Copy (or rename) database.yml.sample to database.yml and set up the credentials and 
+    other database details you wish
+
+2.  Copy (or rename) repository.yml.sample to repository.yml and point it to the Subversion
+    repository you wish to use for your environment (you probably want "production")
+
+3.  Run the following
+		$ RAILS_ENV="production" rake db_schema_import
+
+4. 	Run the following: 
+		$ RAILS_ENV="production" ruby db/default_content.rb
+		to create the minimal default content Collaboa needs to start with.
+
+5.  Then, before you load up your Collaboa instance in your browser, you should run the following:
+    $ RAILS_ENV="production" ./script/repository_syncer 
+    It will default to using your production settings, for options etc, run it with the --help flag
+
+6. IMPORTANT! Change your admin password by logging into your collaboa install with:
+		Username: admin
+		Password: admin
+	And go to Admin > Users > edit "admin"
+
+...to sync the database with your repository. Collaboa will automatically sync with your 
+repository when it detects a change, but for the first run you'd want to run the rake 
+task to avoid timeouts etc in case your repository is fairly big. 
+
+6.  You can run pretty much any web server you wish (only tested with
+    Lighttpd/Apache/Webrick though). If you just wanted to get started right
+    away you can run "./script/server" and direct your browser at
+    the url listed

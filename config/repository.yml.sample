@@ -1,0 +1,8 @@
+production:
+  repos_path: /Users/johan/SVN/collaboa
+
+development:
+  repos_path: /Users/johan/SVN/collaboa_dev
+
+test:
+  repos_path: /Users/johan/SVN/collaboa_test

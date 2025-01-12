@@ -1,0 +1,19 @@
+<% @page_title = 'Browsing repository' %>
+
+<div id="content">
+<%= render :partial => 'breadcrumbs', :locals => { :trail => true, :last_clickable => false } %>
+<%= render :partial => 'meta', :locals => {:node => @file} %>
+
+  <h2>Unviewable file</h2>
+
+  <p>
+    Couldn't find a mimetype with which to properly view this file.
+    If you wish you can try the links below to download it in another format.
+  </p>
+
+  <div id="download-alternate">
+    <h4>Download in other formats:</h4>
+    <p><%= link_to "raw", :format => "raw", :path => params[:path] -%>
+        | <%= link_to "text", :format => "txt", :path => params[:path] -%></p>
+  </div>
+</div>

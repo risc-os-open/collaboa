@@ -1,0 +1,41 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+bob:
+  id: 1000001
+  login: bob
+  password: 0ad29cf60a91cf698e0e587fd00003866b2343f5 # test
+  view_changesets: 1
+  view_code: 1
+  view_tickets: 1
+  create_tickets: 1
+  admin: 1
+  
+existingbob:
+  id: 1000002
+  login: existingbob
+  password: 0ad29cf60a91cf698e0e587fd00003866b2343f5 # test
+  view_changesets: 1
+  view_code: 1
+  view_tickets: 1
+  create_tickets: 1
+  admin: 0
+  
+longbob:
+  id: 1000003
+  login: longbob
+  password: 752beef06f6443fb2949f886b54b3bc19c2e2bd5 # longtest
+  view_changesets: 1
+  view_code: 1
+  view_tickets: 1
+  create_tickets: 1
+  admin: 0
+
+public:
+  id: 1
+  login: Public
+  password: 12e459ee450ee1c934688ccb53fc286d04b7c77a
+  view_changesets: 1
+  view_code: 1
+  view_tickets: 1
+  create_tickets: 1
+  admin: 0

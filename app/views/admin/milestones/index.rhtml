@@ -1,0 +1,36 @@
+<% @page_title = 'Milestones' %>
+
+<div id="content">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Administration', :controller => 'dashboard' -%></li>
+      <li>&#187; Milestones</li>
+    </ul>
+  </div>
+
+  <h2>Current Milestones:</h2>
+  <ul>
+  <% @milestones.each do |milestone| %>
+    <li>
+      <%= link_to milestone.name, :action => 'edit', :id => milestone.id -%> 
+      <small><%= link_to 'delete', {:action => 'delete', :id => milestone.id}, :confirm => 'Really delete this milestone?' -%></small>
+    </li>
+  <% end %>
+  </ul>
+
+  <%= error_messages_for 'milestone' %>
+
+  <%= form_tag :action => 'index' %>
+  <fieldset>
+    <legend>Create new milestone</legend>
+
+    <label class="first">Name of this milestone (eg 0.7.5): 
+    <%= text_field 'milestone', 'name' -%></label>
+    
+    <label class="first">A short description or other info you want displayed (optional): 
+    <%= text_area 'milestone', 'info' -%></label>
+
+    <input type="submit" value="Create milestone" class="submit">
+
+  <%= end_form_tag %>
+</div>

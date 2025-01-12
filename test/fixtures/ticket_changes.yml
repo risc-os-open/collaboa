@@ -1,0 +1,12 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+<% require 'yaml' %>
+changes_for_open_ticket:
+  id: 1
+  author: johan
+  ticket_id: 1
+  comment: a comment
+  created_at: 2005-06-23 23:07:49
+  log: 
+  attachment: 
+  attachment_fsname: 
+  content_type: 

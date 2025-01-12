@@ -1,0 +1,41 @@
+<h2><%= milestone.name -%></h2>
+
+<div class="milestone-info"><%= simple_format(milestone.info) if milestone.info %></div>
+
+  <!-- Old-style HTML table hackery to enable a wider range of -->
+  <!-- browsers to cope with the Milestones progress bars.     -->
+
+  <table width="80%" border="0" cellspacing="0" cellpadding="1" align="center" bgcolor="#888888">
+    <tr>
+      <td>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#dddddd">
+          <tr>
+            <% if (milestone.completed_tickets_percent > 0) %>
+            <td width="<%= milestone.completed_tickets_percent -%>%" bgcolor="#00dd00">&nbsp;</td>
+            <% end %><% if (milestone.completed_tickets_percent < 100) %>
+            <td width="<%= 100 - milestone.completed_tickets_percent -%>%">&nbsp;</td>
+            <% end %>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Was:
+  <div class="milestone-progress">
+    <div class="percent-completed" style="width: <%= milestone.completed_tickets_percent -%>%;"></div>
+  </div>
+  -->
+
+  <p class="milestone-details">
+    <%= link_to "Closed tickets: #{milestone.closed_tickets}",
+                              :controller => 'tickets',
+                              :action => 'filter',
+                              :status => -1,
+                              :milestone => milestone.id  -%> (<%= milestone.completed_tickets_percent -%>% done)
+      - <%= link_to "Open tickets: #{milestone.open_tickets}",
+                              :controller => 'tickets',
+                              :action => 'filter',
+                              :status => 1,
+                              :milestone => milestone.id  -%>
+  </p>

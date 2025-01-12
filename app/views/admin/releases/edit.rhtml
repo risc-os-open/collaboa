@@ -1,0 +1,25 @@
+<% @page_title = 'Edit release' %>
+
+<div id="content">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Administration', :controller => 'dashboard' -%></li>
+      <li>&#187; <%= link_to 'Releases', :action => 'index' -%></li>
+      <li>&#187; Editing Release</li>
+    </ul>
+  </div>
+
+
+  <%= error_messages_for 'release' %>
+
+  <%= form_tag :action => 'edit', :id => @release.id %>
+  <fieldset>
+    <legend>Edit release</legend>
+
+    <label class="first">Name of this release (eg 0.7.5): 
+    <%= text_field 'release', 'name' -%></label>
+
+    <input type="submit" value="Edit release" class="submit">
+
+  <%= end_form_tag %>
+</div>

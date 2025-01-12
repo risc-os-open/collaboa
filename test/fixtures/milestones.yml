@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+milestone1:
+  id: 1
+  name: Milestone 1
+  info: This is milestone 1
+  completed: 0
+milestone2:
+  id: 2
+  name: Milestone 2
+  info: This is milestone 2
+  completed: 0

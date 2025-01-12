@@ -1,0 +1,13 @@
+<% @page_title = 'Browsing repository' %>
+
+<div id="content">
+<%= render :partial => 'breadcrumbs', :locals => { :trail => true, :last_clickable => false } %>
+<%= render :partial => 'meta', :locals => {:node => @file} %>
+
+<p />
+<%# Cannot use "image_tag url_for"... because url_for inserts the asset host -%>
+<%# / RAILS_RELATIVE_URL_ROOT prefix, then image_tag does it again, creating -%>
+<%# a broken URL. Rails has plenty of glitches when running away from the    -%>
+<%# document root!                                                           -%>
+<%= "<img src=\"#{url_for( :action => 'send_data_to_browser', :path => params[:path] )}\" alt=\"#{@file.name}\" />" %>
+</div>

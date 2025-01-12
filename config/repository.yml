@@ -1,0 +1,8 @@
+production:
+  repos_path: /home/rool/svnroot
+
+development:
+  repos_path: /home/rool/svnroot
+
+test:
+  repos_path: /home/rool/svnroot

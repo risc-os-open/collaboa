@@ -1,0 +1,124 @@
+<% @page_title = 'Ticket #' + @ticket.id.to_s %>
+
+<div id="content">
+  <%= render_next_prev_links -%>
+
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Tickets', :action => 'index' -%></li>
+      <li>&#187; Ticket #<%= @ticket.id -%></li>
+    </ul>
+  </div>
+
+  <%= error_messages_for 'ticket' %>
+  <%= error_messages_for 'change' %>
+
+  <div id="ticket">
+    <h1>Ticket #<%= @ticket.id -%> (<%= @ticket.status.name -%>)<span class="date"><%= @ticket.created_at -%></span></h1>
+    <h2><%=h @ticket.summary -%></h2>
+
+    <table id="ticket-details">
+      <tr>
+        <td class="info">Reported by:</td>
+        <td><%= format_author @ticket.author -%></td>
+        <td class="info">Severity:</td>
+        <td><%= @ticket.severity.name -%></td>
+      </tr>
+      <tr>
+        <td class="info">Part:</td>
+        <td><%= @ticket.part.name unless @ticket.part.nil? -%></td>
+        <td class="info">Release:</td>
+        <td><%= @ticket.release.name unless @ticket.release.nil? -%></td>
+      </tr>
+      <tr>
+        <td class="info">Milestone:</td>
+        <td><%= @ticket.milestone.name unless @ticket.milestone.nil? -%></td>
+        <td class="info">Status</td>
+        <td><%= @ticket.status.name-%></td>
+      </tr>
+    </table>
+
+  <h3>Details by <%= format_author @ticket.author -%>:</h3>
+  <%= htmlize(@ticket.content) %>
+  </div>
+
+<% first = true %>
+  <% @ticket.ticket_changes.each do |change| -%>
+  <% if (first) -%>
+  <h3>Changelog:</h3>
+  <div id="ticket-changes">
+  <% first = false; end -%>
+
+    <h4>Modified by <%= format_author change.author -%> <%= change.created_at.strftime('%a, %B %d %Y - %H:%M:%S %Z') -%></h4>
+    <ul>
+    <% change.each_log do |log_entry| -%>
+      <li><%= format_changes log_entry %></li>
+    <% end -%>
+    <% if change.has_attachment? -%>
+      <li><strong>Attachment</strong> added: <%= link_to(change.attachment, :action => "attachment", :id => change.id) %></li>
+    <% end -%>
+    </ul>
+
+    <% unless change.comment.nil?  -%>
+      <div id="ticket-change-comment"><%= htmlize(change.comment) %></div>
+    <% end -%>
+  <% end -%>
+<% unless first -%>
+  </div>
+<% end -%>
+
+  <h3 id="comment">Update ticket:</h3>
+
+  <%= form_tag({ :action => 'comment', :id => @ticket.id }, :multipart => true) %>
+    <fieldset>
+      <legend>Add comment and/or change ticket properties</legend>
+      <label class="first">
+        Name/Email:
+<% if hubssolib_privileged? -%>
+        <input id="change_author" name="change[author]" size="30" type="text" value="<%= h(@change.author) %>">
+<% else -%>
+        <input id="change_author" name="change[author]" size="30" type="hidden" value="<%= h(@change.author) %>">
+        <br /><b><%= h(@change.author) %></b><br style="margin-bottom: 10px" />
+<% end -%>
+      </label>
+
+      <br />
+      <label>Attachment:
+      <%= file_field('change', 'attachment') -%></label>
+
+      <br />
+      <label>Comment:
+      <%= text_area 'change', 'comment', :rows => 12 -%></label>
+
+      <br />
+      <label>Ticket Summary:
+      <%= text_field 'ticket', 'summary' -%></label>
+
+      <table>
+      <tr class="set-status">
+        <td>Status:</td>
+        <td><%= collection_select 'ticket', 'status_id', @status, 'id', 'name' -%></td>
+      </tr>
+      <tr>
+        <td>Severity:</td>
+        <td><%= collection_select 'ticket', 'severity_id', @severities, 'id', 'name' -%></td>
+      </tr>
+      <tr>
+        <td>Part: </td>
+        <td><%= collection_select 'ticket', 'part_id', @parts, 'id', 'name', { :include_blank => true } -%></td>
+      </tr>
+      <tr>
+        <td>Release:</td>
+        <td><%= collection_select 'ticket', 'release_id', @releases, 'id', 'name', { :include_blank => true } -%></td>
+      </tr>
+      <tr>
+        <td>Milestone: </td>
+        <td><%= collection_select 'ticket', 'milestone_id', @milestones, 'id', 'name', { :include_blank => true } -%></td>
+       </tr>
+      </table>
+
+    </fieldset>
+    <input type="submit" value="Submit changes" class="submit">
+  <%= end_form_tag %>
+  <%= render_next_prev_links -%>
+</div>

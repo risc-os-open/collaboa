@@ -1,0 +1,68 @@
+<% @page_title = 'Users' %>
+
+<div id="content">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Administration', :controller => 'dashboard' -%></li>
+      <li>&#187; Users</li>
+    </ul>
+  </div>
+  
+  <h2>Current Users:</h2>
+
+  <table class="listing" id="user_list">
+    <thead>
+      <th>User</th>
+      <th>View Changesets</th>
+      <th>View Code</th>
+      <th>View Milestones</th>
+      <th>View Tickets</th>
+      <th>Create Tickets</th>
+      <th>Admin Area</th>
+      <th>Actions</th>
+    </thead>
+  <% @users.cycle do |user, css| %>
+    <tr class="<%= css -%>">
+      <td><%= user.login %></td>
+      <td><%= (user.view_changesets?) ? 'Y' : 'N' %></td>
+      <td><%= (user.view_code?) ? 'Y' : 'N' %></td>
+      <td><%= (user.view_milestones?) ? 'Y' : 'N' %></td>
+      <td><%= (user.view_tickets?) ? 'Y' : 'N' %></td>
+      <td><%= (user.create_tickets?) ? 'Y' : 'N' %></td>
+      <td><%= (user.admin?) ? 'Y' : 'N' %></td>
+      <td><%= link_to 'Edit', { :action => 'edit', :id => user.id }, :style => 'display: inline;' -%> <%= link_to('Delete', {:action => 'delete', :id => user.id}, :style => 'display: inline;', :confirm => 'Really delete user?') unless user.login == 'Public' %></td>
+    </tr>
+  <% end %>
+  </table>
+
+  <%= error_messages_for 'user' %>
+
+  <%= form_tag %>
+  <fieldset>
+    <legend>Create new user</legend>
+
+    <label class="first">Login for user:
+    <%= text_field 'user', 'login' -%></label>
+
+    <label class="first">Password:
+    <%= password_field 'user', 'password' -%></label>
+
+    <label class="first">Password Again:
+    <%= password_field 'user', 'password_confirmation' -%></label>
+
+    <h4>Permissions</h4>
+    <ul>
+      <li><%= check_box 'user', 'view_changesets', :style => 'width:auto;display:inline;' %> View Changesets</li>
+      <li><%= check_box 'user', 'view_code', :style => 'width:auto;display:inline;' %> View Code</li>
+      <li><%= check_box 'user', 'view_milestones', :style => 'width:auto;display:inline;' %> View Milestones</li>
+      <li><%= check_box 'user', 'view_tickets', :style => 'width:auto;display:inline;' %> View Tickets</li>
+      <li><%= check_box 'user', 'create_tickets', :style => 'width:auto;display:inline;' %> Create Tickets</li>
+      <li><%= check_box 'user', 'admin', :style => 'width:auto;display:inline;' %> Admin</li>
+    </ul>
+
+    <%= submit_tag 'Create User' %>
+  </fieldset>
+  
+  <%= end_form_tag %>
+
+</div>

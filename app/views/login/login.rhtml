@@ -1,0 +1,22 @@
+<% @page_title = 'Login' %>
+
+<div id="content">
+
+<h1>Please login</h1>
+<%= start_form_tag :action=> "login" %>
+
+<div title="Account login" id="loginform" class="form">
+    <% if @message %>
+    <div class="notice"><%= @message %></div>
+    <% end %>
+    <label>Login:
+    <input type="text" name="user_login" id="user_login" size="30" value=""/></label>
+
+    <label>Password:
+    <input type="password" name="user_password" id="user_password" size="30"/></label>
+    <input type="submit" name="login" value="Login &#187;" class="primary" />
+
+</div>
+
+<%= end_form_tag %>
+</div>

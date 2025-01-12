@@ -1,0 +1,33 @@
+<% @page_title = 'Parts' %>
+
+<div id="content">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Administration', :controller => 'dashboard' -%></li>
+      <li>&#187; Parts</li>
+    </ul>
+  </div>
+  
+  <h2>Current Parts:</h2>
+  <ul>
+  <% @parts.each do |part| %>
+    <li>
+      <%= link_to part.name, :action => 'edit', :id => part.id %> 
+      <small><%= link_to 'delete', {:action => 'delete', :id => part.id}, :confirm => 'Really delete this part?' %></small>
+    </li>
+  <% end %>
+  </ul>
+
+  <%= error_messages_for 'part' %>
+
+  <%= form_tag :action => 'index' %>
+  <fieldset>
+    <legend>Create new part</legend>
+
+    <label class="first">Name of this part (eg 'User Interface'): 
+    <%= text_field 'part', 'name' -%></label>
+
+    <input type="submit" value="Create Part" class="submit">
+
+  <%= end_form_tag %>
+</div>

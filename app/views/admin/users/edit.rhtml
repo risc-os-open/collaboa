@@ -1,0 +1,42 @@
+<% @page_title = "Edit User" %>
+
+<div id="content">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Administration', :controller => 'dashboard' -%></li>
+      <li>&#187; <%= link_to 'Users', :action => 'index' -%></li>
+      <li>&#187; Editing User</li>
+    </ul>
+  </div>
+
+  <%= error_messages_for 'user' %>
+
+  <%= form_tag :action => 'edit', :id => @user.id %>
+  <fieldset>
+    <legend>Edit User</legend>
+
+    <label class="first">Login for user:
+    <% if @user.login == 'Public' -%>
+    <br />Public (placeholder for visitors not logged in)<% else -%>
+    <%= text_field 'user', 'login' -%><% end -%></label>
+    
+    
+    <label>New Password: <%= password_field "user", "new_password" -%></label>
+    <label>New Password confirmation: <%= password_field "user", "new_password_confirmation" -%></label>
+    <small>Leave these two blank to keep the current password</small>
+
+    <h3>Permissions</h3>
+    <ul>
+      <li><%= check_box 'user', 'view_changesets', :style => 'width:auto;display:inline' %> View Changesets</li>
+      <li><%= check_box 'user', 'view_code', :style => 'width:auto;display:inline' %> View Code</li>
+      <li><%= check_box 'user', 'view_milestones', :style => 'width:auto;display:inline;' %> View Milestones</li>
+      <li><%= check_box 'user', 'view_tickets', :style => 'width:auto;display:inline' %> View Tickets</li>
+      <li><%= check_box 'user', 'create_tickets', :style => 'width:auto;display:inline' %> Create Tickets</li>
+      <li><%= check_box 'user', 'admin', :style => 'width:auto;display:inline;' %> Admin</li>
+    </ul>
+    
+    <%= submit_tag 'Edit user' %>
+  </fieldset>
+  <%= end_form_tag %>
+</div>
+

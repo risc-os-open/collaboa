@@ -1,0 +1,52 @@
+<% @page_title = 'Search' %>
+
+<div id="content">
+  <%= form_tag({:action => 'index'}, :method => 'get') -%>
+    <table border="0" cellspacing="0" cellpadding="1">
+      <tr valign="middle" align="left">
+        <th>Search in tickets:</th>
+        <td>&nbsp;</td>
+        <td><input name="q" type="text" value="<%= params[:q] -%>" /></td>
+      </tr>
+    <% if current_user.view_changesets? %>
+      <tr valign="middle" align="left">
+        <th>Search in Changesets too?</th>
+        <td>&nbsp;</td>
+        <td><%= check_box_tag 'changesets', 1, params[:changesets], {:class => 'checkbox'} -%></td>
+      </tr>
+    <% end %>
+      <tr align="left">
+        <td colspan="3"><br /><input type="submit" value="Go!" /></td>
+      </tr>
+    </table>
+  <%= end_form_tag -%>
+
+  <% if (@found_items.size > 0) -%>
+    <% records = 0 -%>
+    <% @found_items.each do |items| -%>
+      <p />
+      <% items.each do |item| -%>
+        <div class="search-result">
+          <h1>
+            <% if ['fixed', 'wontfix', 'invalid'].include?(item[:status].downcase) %>
+              <s><%= link_to item[:title], item[:link] -%></s>
+            <% else %>
+              <%= link_to item[:title], item[:link] -%>
+            <% end %>
+            <small style="font-weight: normal; font-size: 15pt;">[<%= item[:status] %>]</small>
+          </h1>
+          <p>
+            <%= hilight_search_terms(simple_format(item[:content]), @params["q"]) %>
+          </p>
+        </div>
+        <% records += 1 -%>
+      <% end -%>
+    <% end -%>
+    <% if (records == 0) -%>
+      <p />
+      <div class="search-result">
+        <h1>Sorry, your search returned no results.</h1>
+      </div>
+    <% end -%>
+  <% end -%>
+</div>

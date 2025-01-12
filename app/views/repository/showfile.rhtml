@@ -1,0 +1,16 @@
+<% @page_title = 'Browsing repository' %>
+
+<div id="content">
+<%= render :partial => 'breadcrumbs', :locals => { :trail => true, :last_clickable => false } %>
+  <%= render :partial => 'meta', :locals => {:node => @file} %>
+
+  <div id="html-preview">
+    <%= highlight(@file.contents, @file.mime_type) %>
+  </div>
+
+  <div id="download-alternate">
+    <h4>Download in other formats:</h4>
+    <p><%= link_to "raw", :format => "raw", :path => params[:path] -%>
+        | <%= link_to "text", :format => "txt", :path => params[:path] -%></p>
+  </div>
+</div>

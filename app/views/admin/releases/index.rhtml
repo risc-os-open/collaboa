@@ -1,0 +1,33 @@
+<% @page_title = 'Create new release' %>
+
+<div id="content">
+  <div class="breadcrumbs">
+    <ul>
+      <li><%= link_to 'Administration', :controller => 'dashboard' -%></li>
+      <li>&#187; Releases</li>
+    </ul>
+  </div>
+  
+  <h2>Current Releases:</h2>
+  <ul>
+  <% @releases.each do |release| %>
+    <li>
+      <%= link_to release.name, :action => 'edit', :id => release.id  -%> 
+      <small><%= link_to 'delete', {:action => 'delete', :id => release.id}, :confirm => 'Really delete this release?' %></small>
+      </li>
+  <% end %>
+  </ul>
+
+  <%= error_messages_for 'release' %>
+
+  <%= form_tag :action => 'index' %>
+  <fieldset>
+    <legend>Create new release</legend>
+
+    <label class="first">Name of this release (eg 0.7.5): 
+    <%= text_field 'release', 'name' -%></label>
+
+    <input type="submit" value="Create Release" class="submit">
+
+  <%= end_form_tag %>
+</div>
