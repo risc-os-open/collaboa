@@ -15,18 +15,18 @@
 #
 #   helper :sort
 #   include SortHelper
-# 
+#
 #   def list
 #     sort_init 'last_name'
 #     sort_update
 #     @items = Contact.find_all nil, sort_clause
 #   end
-# 
+#
 # Controller (using Pagination module):
 #
 #   helper :sort
 #   include SortHelper
-# 
+#
 #   def list
 #     sort_init 'last_name'
 #     sort_update
@@ -34,9 +34,9 @@
 #       :order_by => sort_clause,
 #       :per_page => 10
 #   end
-# 
+#
 # View (table header in list.rhtml):
-# 
+#
 #   <thead>
 #     <tr>
 #       <%= sort_header_tag('id', :title => 'Sort by contact ID') %>
@@ -108,7 +108,7 @@ module SortHelper
       order = 'asc'
     end
     caption = titleize(Inflector::humanize(column)) unless caption
-    params = @params.merge({:params => {:sort_key => column, :sort_order => order}})
+    params = params.merge({:params => {:sort_key => column, :sort_order => order}})
     #link_to(caption, params) + (icon ? nbsp(2) + image_tag(icon) : '')
     css_order_class = icon ? order : ''
     link_to(caption, params, { :class => css_order_class })
@@ -142,7 +142,7 @@ module SortHelper
       caption = titleize(Inflector::humanize(column))
     end
     options[:title]= "Sort by #{caption}" unless options[:title]
-    content_tag('th', sort_link(column, caption), options)
+    tag.th(sort_link(column, caption), options)
   end
 
   private

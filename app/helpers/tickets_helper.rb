@@ -1,14 +1,18 @@
 module TicketsHelper
   def format_author(address)
     if address =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
-      mail_to(address, address, :encode => "javascript")
+      mail_to(address, address)
     else
       address
     end
   end
 
   def format_changes(change_arr)
-    "<strong>#{change_arr[0]}</strong> changed from <em>#{change_arr[1]}</em> to <em>#{change_arr[2]}</em>"
+    changed = change_arr[0]
+    ch_from = change_arr[1]
+    ch_to   = change_arr[2]
+
+    "<strong>#{h(changed)}</strong> changed from <em>#{h(ch_from)}</em> to <em>#{h(ch_to)}</em>".html_safe()
   end
 
   def link_to_add_filter(object)
@@ -39,7 +43,7 @@ module TicketsHelper
       out << link_to('Next', :action => 'show', :id => @ticket.next)
     end
     out << "</small></p>\n</div>"
-    out
+    out.html_safe()
   end
 
 end

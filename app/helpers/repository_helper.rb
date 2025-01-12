@@ -26,6 +26,7 @@ module RepositoryHelper
       out << "<li>&#187; " + link + "</li>\n"
     end
     out << "</ul>"
+    out.html_safe()
   end
 
   # Takes a unified diff as input and renders it as html
@@ -95,6 +96,7 @@ module RepositoryHelper
       out << "\t<td class=\"code #{action_class}\">" + line + "</td></tr>\n"
     end
     out << "\n</table>\n"
+    out.html_safe()
   end
 
   def highlight(content, mime_type)
@@ -125,6 +127,7 @@ module RepositoryHelper
       line_num += 1
     end
     html << '</table>'
+    html.html_safe()
   end
 
 end

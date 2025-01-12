@@ -8,11 +8,12 @@ module SearchHelper
     unless text.nil?
       CGI::unescape(words) # url un-encode the params
       words.gsub!(/[\+\-\*]/, '') # remove +/- as used by search query
+      words = ERB::Util.h(words) # make HTML-safe
       words.split(' ').each do |w|
-        text = text.gsub(/(#{Regexp.escape(w)})/i, highlighter) 
+        text = text.gsub(/(#{Regexp.escape(w)})/i, highlighter)
       end
-      return text
+      return text.html_safe()
     end
   end
-  
+
 end
