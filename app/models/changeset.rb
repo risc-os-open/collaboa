@@ -1,4 +1,4 @@
-class Changeset < ActiveRecord::Base
+class Changeset < ApplicationRecord
   has_many :changes, :dependent => true
   
   validates_uniqueness_of :revision

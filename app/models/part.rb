@@ -1,3 +1,3 @@
-class Part < ActiveRecord::Base
+class Part < ApplicationRecord
   has_many :tickets
 end

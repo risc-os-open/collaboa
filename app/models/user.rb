@@ -1,5 +1,5 @@
 # this model expects a certain database layout and its based on the name/login pattern. 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   
   validates_length_of :login, :within => 3..40
   validates_length_of :password, :within => 5..40

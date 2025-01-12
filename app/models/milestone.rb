@@ -1,4 +1,4 @@
-class Milestone < ActiveRecord::Base
+class Milestone < ApplicationRecord
   has_many :tickets
   
   def open_tickets

@@ -1,4 +1,4 @@
-class TicketChange < ActiveRecord::Base
+class TicketChange < ApplicationRecord
   belongs_to :ticket
   serialize :log
 

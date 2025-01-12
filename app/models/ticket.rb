@@ -1,4 +1,4 @@
-class Ticket < ActiveRecord::Base
+class Ticket < ApplicationRecord
   belongs_to  :milestone
   belongs_to  :part
   belongs_to  :severity

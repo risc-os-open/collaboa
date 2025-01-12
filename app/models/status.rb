@@ -1,3 +1,3 @@
-class Status < ActiveRecord::Base
+class Status < ApplicationRecord
   has_many :tickets
 end
