@@ -1,10 +1,5 @@
 class RepositoryController < ApplicationController
-  before_filter :login_required
-  layout 'application', :except => ['send_data_to_browser']
-
-  def index
-    redirect_to :action => 'browse'
-  end
+  before_action :login_required
 
   def browse
     path = params[:path].to_s
@@ -29,9 +24,9 @@ class RepositoryController < ApplicationController
     else
       @file = Repository.get_node_entry(path, @rev)
       if params[:format] == 'raw'
-        send_data @file.contents, :name => path
+        send_data(@file.contents, filename: path)
       elsif @params[:format] == 'txt'
-        send_data @file.contents, :type => "text/plain", :disposition => 'inline'
+        send_data(@file.contents, type: "text/plain", disposition: 'inline')
       else
         if @file.is_textual?
           render :action => 'showfile'
@@ -62,7 +57,7 @@ class RepositoryController < ApplicationController
 
   def revisions
     path = params[:path].to_s
-    logger.debug "** PATH: #{path}"
+    Rails.logger.debug "** PATH: #{path}"
     redirect_to :action => 'browse' if path.empty?
     @changes = Change.find_all_by_path(path, :order => 'created_at DESC', :include => :changeset)
   end
@@ -71,15 +66,22 @@ class RepositoryController < ApplicationController
     path = params['path'].to_s
     @rev = params[:rev]
     file = Repository.get_node_entry(path, @rev)
-    send_data file.contents, :type => file.mime_type, :disposition => 'inline'
+
+    send_data(file.contents, type: file.mime_type, disposition: 'inline')
   end
 
+  # ============================================================================
+  # PRIVATE INSTANCE METHODS
+  # ============================================================================
+  #
   private
+
     def authorize?(user)
-      if %w'changesets show_changeset'.include?(action_name)
+      if %w{changesets show_changeset}.include?(action_name)
         user.view_changesets?
       else
         user.view_code?
       end
     end
+
 end

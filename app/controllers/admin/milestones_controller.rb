@@ -1,28 +1,42 @@
 class Admin::MilestonesController < AdminAreaController
-
   def index
-    @milestones = Milestone.find_all
-    @milestone = Milestone.new(params[:milestone])
-
-    if request.post? && @milestone.save
-      redirect_to :action => 'index'
-    end
+    @milestones = Milestone.all
+    @milestone  = Milestone.new
   end
-  
+
+  def create
+    @milestone = Milestone.new(self.safe_params())
+    success    = @milestone.save()
+
+    redirect_to(action: 'index') if success
+  end
+
   def edit
     @milestone = Milestone.find(params[:id])
-    @milestone.attributes = params[:milestone]
-    if request.post? && @milestone.save
-      redirect_to :action => 'index'
+  end
+
+  def update
+    @milestone  = Milestone.find(params[:id])
+    success     = @milestone.update(self.safe_params())
+
+    redirect_to(action: 'index') if success
+  end
+
+  def destroy
+    milestone = Milestone.find_by_id(params[:id])
+    milestone&.destroy!
+
+    redirect_to(action: 'index')
+  end
+
+  # ============================================================================
+  # PRIVATE INSTANCE METHODS
+  # ============================================================================
+  #
+  private
+
+    def safe_params
+      params.require(:milestone).permit([])
     end
-  end
-  
-  def delete
-    #if request.post?
-      milestone = Milestone.find(params[:id]) rescue nil
-      redirect_to :action => 'index' unless milestone      
-      milestone.destroy
-      redirect_to :action => 'index'
-    #end
-  end
+
 end

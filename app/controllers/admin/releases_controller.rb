@@ -1,31 +1,38 @@
 class Admin::ReleasesController < AdminAreaController
 
   def index
+    @releases = Release.all
   end
-  
-  def index
-    @releases = Release.find :all
-    @release = Release.new(params[:release])
-    
-    if request.post? && @release.save
-      redirect_to :action => 'index'
-    end  
+
+  def create
+    @release = Release.new(self.safe_params())
+    success  = @release.save
+
+    redirect_to(action: 'index') if success
   end
-  
+
   def edit
     @release = Release.find(params[:id])
-    @release.attributes = params[:release]
-    if request.post? && @release.save
-      redirect_to :action => 'index'
+    success  = @release.update(self.safe_params())
+
+    redirect_to(action: 'index') if success
+  end
+
+  def destroy
+    @release = Release.find_by_id(params[:id])
+    @release&.destroy!
+
+    redirect_to(action: 'index')
+  end
+
+  # ============================================================================
+  # PRIVATE INSTANCE METHODS
+  # ============================================================================
+  #
+  private
+
+    def safe_params
+      params.require(:release).permit([])
     end
-  end
-  
-  def delete
-    #if request.post?
-      @release = Release.find(params[:id]) rescue nil
-      redirect_to :action => 'index' unless @release
-      @release.destroy
-      redirect_to :action => 'index'
-    #end
-  end
+
 end

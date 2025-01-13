@@ -1,20 +1,31 @@
-require_dependency "login_system"
-
 class ApplicationController < ActionController::Base
 
-  # Hub single sign-on support.
-
+  # Hub single sign-on support. Run the Hub filters for all actions to ensure
+  # activity timeouts etc. work properly. The login integration with Hub is
+  # done using modifications to the forum's own mechanism in
+  # 'lib/authentication_system.rb'.
+  #
   require 'hub_sso_lib'
   include HubSsoLib::Core
-  before_filter :hubssolib_beforehand
-  after_filter :hubssolib_afterwards
+
+  before_action :hubssolib_beforehand
+  after_action  :hubssolib_afterwards
+
+  # Rescue all exceptions (bad form) to rotate the Hub key (good) and render or
+  # raise the exception again (rapid reload for default handling).
+  #
+  rescue_from ::Exception, with: :on_error_rotate_and_raise
 
   # Now Collaboa's own administrative login system.
-
+  #
   include LoginSystem
 
-  before_filter :set_headers, :sync_with_repos, :user_obj_required
-  after_filter :remember_location
+  # See ActionController::RequestForgeryProtection for details.
+  #
+  protect_from_forgery
+
+  before_action :sync_with_repos, :user_obj_required
+  after_action :remember_location
 
   def url_for_svn_path(fullpath, rev=nil)
     path_parts = fullpath.split('/').reject {|fp| fp.empty?}
@@ -33,22 +44,36 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
-  def rescue_action_in_public(exception)
-    @exception = exception
-    render 'rescues/error'
-  end
-
+  # ============================================================================
+  # PRIVATE INSTANCE METHODS
+  # ============================================================================
+  #
   private
-    # Sets the headers for each request
-    def set_headers
-    	@headers['Content-Type'] = "text/html; charset=utf-8"
+
+    # Renders an exception, retaining Hub login. Regenerate any exception
+    # within five seconds of a previous render to 'raise' to default Rails
+    # error handling, which (in non-Production modes) gives additional
+    # debugging context and an inline console, but loses the Hub session
+    # rotated key, so you're logged out.
+    #
+    def on_error_rotate_and_raise(exception)
+      hubssolib_get_session_proxy()
+      hubssolib_afterwards()
+
+      if session[:last_exception_at].present?
+        last_at = Time.parse(session[:last_exception_at]) rescue nil
+        raise if last_at.present? && Time.now - last_at < 5.seconds
+      end
+
+      session[:last_exception_at] = Time.now.iso8601(1)
+      render 'exception', formats: [:html], locals: { exception: exception }
     end
 
     # Remember where we are.
     # Never return to one of these controllers:
     @@remember_not = ['feed', 'login', 'user']
     def remember_location
-    	if @response.headers['Status'] == '200 OK'
+    	if response.headers['Status'] == '200 OK'
     		session['return_to'] = request.request_uri unless @@remember_not.include? controller_name
     	end
     end
