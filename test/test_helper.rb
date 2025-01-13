@@ -1,13 +1,15 @@
-ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'test_help'
+ENV["RAILS_ENV"] ||= "test"
+require_relative "../config/environment"
+require "rails/test_help"
 
-class Test::Unit::TestCase
-  # Turn off transactional fixtures if you're working with MyISAM tables in MySQL
-  self.use_transactional_fixtures = false
-  
-  # Instantiated fixtures are slow, but give you @david where you otherwise would need people(:david)
-  self.use_instantiated_fixtures  = false
+module ActiveSupport
+  class TestCase
+    # Run tests in parallel with specified workers
+    parallelize(workers: :number_of_processors)
 
-  # Add more helper methods to be used by all tests here...
+    # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+    fixtures :all
+
+    # Add more helper methods to be used by all tests here...
+  end
 end
