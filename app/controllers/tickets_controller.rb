@@ -90,7 +90,7 @@ class TicketsController < ApplicationController
     end
 
     if request.post?
-      success = @ticket.save() # Also saves associated TicketChange within a transaction
+      success = @ticket.save_with_change(@change, params[:change])
       redirect_to(@ticket) if success
     end
   end
@@ -132,11 +132,23 @@ class TicketsController < ApplicationController
     end
 
     def safe_ticket_params
-      params.require(:ticket).permit([])
+      params.require(:ticket).permit(
+        :milestone_id,
+        :part_id,
+        :severity_id,
+        :release_id,
+        :status_id,
+        :summary,
+        :content
+      )
     end
 
     def safe_change_params
-      params.require(:change).permit([])
+      params.require(:change).permit(
+        :ticket_id,
+        :comment,
+        :attachment
+      )
     end
 
 end

@@ -32,7 +32,7 @@ class Admin::ReleasesController < AdminAreaController
   private
 
     def safe_params
-      params.require(:release).permit([])
+      params.require(:release).permit(:name)
     end
 
 end

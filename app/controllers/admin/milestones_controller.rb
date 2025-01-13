@@ -36,7 +36,12 @@ class Admin::MilestonesController < AdminAreaController
   private
 
     def safe_params
-      params.require(:milestone).permit([])
+      params.require(:milestone).permit(
+        :name,
+        :info,
+        :due,
+        :completed
+      )
     end
 
 end

@@ -4,122 +4,134 @@ class Ticket < ApplicationRecord
   belongs_to  :severity
   belongs_to  :status
   belongs_to  :release
-  has_many    :ticket_changes, :order => 'created_at', :dependent => true
+  has_many    :ticket_changes, -> { order: 'created_at ASC'}, dependent: :destroy
+
+  validates_presence_of :author, :summary, :content
 
   attr_protected :author
 
+  # These are both filter parameters passed in for use by ::find_by_filter and
+  # association names in the belongs-to relationships declared earlier.
+  #
+  PERMITTED_FILTER_FIELDS = %w{milestone part severity release status}
+
+  # See the custom override of #write_attribute for details.
+  #
+  LOG_MAP = {
+    #'assigned_user_id' => ['Assigned', 'Unspecified', lambda{|v| User.find(v).username if v > 0}],
+    'part_id'      => ['Part',      'Unspecified', lambda{|v|      Part.find(v).name if v > 0}],
+    'release_id'   => ['Release',   'Unspecified', lambda{|v|   Release.find(v).name if v > 0}],
+    'severity_id'  => ['Severity',  nil,           lambda{|v|  Severity.find(v).name if v > 0}],
+    'status_id'    => ['Status',    nil,           lambda{|v|    Status.find(v).name if v > 0}],
+    'milestone_id' => ['Milestone', 'Unspecified', lambda{|v| Milestone.find(v).name if v > 0}],
+    'summary'      => ['Summary',   nil,           lambda{|v| v unless v.empty?}],
+  }
+
   def before_save
-    self.status ||= Status.find(1)
+    self.status   ||= Status.find(1)
     self.severity ||= Severity.find(1)
   end
 
-  # Overriding save to allow for creating the TicketChange#log if we're
-  # editing a ticket
-  # Returns the normal save if +params+ is nil or self.new_record=true
-  def save(params=nil)
-    return super() if self.new_record? || params.nil?
-    self.attributes = params[:ticket]
-    return false unless super()
+  # A special case for saving a record with a new ticket change that will get
+  # the log data and attachments handled on-the-fly herein.
+  #
+  # Pass a constructed Change with params[:change] safe-assignment completed,
+  # along with the unsafe original params[:change] from the POST request. The
+  # latter is used for attachment management.
+  #
+  # Returns the same as base #save - +true+ for success, +false+ for failure
+  # (in which case, examine the object's ActiveRecord errors collection).
+  #
+  def save_with_change(change, change_params)
+    success = false
 
-    change = TicketChange.new(params[:change])
+    ActiveRecord::Base.transation do
+      if save() == true
+        self.ticket_changes << change
 
-    self.ticket_changes << change
-    change.log = @log
-    change.attach(params[:change][:attachment]) unless params[:change][:attachment].blank?
+        change.log = @log
+        change.attach(change_params[:attachment]) if change_params[:attachment].blank?
 
-    if change.empty?
-      self.errors.add_to_base 'No changes has been made'
-      self.ticket_changes.delete(change)
-      change.destroy
-      return nil
-    else
-      change.save
+        if change.empty?
+          self.errors.add_to_base 'No changes has been made'
+          raise ActiveRecord::Rollback
+        else
+          success = change.save()
+        end
+      end
     end
+
+    return success
   end
 
   def next
-    Ticket.find(:first, :conditions => ['id > ?', id], :order =>'id ASC')
+    Ticket.order('id ASC').where('id > ?', id).first
   end
 
   def previous
-    Ticket.find(:first, :conditions => ['id < ?', id], :order => 'id desc')
+    Ticket.order('id DESC').where('id < ?', id).first
   end
 
-  class << self
-    # Returns am array of "normalized" hashes, useful for mixing display of search result from
-    # other resources (token finder code based on things found in Typo)
-    def search(query)
-      if !query.to_s.strip.empty?
-        tokens = query.split.collect {|c| "%#{c.downcase}%"}
-        findings = find( :all,
-                      :conditions => [(["(LOWER(summary) LIKE ? OR LOWER(content) LIKE ?)"] * tokens.size).join(" AND "),
-                                      *tokens.collect { |token| [token] * 2 }.flatten],
-                      :order => 'created_at DESC')
-        findings.collect do |f|
-          {
-            :title => f.summary,
-            :content => f.content,
-            :link => { :controller => '/tickets', :action => 'show', :id => f.id },
-            :status => (f.status.name rescue 'Unknown')
-          }
-        end
+
+  # Returns an array of "normalized" hashes, useful for mixing display of search
+  # result from other resources (token finder code based on things found in Typo)
+  #
+  def self.search(query)
+    if query.to_s.strip.present?
+      tokens   = query.split.collect {|c| "%#{c.downcase}%"}
+      findings = self.order('created_at DESC')
+
+      tokens.each do | token |
+        safe_token = ActiveRecord::Base.sanitize_sql_like(token)
+        wildcard   = "%#{safe_token}%"
+        findings   = findings.where('(summary ILIKE ? OR content ILIKE ?)', wildcard, wildcard)
+      end
+
+      findings.to_a.map do |f|
+        {
+          title:   f.summary,
+          content: f.content,
+          link:    { controller: '/tickets', action: 'show', id: f.id },
+          status:  (f.status.name rescue 'Unknown')
+        }
+      end
+    else
+      []
+    end
+  end
+
+  # Find a bunch of Tickets based on PERMITTED_FILTER_FIELDS name-value pairs,
+  # where values are association IDs.
+  #
+  # All associations named in PERMITTED_FILTER_FIELDS will be eager-loaded in
+  # the returned ActiveRecord::Relation result.
+  #
+  def self.find_by_filter(params, order_by = 'created_at DESC')
+    scope = self
+      .order(order_by)
+      .includes(*PERMITTED_FILTER_FIELDS) # Eager-load all
+
+    params.each do | field, value |
+      next unless PERMITTED_FILTER_FIELDS.include(field)
+
+      if field == 'status' && (value.to_i) == -1
+        scope = scope.where('"tickets"."status_id" >= 2')
       else
-        []
+        scope = scope.where("\"tickets\".\"#{field_id}\" = ?", value.to_i)
       end
     end
 
-    # Find a bunch of Tickets from a hash of SQL-like fragments. Silently discards
-    # everything we don't want. Accepts +order_by+, +direction+ and +limit+ to limit/order
-    # the results (eg from a table sort etc)
-    def find_by_filter(params = nil, order_by = 'created_at desc', limit = '')
-      filters = []
-      good_fields = %w{milestone part severity release status}
-      params.each do |field, value|
-        operator = ' = '
-        if good_fields.include? field
-          if field == 'status' && (value.to_i) == -1
-            operator = ' >= '
-            value = 2
-          end
-          filters << "tickets.#{field}_id" + operator + sanitize(value.to_i)
-        end
-      end
-      filters = 'WHERE ' + filters.join(' AND ') unless filters.empty?
-
-      #order_by = 'created_at' unless %w{created_at name id}.include? order_by
-      direction = 'DESC' unless %w{ASC DESC}.include? direction
-
-      find_by_sql %{SELECT tickets.*,
-                            status.name AS status_name,
-                            severities.name AS severity_name,
-                            parts.name AS part_name,
-                            milestones.name AS milestone_name,
-                            releases.name AS release_name
-                    FROM tickets
-                    LEFT OUTER JOIN severities ON severities.id = tickets.severity_id
-                    LEFT OUTER JOIN status ON status.id = tickets.status_id
-                    LEFT OUTER JOIN parts ON parts.id = tickets.part_id
-                    LEFT OUTER JOIN milestones ON milestones.id = tickets.milestone_id
-                    LEFT OUTER JOIN releases ON releases.id = tickets.release_id
-                    #{filters.to_s unless filters.empty?}
-                    ORDER BY tickets.#{order_by} }
-    end
+    return scope
   end
 
+  # ============================================================================
+  # PROTECTED INSTANCE METHODS
+  # ============================================================================
+  #
   protected
-    validates_presence_of :author, :summary, :content
-
-    LOG_MAP = {
-      #'assigned_user_id' => ['Assigned', 'Unspecified', lambda{|v| User.find(v).username if v > 0}],
-      'part_id' => ['Part', 'Unspecified', lambda{|v| Part.find(v).name if v > 0}],
-      'release_id' => ['Release', 'Unspecified', lambda{|v| Release.find(v).name if v > 0}],
-      'severity_id' => ['Severity', nil, lambda{|v| Severity.find(v).name if v > 0}],
-      'status_id' => ['Status', nil, lambda{|v| Status.find(v).name if v > 0}],
-      'milestone_id' => ['Milestone', 'Unspecified', lambda{|v| Milestone.find(v).name if v > 0}],
-      'summary' => ['Summary', nil, lambda{|v| v unless v.empty?}],
-    }
 
     # This cool write_attribute override is courtesy of Kent Sibilev
+    #
     def write_attribute(name, value)
       @log ||= {}
 
@@ -144,4 +156,5 @@ class Ticket < ApplicationRecord
 
       super
     end
+
 end

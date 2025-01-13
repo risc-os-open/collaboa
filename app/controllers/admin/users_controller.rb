@@ -47,7 +47,17 @@ class Admin::UsersController < AdminAreaController
   private
 
     def safe_params
-      params.require(:user).permit([])
+      params.require(:user).permit(
+        :login,
+        :password,
+        :password_confirmation,
+        :view_changesets,
+        :view_code,
+        :view_tickets,
+        :view_milestones,
+        :create_tickets,
+        :admin
+      )
     end
 
 end

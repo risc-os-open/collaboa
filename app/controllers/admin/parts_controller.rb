@@ -36,7 +36,7 @@ class Admin::PartsController < AdminAreaController
   private
 
     def safe_params
-      params.require(:part).permit([])
+      params.require(:part).permit(:name)
     end
 
 end

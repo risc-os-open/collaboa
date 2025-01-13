@@ -2,6 +2,8 @@ class TicketChange < ApplicationRecord
   belongs_to :ticket
   serialize :log
 
+  validates_presence_of :author
+
   def each_log
     return unless self.log
     self.log.each do |name, (old_value, new_value)|
@@ -35,37 +37,42 @@ class TicketChange < ApplicationRecord
   end
 
   def has_attachment?
-    self.attachment && !self.attachment.empty?
+    self.attachment && self.attachment.present?
   end
 
-  class << self
-    # Returns am array of "normalized" hashes, useful for mixing display of search result from
-    # other resources (token finder code based on things found in Typo)
-    def search(query)
-      if !query.to_s.strip.empty?
-        tokens = query.split.collect {|c| "%#{c.downcase}%"}
-        findings = find( :all,
-                      :conditions => [(["(LOWER(comment) LIKE ?)"] * tokens.size).join(" AND "),
-                                      *tokens.collect { |token| [token] }.flatten],
-                      :order => 'created_at DESC')
-        findings.collect do |f|
-          {
-            :title => "Ticket ##{f.ticket_id} comment by #{f.author}",
-            :content => f.comment,
-            :link => { :controller => '/tickets', :action => 'show', :id => f.ticket_id },
-            :status => (f.ticket.status.name rescue 'Unknown')
-          }
-        end
-      else
-        []
+  # Returns an array of "normalized" hashes, useful for mixing display of search
+  # result from other resources (token finder code based on things found in Typo)
+  #
+  def self.search(query)
+    if query.to_s.strip.present?
+      tokens   = query.split.collect {|c| "%#{c.downcase}%"}
+      findings = self.order('created_at DESC')
+
+      tokens.each do | token |
+        safe_token = ActiveRecord::Base.sanitize_sql_like(token)
+        wildcard   = "%#{safe_token}%"
+        findings   = findings.where('comment ILIKE ?', wildcard)
       end
+
+      findings.to_a.map do |f|
+        {
+          title:   "Ticket ##{f.ticket_id} comment by #{f.author}",
+          content: f.comment,
+          link:    { controller: '/tickets', action: 'show', id: f.ticket_id },
+          status:  (f.ticket.status.name rescue 'Unknown')
+        }
+      end
+    else
+      []
     end
   end
 
-  protected
-    validates_presence_of :author
-
+  # ============================================================================
+  # PRIVATE INSTANCE METHODS
+  # ============================================================================
+  #
   private
+
     def base_part_of(filename)
       filename = File.basename(filename.strip)
       # remove leading period, whitespace and \ / : * ? " ' < > |
