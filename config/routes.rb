@@ -1,75 +1,36 @@
-ActionController::Routing::Routes.draw do |map|
-  # Add your own custom routes here.
-  # The priority is based upon order of creation: first created -> highest priority.
+Rails.application.routes.draw do
+  root to: 'tickets#index'
 
-  # Here's a sample route:
-  # map.connect 'products/:id', :controller => 'catalog', :action => 'view'
-  # Keep in mind you can assign values other than :controller and :action
+  namespace 'admin' do
+    root to: 'dashboard#index'
 
-  map.connect '/admin', :controller => 'admin/dashboard', :action => 'index'
+    resources :milestones, except: :show
+    resources :parts,      except: :show
+    resources :releases,   except: :show
+    resources :users,      except: :show
+  end
 
-  map.connect '/repository/browse/*path',
-              :controller => 'repository',
-              :action => 'browse'
+  post '/login',  to: 'login#login'
+  get  '/logout', to: 'login#logout'
 
-  # "Routing Error: Path components must occur last" :(
-  #map.connect '/repository/browse/*path/rev/:rev',
-  #            :controller => 'repository',
-  #            :action => 'browse',
-  #            :rev => /\d+/
+  resources :milestones, only: [:index, :show]
 
-  # TODO: Rework this into a general browse/view_file usable thing
-  #map.connect '/repository/file/rev/:rev/*path',
-  #            :controller => 'repository',
-  #            :action => 'view_file',
-  #            :rev => /\d+/
+  get '/repository',                            to: redirect('repository#browse')
+  get '/repository/browse/*path',               to: 'repository#browse'
+  get '/repository/file/*path',                 to: 'repository#view_file'
+  get '/repository/send_data_to_browser/*path', to: 'repository#send_data_to_browser'
+  get '/repository/revisions/*path',            to: 'repository#revisions'
+  get '/repository/changesets',                 to: 'repository#changesets'
+  get '/repository/changesets/:revision',       to: 'repository#show_changeset', as: 'repository_show_changeset'
 
-  map.connect '/repository/file/*path',
-              :controller => 'repository',
-              :action => 'view_file'
+  get '/rss/all',             to: 'rss#all'
+  get '/rss/changesets',      to: 'rss#changesets'
+  get '/rss/tickets',         to: 'rss#tickets'
+  get '/rss/ticket_creation', to: 'rss#ticket_creation'
+  get '/rss/ticket_changes',  to: 'rss#ticket_changes'
 
-  map.connect '/repository/revisions/*path',
-              :controller => 'repository',
-              :action => 'revisions'
-
-  map.connect '/repository/changesets',
-              :controller => 'repository',
-              :action => 'changesets'
-
-  map.connect '/repository/changesets/:revision',
-              :controller => 'repository',
-              :action => 'show_changeset'
-
-  map.connect '/tickets',
-              :controller => 'tickets',
-              :action => 'index'
-
-  map.connect '/tickets/new',
-              :controller => 'tickets',
-              :action => 'new'
-
-  map.connect '/tickets/:id',
-              :controller => 'tickets',
-              :action => 'show',
-              :requirements => { :id => /\d+/ }
-
-  map.connect '/milestones',
-              :controller => 'milestones',
-              :action => 'index'
-
-  map.connect '/milestones/:id',
-              :controller => 'milestones',
-              :action => 'show'
-
-  # You can have the root of your site routed by hooking up ''
-  # -- just remember to delete public/index.html.
-  map.connect '/',
-              :controller => 'tickets'
-
-  # Allow downloading Web Service WSDL as a file with an extension
-  # instead of a file named 'wsdl'
-  #map.connect ':controller/service.wsdl', :action => 'wsdl'
-
-  # Install the default route as the lowest priority.
-  map.connect '/:controller/:action/:id'
+  resources :tickets, only: [:index, :new, :create, :show]
+  get  'tickets/filter',  to: 'tickets#filter'
+  get  'tickets/comment', to: 'tickets#comment'
+  post 'tickets/comment', to: 'tickets#comment'
 end
