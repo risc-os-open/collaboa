@@ -12,7 +12,7 @@
   <ul>
   <% @milestones.each do |milestone| %>
     <li>
-      <%= link_to milestone.name, :action => 'edit', :id => milestone.id -%> 
+      <%= link_to milestone.name, :action => 'edit', :id => milestone.id -%>
       <small><%= link_to 'delete', {:action => 'delete', :id => milestone.id}, :confirm => 'Really delete this milestone?' -%></small>
     </li>
   <% end %>
@@ -20,17 +20,17 @@
 
   <%= error_messages_for 'milestone' %>
 
-  <%= form_tag :action => 'index' %>
+  <%= form_tag :action => 'index' do %>
   <fieldset>
     <legend>Create new milestone</legend>
 
-    <label class="first">Name of this milestone (eg 0.7.5): 
+    <label class="first">Name of this milestone (eg 0.7.5):
     <%= text_field 'milestone', 'name' -%></label>
-    
-    <label class="first">A short description or other info you want displayed (optional): 
+
+    <label class="first">A short description or other info you want displayed (optional):
     <%= text_area 'milestone', 'info' -%></label>
 
     <input type="submit" value="Create milestone" class="submit">
 
-  <%= end_form_tag %>
+  <% end %>
 </div>

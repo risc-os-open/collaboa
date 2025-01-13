@@ -12,6 +12,7 @@
 
     <title>RISC OS Open: Bugs and sources: <%= @page_title %></title>
 
+    <%= stylesheet_link_tag '/css/risc_os_open_2024' %>
     <%= stylesheet_link_tag 'screen' %>
     <% if params[:controller] == 'repository' && params[:action] == 'view_file' %>
     <%= stylesheet_link_tag '/stylesheets/syntaxes/ruby' %>
@@ -37,7 +38,7 @@
 
       <div id="template_body">
         <div id="template_body_content">
-          <%= hubssolib_flash_tags -%>
+          <%= apphelp_flash -%>
           <%= yield %>
         </div>
       </div>
@@ -51,10 +52,10 @@
 
             <p />
             <div class="template_sidebar_static">
-              <%= form_tag({:controller => 'search', :action => 'index'}, :method => 'get') %>
+              <%= form_tag({:controller => 'search', :action => 'index'}, :method => 'get') do %>
                 <input name="q" type="text" value="<%= params[:q] -%>" size="15" />
                 <input type="submit" value="Go" />
-              <%= end_form_tag %>
+              <% end %>
             </div>
           </div>
 
@@ -120,9 +121,9 @@
             <p />
             <ul>
               <% if params["controller"] == 'repository' -%>
-              <li><%= link_to 'Changesets', :controller => 'rss', :action => 'changesets' %></li>
+                <li><%= link_to 'Changesets', :controller => 'rss', :action => 'changesets' %></li>
               <% elsif params["controller"] == 'tickets' -%>
-              <li><%= link_to 'Tickets', :controller => 'rss', :action => 'tickets' %></li>
+                <li><%= link_to 'Tickets', :controller => 'rss', :action => 'tickets' %></li>
               <% end -%>
               <li><%= link_to 'Everything!', :controller => 'rss', :action => 'all' %></li>
               <li><%= link_to 'More feeds...', :controller => 'rss', :action => 'index' -%></li>

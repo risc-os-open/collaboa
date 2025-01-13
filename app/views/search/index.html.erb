@@ -1,7 +1,7 @@
 <% @page_title = 'Search' %>
 
 <div id="content">
-  <%= form_tag({:action => 'index'}, :method => 'get') -%>
+  <%= form_tag({:action => 'index'}, :method => 'get') do %>
     <table border="0" cellspacing="0" cellpadding="1">
       <tr valign="middle" align="left">
         <th>Search in tickets:</th>
@@ -19,7 +19,7 @@
         <td colspan="3"><br /><input type="submit" value="Go!" /></td>
       </tr>
     </table>
-  <%= end_form_tag -%>
+  <% end -%>
 
   <% if (@found_items.size > 0) -%>
     <% records = 0 -%>

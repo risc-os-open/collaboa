@@ -24,8 +24,9 @@ class ApplicationController < ActionController::Base
   #
   protect_from_forgery
 
-  before_action :sync_with_repos, :user_obj_required
-  after_action :remember_location
+  before_action :user_obj_required
+  #before_action :sync_with_repos
+  after_action  :remember_location
 
   def url_for_svn_path(fullpath, rev=nil)
     path_parts = fullpath.split('/').reject {|fp| fp.empty?}
@@ -66,7 +67,13 @@ class ApplicationController < ActionController::Base
       end
 
       session[:last_exception_at] = Time.now.iso8601(1)
-      render 'exception', formats: [:html], locals: { exception: exception }
+
+      render(
+        'exception',
+        layout:  'exception',
+        formats: [:html],
+        locals:  { exception: exception }
+      )
     end
 
     # Remember where we are.
@@ -83,11 +90,9 @@ class ApplicationController < ActionController::Base
     end
 
     def user_obj_required
-      if not session[:user_id]
-        @current_user = User.find_by_login 'Public'
-      else
-        @current_user = User.find session[:user_id]
-      end
+      user_id         = session[:user_id]
+      @current_user   = User.find_by_id(user_id)
+      @current_user ||= User.find_by_login('Public')
     end
 
 end

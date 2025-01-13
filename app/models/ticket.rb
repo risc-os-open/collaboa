@@ -107,15 +107,15 @@ class Ticket < ApplicationRecord
   def self.find_by_filter(params, order_by = 'created_at DESC')
     scope = self
       .order(order_by)
-      .includes(*PERMITTED_FILTER_FIELDS) # Eager-load all
+      .includes(:ticket_changes, *PERMITTED_FILTER_FIELDS) # Eager-load all
 
     params.each do | field, value |
-      next unless PERMITTED_FILTER_FIELDS.include(field)
+      next unless PERMITTED_FILTER_FIELDS.include?(field)
 
       if field == 'status' && (value.to_i) == -1
         scope = scope.where('"tickets"."status_id" >= 2')
       else
-        scope = scope.where("\"tickets\".\"#{field_id}\" = ?", value.to_i)
+        scope = scope.where("\"tickets\".\"#{field}_id\" = ?", value.to_i)
       end
     end
 

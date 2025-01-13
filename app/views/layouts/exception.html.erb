@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag '/css/risc_os_open_2024' %>
+
+    <title>RISC OS Open: Error</title>
+  </head>
+
+  <body>
+    <%= render 'shared/fixed_header' %>
+
+    <div id="template_main">
+      <div id="template_body">
+        <div id="template_body_content">
+          <%= apphelp_flash -%>
+          <%= yield %>
+        </div>
+      </div>
+
+      <div id="template_sidebar">
+        <div id="template_sidebar_content">
+          <%= render 'shared/fixed_sidebar' %>
+        </div>
+      </div>
+    </div>
+
+    <%= render 'shared/fixed_footer' %>
+  </body>
+</html>

@@ -84,7 +84,7 @@ module SortHelper
   # Use this to sort the controller's table items collection.
   #
   def sort_clause()
-    session[@sort_name][:key] + ' ' + session[@sort_name][:order]
+    session[@sort_name]['key'] + ' ' + session[@sort_name]['order']
   end
 
   # Returns a link which sorts by the named column.
@@ -108,10 +108,11 @@ module SortHelper
       order = 'asc'
     end
     caption = column.humanize.titleize unless caption
-    params = params.merge({:params => {:sort_key => column, :sort_order => order}})
+    params[:sort_key] = column
+    params[:sort_order] = order
     #link_to(caption, params) + (icon ? nbsp(2) + image_tag(icon) : '')
     css_order_class = icon ? order : ''
-    link_to(caption, params, { :class => css_order_class })
+    link_to(caption, params.to_unsafe_h, { :class => css_order_class })
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -142,7 +143,7 @@ module SortHelper
       caption = column.humanize.titleize
     end
     options[:title]= "Sort by #{caption}" unless options[:title]
-    tag.th(sort_link(column, caption), options)
+    tag.th(sort_link(column, caption), **options)
   end
 
   private

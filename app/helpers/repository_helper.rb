@@ -122,7 +122,7 @@ module RepositoryHelper
     contents.each_line do |content|
       html << "<tr>\n"
       html << '  <td class="line-numbers">' + line_num.to_s + "</td>\n"
-      html << '  <td class="code">' + content + "</td>\n"
+      html << '  <td class="code">' + ERB::Util.h(content) + "</td>\n"
       html << "</tr>\n"
       line_num += 1
     end

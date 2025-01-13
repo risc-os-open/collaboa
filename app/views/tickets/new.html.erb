@@ -10,7 +10,7 @@
 
   <%= error_messages_for 'ticket' %>
 
-  <%= form_tag :action => 'new' %>
+  <%= form_tag :action => 'new' do %>
   <fieldset>
     <legend>Create a new ticket</legend>
 
@@ -64,5 +64,5 @@
 
     <input type="submit" value="File new ticket" class="submit" />
 
-  <%= end_form_tag %>
+  <% end %>
 </div>

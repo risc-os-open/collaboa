@@ -11,7 +11,7 @@
 
   <%= error_messages_for 'user' %>
 
-  <%= form_tag :action => 'edit', :id => @user.id %>
+  <%= form_tag :action => 'edit', :id => @user.id do %>
   <fieldset>
     <legend>Edit User</legend>
 
@@ -19,8 +19,8 @@
     <% if @user.login == 'Public' -%>
     <br />Public (placeholder for visitors not logged in)<% else -%>
     <%= text_field 'user', 'login' -%><% end -%></label>
-    
-    
+
+
     <label>New Password: <%= password_field "user", "new_password" -%></label>
     <label>New Password confirmation: <%= password_field "user", "new_password_confirmation" -%></label>
     <small>Leave these two blank to keep the current password</small>
@@ -34,9 +34,9 @@
       <li><%= check_box 'user', 'create_tickets', :style => 'width:auto;display:inline' %> Create Tickets</li>
       <li><%= check_box 'user', 'admin', :style => 'width:auto;display:inline;' %> Admin</li>
     </ul>
-    
+
     <%= submit_tag 'Edit user' %>
   </fieldset>
-  <%= end_form_tag %>
+  <% end %>
 </div>
 

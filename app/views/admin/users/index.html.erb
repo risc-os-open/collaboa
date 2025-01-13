@@ -37,7 +37,7 @@
 
   <%= error_messages_for 'user' %>
 
-  <%= form_tag %>
+  <%= form_tag do %>
   <fieldset>
     <legend>Create new user</legend>
 
@@ -63,6 +63,6 @@
     <%= submit_tag 'Create User' %>
   </fieldset>
 
-  <%= end_form_tag %>
+  <% end %>
 
 </div>

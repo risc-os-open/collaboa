@@ -12,7 +12,7 @@
 
   <%= error_messages_for 'part' %>
 
-  <%= form_tag :action => 'edit', :id => @part.id %>
+  <%= form_tag :action => 'edit', :id => @part.id do %>
   <fieldset>
     <legend>Edit part</legend>
 
@@ -21,5 +21,5 @@
 
     <input type="submit" value="Edit Part" class="submit">
 
-  <%= end_form_tag %>
+  <% end %>
 </div>

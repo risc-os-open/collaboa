@@ -1,5 +1,3 @@
-require 'strscan'
-
 module Syntax
 
   # A single token extracted by a tokenizer. It is simply the lexeme

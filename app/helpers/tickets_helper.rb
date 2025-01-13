@@ -17,19 +17,21 @@ module TicketsHelper
 
   def link_to_add_filter(object)
     good_things = %w{milestone part severity release status}
-    obj_name = object.class.to_s.downcase
+    safe_params = params.permit(*good_things)
+    obj_name    = object.class.to_s.downcase
 
-    add_params = params.merge({obj_name => object.id.to_s}).each{|p| p}
+    add_params = safe_params.merge({obj_name => object.id.to_s}).each{|p| p}
     # Reject the current filter
-    del_params = params.reject{ |key, value|  value == object.id.to_s && key == obj_name}
+    del_params = safe_params.reject{ |key, value| value == object.id.to_s && key == obj_name}
 
     out = '['
-    unless params == add_params
+    unless safe_params == add_params
       out << link_to('+', add_params)
     else
       out << link_to('-', del_params)
     end
     out << ']'
+    out.html_safe()
   end
 
   def render_next_prev_links

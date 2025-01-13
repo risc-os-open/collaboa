@@ -69,7 +69,7 @@
 
   <h3 id="comment">Update ticket:</h3>
 
-  <%= form_tag({ :action => 'comment', :id => @ticket.id }, :multipart => true) %>
+  <%= form_tag({ :action => 'comment', :id => @ticket.id }, :multipart => true) do %>
     <fieldset>
       <legend>Add comment and/or change ticket properties</legend>
       <label class="first">
@@ -119,6 +119,6 @@
 
     </fieldset>
     <input type="submit" value="Submit changes" class="submit">
-  <%= end_form_tag %>
+  <% end %>
   <%= render_next_prev_links -%>
 </div>

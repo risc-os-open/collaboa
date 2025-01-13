@@ -15,22 +15,25 @@ Rails.application.routes.draw do
 
   resources :milestones, only: [:index, :show]
 
-  get '/repository',                            to: redirect('repository#browse')
-  get '/repository/browse/*path',               to: 'repository#browse'
+  get '/repository',                            to: redirect('repository/browse')
+  get '/repository/browse/(*path)',             to: 'repository#browse'
   get '/repository/file/*path',                 to: 'repository#view_file'
   get '/repository/send_data_to_browser/*path', to: 'repository#send_data_to_browser'
-  get '/repository/revisions/*path',            to: 'repository#revisions'
+  get '/repository/revisions/(*path)',          to: 'repository#revisions'
   get '/repository/changesets',                 to: 'repository#changesets'
   get '/repository/changesets/:revision',       to: 'repository#show_changeset', as: 'repository_show_changeset'
 
+  get '/rss',                 to: 'rss#index'
   get '/rss/all',             to: 'rss#all'
   get '/rss/changesets',      to: 'rss#changesets'
   get '/rss/tickets',         to: 'rss#tickets'
   get '/rss/ticket_creation', to: 'rss#ticket_creation'
   get '/rss/ticket_changes',  to: 'rss#ticket_changes'
 
-  resources :tickets, only: [:index, :new, :create, :show]
   get  'tickets/filter',  to: 'tickets#filter'
   get  'tickets/comment', to: 'tickets#comment'
   post 'tickets/comment', to: 'tickets#comment'
+  resources :tickets, only: [:index, :new, :create, :show]
+
+  get '/search', to: 'search#index'
 end

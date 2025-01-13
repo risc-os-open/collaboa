@@ -18,15 +18,15 @@ class TicketsController < ApplicationController
   # Redirect to a "default" filter once we've added, so we can save filters.
   #
   def index
-    redirect_to action: 'filter', status: 1 # Not HTTP status! Yields "...?status=1"
+    redirect_to(url_for(action: 'filter', status: 1)) # Not HTTP status! Yields "...?status=1"
   end
 
   def filter
     sort_init('created_at', 'desc')
     sort_update()
 
-    Rails.logger.info "Sort_clause: #{sort_clause}"
-    @tickets = Ticket.find_by_filter(params, sort_clause)
+    Rails.logger.info "Sort_clause: #{sort_clause()}"
+    @tickets = Ticket.find_by_filter(params, sort_clause())
 
     render action: 'index'
   end
