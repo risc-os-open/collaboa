@@ -50,7 +50,7 @@ class RepositoryController < ApplicationController
     if @changeset.nil?
       redirect_to :action => 'changesets'
     else
-      @files_to_diff = @changeset.changes.reject {|change|  change.name != 'M' }
+      @files_to_diff = @changeset.code_changes.reject {|change|  change.name != 'M' }
       @files_to_diff.reject! {|f| !f.diffable? }
     end
   end

@@ -1,6 +1,6 @@
 class TicketChange < ApplicationRecord
   belongs_to :ticket
-  serialize :log
+  serialize :log, coder: YAML, type: Hash
 
   validates_presence_of :author
 

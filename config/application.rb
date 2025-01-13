@@ -1,0 +1,49 @@
+require_relative "boot"
+
+require "rails"
+# Pick the frameworks you want:
+require "active_model/railtie"
+# require "active_job/railtie"
+require "active_record/railtie"
+# require "active_storage/engine"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+# require "action_mailbox/engine"
+# require "action_text/engine"
+require "action_view/railtie"
+# require "action_cable/engine"
+require "rails/test_unit/railtie"
+
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
+
+module Collaboa
+  class Application < Rails::Application
+
+    # Initialize configuration defaults for originally generated Rails version.
+    #
+    config.load_defaults 7.1
+
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    #
+    config.autoload_lib(ignore: %w[assets tasks])
+
+    # Permitted hosts.
+    #
+    config.hosts << "epsilon.arachsys.com"
+
+    # Eager-load anything in 'lib'.
+    #
+    config.eager_load_paths << Rails.root.join("lib")
+
+    # Set the path to our Subversion repository
+    #
+    Rails::Application::Finisher.initializer 'org.riscosopen.collaboa.initializer' do
+      ActionSubversion::Base.repository_path = REPOS_CONF[Rails.env]['repos_path'].to_s
+    end
+
+  end
+end

@@ -4,11 +4,9 @@ class Ticket < ApplicationRecord
   belongs_to  :severity
   belongs_to  :status
   belongs_to  :release
-  has_many    :ticket_changes, -> { order: 'created_at ASC'}, dependent: :destroy
+  has_many    :ticket_changes, -> { order('created_at ASC') }, dependent: :destroy
 
   validates_presence_of :author, :summary, :content
-
-  attr_protected :author
 
   # These are both filter parameters passed in for use by ::find_by_filter and
   # association names in the belongs-to relationships declared earlier.

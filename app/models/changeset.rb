@@ -1,5 +1,9 @@
 class Changeset < ApplicationRecord
-  has_many :changes, dependent: :destroy
+
+  # ActiveRecord reserves method 'changes', so the association cannot have the
+  # natural name that the associated model would normally suggest.
+  #
+  has_many :code_changes, dependent: :destroy, class_name: 'Change'
 
   validates_uniqueness_of :revision
 
@@ -57,7 +61,7 @@ class Changeset < ApplicationRecord
           )
 
           revision.copied_nodes.each do |path|
-            cs.changes << Change.new(
+            cs.code_changes << Change.new(
               revision:      rev,
               name:          'CP',
               path:          path[0],
@@ -67,7 +71,7 @@ class Changeset < ApplicationRecord
           end
 
           revision.moved_nodes.each do |path|
-            cs.changes << Change.new(
+            cs.code_changes << Change.new(
               revision:      rev,
               name:          'MV',
               path:          path[0],
@@ -77,15 +81,15 @@ class Changeset < ApplicationRecord
           end
 
           revision.added_nodes.each do |path|
-            cs.changes << Change.new(revision: rev, name: 'A', path: path)
+            cs.code_changes << Change.new(revision: rev, name: 'A', path: path)
           end
 
           revision.deleted_nodes.each do |path|
-            cs.changes << Change.new(revision: rev, name: 'D', path: path)
+            cs.code_changes << Change.new(revision: rev, name: 'D', path: path)
           end
 
           revision.updated_nodes.each do |path|
-            cs.changes << Change.new(revision: rev, name: 'M', path: path)
+            cs.code_changes << Change.new(revision: rev, name: 'M', path: path)
           end
 
           cs.save!

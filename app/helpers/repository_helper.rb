@@ -112,7 +112,7 @@ module RepositoryHelper
     type = mime_tokenizers[mime_type]
     return make_line_nums(h(content)) unless Syntax::SYNTAX.has_key? type
 
-    converted = Syntax::Convertors::HTML.for_syntax(type).convert(content,false)
+    converted = Syntax::Convertors::Html.for_syntax(type).convert(content,false)
     make_line_nums(converted, type)
   end
 

@@ -1,5 +1,5 @@
 class RssController < ApplicationController
-  include TicketHelper
+  include TicketsHelper
 
   def index
     render()

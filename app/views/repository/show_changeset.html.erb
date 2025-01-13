@@ -20,7 +20,7 @@
 <% if current_user.view_code? %>
   <h2>Affected files:</h2>
   <ul class="changes">
-  <%= render_collection_of_partials 'change', @changeset.changes %>
+  <%= render_collection_of_partials 'change', @changeset.code_changes %>
   </ul>
 
   <% @files_to_diff.each_with_index do |diff, idx| %>
