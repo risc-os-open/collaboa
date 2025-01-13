@@ -1,4 +1,4 @@
-class RenameVersionsToReleases < ActiveRecord::Migration
+class RenameVersionsToReleases < ActiveRecord::Migration[7.2]
   def self.up
     execute "RENAME TABLE versions TO releases;"
     rename_column(:tickets, :version_id, :release_id)

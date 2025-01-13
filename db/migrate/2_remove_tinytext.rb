@@ -1,4 +1,4 @@
-class RemoveTinytext < ActiveRecord::Migration
+class RemoveTinytext < ActiveRecord::Migration[7.2]
   def self.up
     change_column :tickets, :content, :text
   end

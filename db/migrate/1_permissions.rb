@@ -1,4 +1,4 @@
-class Permissions < ActiveRecord::Migration
+class Permissions < ActiveRecord::Migration[7.2]
   def self.up
     add_column :users, :view_changesets, :boolean, :default => 1
     add_column :users, :view_code, :boolean, :default => 1

@@ -1,6 +1,3 @@
-#!/usr/bin/env ruby
-require File.dirname(__FILE__) + '/../config/environment'
-
 puts "creating some default severities"
 Severity.create :position => 6, :name => "Normal"
 Severity.create :position => 5, :name => "Minor"
@@ -18,7 +15,7 @@ Status.create :id => 5, :name => "WorksForMe"
 Status.create :id => 6, :name => "WontFix"
 
 puts "Creating default public user"
-u = User.create(:login => 'Public', 
+u = User.create(:login => 'Public',
             :password => 'public',
             :password_confirmation => 'public',
             :view_changesets => 1,
@@ -29,7 +26,7 @@ u = User.create(:login => 'Public',
             :admin => 0 )
 
 puts "Creating default admin"
-u = User.create(:login => 'admin', 
+u = User.create(:login => 'admin',
             :password => 'admin',
             :password_confirmation => 'admin',
             :view_changesets => 1,
