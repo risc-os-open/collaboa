@@ -107,7 +107,7 @@ module SortHelper
       icon = nil
       order = 'asc'
     end
-    caption = titleize(Inflector::humanize(column)) unless caption
+    caption = column.humanize.titleize unless caption
     params = params.merge({:params => {:sort_key => column, :sort_order => order}})
     #link_to(caption, params) + (icon ? nbsp(2) + image_tag(icon) : '')
     css_order_class = icon ? order : ''
@@ -139,7 +139,7 @@ module SortHelper
       caption = options[:caption]
       options.delete(:caption)
     else
-      caption = titleize(Inflector::humanize(column))
+      caption = column.humanize.titleize
     end
     options[:title]= "Sort by #{caption}" unless options[:title]
     tag.th(sort_link(column, caption), options)
@@ -148,13 +148,9 @@ module SortHelper
   private
 
     # Return n non-breaking spaces.
+    #
     def nbsp(n)
       '&nbsp;' * n
-    end
-
-    # Return capitalized title.
-    def titleize(title)
-      title.split.map {|w| w.capitalize }.join(' ')
     end
 
 end

@@ -1,5 +1,5 @@
 module TicketsHelper
-  def format_author(address)
+  def tickethelp_format_author(address)
     if address =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
       mail_to(address, address)
     else
@@ -7,7 +7,7 @@ module TicketsHelper
     end
   end
 
-  def format_changes(change_arr)
+  def tickethelp_format_changes(change_arr)
     changed = change_arr[0]
     ch_from = change_arr[1]
     ch_to   = change_arr[2]

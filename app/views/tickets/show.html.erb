@@ -20,7 +20,7 @@
     <table id="ticket-details">
       <tr>
         <td class="info">Reported by:</td>
-        <td><%= format_author @ticket.author -%></td>
+        <td><%= tickethelp_format_author @ticket.author -%></td>
         <td class="info">Severity:</td>
         <td><%= @ticket.severity.name -%></td>
       </tr>
@@ -38,7 +38,7 @@
       </tr>
     </table>
 
-  <h3>Details by <%= format_author @ticket.author -%>:</h3>
+  <h3>Details by <%= tickethelp_format_author @ticket.author -%>:</h3>
   <%= htmlize(@ticket.content) %>
   </div>
 
@@ -49,10 +49,10 @@
   <div id="ticket-changes">
   <% first = false; end -%>
     <div id="ticket-change-entry">
-      <h4>Modified by <%= format_author change.author -%> <%= change.created_at.strftime('%a, %B %d %Y - %H:%M:%S %Z') -%></h4>
+      <h4>Modified by <%= tickethelp_format_author change.author -%> <%= change.created_at.strftime('%a, %B %d %Y - %H:%M:%S %Z') -%></h4>
       <ul>
       <% change.each_log do |log_entry| -%>
-        <li><%= format_changes log_entry %></li>
+        <li><%= tickethelp_format_changes log_entry %></li>
       <% end -%>
       <% if change.has_attachment? -%>
         <li><strong>Attachment</strong> added: <%= link_to(change.attachment, :action => "attachment", :id => change.id) %></li>

@@ -13,14 +13,14 @@
     <title>RISC OS Open: Bugs and sources: <%= @page_title %></title>
 
     <%= stylesheet_link_tag 'screen' %>
-    <% if @params[:controller] == 'repository' && @params[:action] == 'view_file' %>
+    <% if params[:controller] == 'repository' && params[:action] == 'view_file' %>
     <%= stylesheet_link_tag '/stylesheets/syntaxes/ruby' %>
     <%= stylesheet_link_tag '/stylesheets/syntaxes/xml' %>
     <%= stylesheet_link_tag '/stylesheets/syntaxes/yaml' %>
     <% end %>
-    <% if @params["controller"] == 'repository' -%>
+    <% if params["controller"] == 'repository' -%>
       <%= auto_discovery_link_tag(:rss, {:controller => 'rss', :action => 'changesets'}) %>
-    <% elsif @params["controller"] == 'tickets' -%>
+    <% elsif params["controller"] == 'tickets' -%>
       <%= auto_discovery_link_tag(:rss, {:controller => 'rss', :action => 'tickets'}) %>
     <% else -%>
       <%= auto_discovery_link_tag(:rss, {:controller => 'rss', :action => 'all'}) %>
@@ -119,9 +119,9 @@
 
             <p />
             <ul>
-              <% if @params["controller"] == 'repository' -%>
+              <% if params["controller"] == 'repository' -%>
               <li><%= link_to 'Changesets', :controller => 'rss', :action => 'changesets' %></li>
-              <% elsif @params["controller"] == 'tickets' -%>
+              <% elsif params["controller"] == 'tickets' -%>
               <li><%= link_to 'Tickets', :controller => 'rss', :action => 'tickets' %></li>
               <% end -%>
               <li><%= link_to 'Everything!', :controller => 'rss', :action => 'all' %></li>

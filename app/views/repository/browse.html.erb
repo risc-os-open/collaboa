@@ -49,9 +49,9 @@
     <td class="msg"></td>
   </tr>
   <% end %>
-  <% @node_entries.cycle do |entry, css| %>
+  <% @node_entries do |entry| %>
 
-  <tr class="<%= css -%>">
+  <tr class="<%= cycle("odd", "even") -%>">
     <td class="name <%= entry.type -%>"><%= link_to entry.name, url_for_svn_path(entry.path) -%></td>
     <td class="age"><%= distance_of_time_in_words(entry.date, Time.now) -%></td>
     <td class="rev"><%= entry.revision -%></td>

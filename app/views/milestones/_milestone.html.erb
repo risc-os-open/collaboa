@@ -1,6 +1,6 @@
 <h2><%= milestone.name -%></h2>
 
-<div class="milestone-info"><%= simple_format(milestone.info) if milestone.info %></div>
+<div class="milestone-info"><%= htmlize(milestone.info) if milestone.info %></div>
 
   <!-- Old-style HTML table hackery to enable a wider range of -->
   <!-- browsers to cope with the Milestones progress bars.     -->

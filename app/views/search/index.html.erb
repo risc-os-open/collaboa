@@ -36,7 +36,7 @@
             <small style="font-weight: normal; font-size: 15pt;">[<%= item[:status] %>]</small>
           </h1>
           <p>
-            <%= hilight_search_terms(simple_format(item[:content]), @params["q"]) %>
+            <%= hilight_search_terms(htmlize(item[:content]), params["q"]) %>
           </p>
         </div>
         <% records += 1 -%>
