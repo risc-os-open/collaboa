@@ -3,11 +3,10 @@
   "private": true,
   "dependencies": {
     "@rails/ujs": "^7.0.8",
-    "nodemon": "^3.1"
+    "nodemon": "^3.1.9"
   },
   "scripts": {
     "build:js": "cat app/javascript/libraries/prototype.js app/javascript/libraries/scriptaculous.js app/javascript/libraries/effects.js app/javascript/libraries/controls.js app/javascript/libraries/dragdrop.js  app/javascript/libraries/slider.js app/javascript/collaboa.js > app/assets/builds/application.js",
-
     "dev:build:js": "nodemon --watch app/javascript -e js -x \"npm run build:js\""
   }
 }
