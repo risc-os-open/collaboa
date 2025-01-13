@@ -15,23 +15,30 @@ module TicketsHelper
     "<strong>#{h(changed)}</strong> changed from <em>#{h(ch_from)}</em> to <em>#{h(ch_to)}</em>".html_safe()
   end
 
+  # Returns 'true' if anything other than the *default* "status 1" set is in
+  # use.
+  #
+  def tickethelp_filters_active?
+    Ticket::PERMITTED_FILTER_FIELDS.any? do | field |
+      params[field].present? && (field != 'status' || params[field] != '1')
+    end
+  end
+
   def link_to_add_filter(object)
-    good_things = %w{milestone part severity release status}
-    safe_params = params.permit(*good_things)
+    safe_params = params.permit(*Ticket::PERMITTED_FILTER_FIELDS)
     obj_name    = object.class.to_s.downcase
 
     add_params = safe_params.merge({obj_name => object.id.to_s}).each{|p| p}
     # Reject the current filter
     del_params = safe_params.reject{ |key, value| value == object.id.to_s && key == obj_name}
 
-    out = '['
-    unless safe_params == add_params
-      out << link_to('+', add_params)
+    text_link, short_link = if safe_params == add_params
+      [link_to(tag.strong(object.name), del_params), link_to('-', del_params)]
     else
-      out << link_to('-', del_params)
+      [link_to(object.name, add_params), link_to('+', add_params)]
     end
-    out << ']'
-    out.html_safe()
+
+    return "#{text_link} [#{short_link}]".html_safe
   end
 
   def render_next_prev_links

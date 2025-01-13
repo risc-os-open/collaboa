@@ -1,38 +1,39 @@
 <div class="actions">
   <p><%= link_to_function 'Show/hide filtering options...', 'Element.toggle(\'filter-selector\')' -%></p>
 </div>
-<div id="filter-selector" style="display:none;">
+<%= tag.div(id: 'filter-selector', style: tickethelp_filters_active? ? nil : 'display:none') do %>
   <dl>
     <dt>Status:</dt>
       <% @status.each do |status| -%>
-        <dd><%= link_to_unless_current status.name, 'status' => status.id -%>
-        <%= link_to_add_filter(status) %></dd>
+        <dd><%= link_to_add_filter(status) %></dd>
       <% end -%>
-      <dd><%= link_to_unless_current 'All resolved', 'status' => -1 -%></dd>
+      <dd>
+        <%=
+          text = 'All resolved'
+          text = tag.strong(text) if params[:status] == '-1'
+          link_to(text, 'status': -1)
+        %>
+      </dd>
   </dl>
 
   <dl>
     <dt>Severity:</dt>
       <% @severities.each do |severity| -%>
-        <dd><%= link_to_unless_current severity.name, 'severity' => severity.id -%>
-        <%= link_to_add_filter(severity) %></dd>
+        <dd><%= link_to_add_filter(severity) %></dd>
       <% end -%>
   </dl>
 
   <dl>
     <dt>Milestone:</dt>
       <% @milestones.each do |milestone| -%>
-        <dd><%= link_to_unless_current milestone.name, 'milestone' => milestone.id -%>
-        <%= link_to_add_filter(milestone) %></dd>
+        <dd><%= link_to_add_filter(milestone) %></dd>
       <% end -%>
   </dl>
 
   <dl>
     <dt>Part:</dt>
       <% @parts.each do |part| -%>
-        <dd><%= link_to_unless_current part.name, 'part' => part.id -%>
-        <%= link_to_add_filter(part) %></dd>
+        <dd><%= link_to_add_filter(part) %></dd>
       <% end -%>
   </dl>
-
-</div>
+<% end %>
