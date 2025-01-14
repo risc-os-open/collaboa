@@ -28,12 +28,14 @@
       <% items.each do |item| -%>
         <div class="search-result">
           <h1>
-            <% if ['fixed', 'wontfix', 'invalid'].include?(item[:status].downcase) %>
+            <% if ['fixed', 'wontfix', 'invalid'].include?(item[:status]&.downcase) %>
               <s><%= link_to item[:title], item[:link] -%></s>
             <% else %>
               <%= link_to item[:title], item[:link] -%>
             <% end %>
-            <small style="font-weight: normal; font-size: 15pt;">[<%= item[:status] %>]</small>
+            <% if item.key?(:status) %>
+              <small style="font-weight: normal; font-size: 15pt;">[<%= item[:status] %>]</small>
+            <% end %>
           </h1>
           <p>
             <%= hilight_search_terms(htmlize(item[:content]), params["q"]) %>

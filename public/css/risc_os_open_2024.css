@@ -500,9 +500,11 @@ span#template_rod_logo
 /* Generic flash notification styles */
 
 div.flash > h2 {
-  margin: 10px 40px 30px 0;
+  margin: 10px 0 30px 0;
   padding: 15px;
 
+  border-width: 1px;
+  border-style: solid;
   border-radius: 9px;
 
   font-weight: normal;

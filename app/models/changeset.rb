@@ -12,7 +12,7 @@ class Changeset < ApplicationRecord
   #
   def self.search(query)
     if query.to_s.strip.present?
-      tokens   = query.split.collect {|c| "%#{c.downcase}%"}
+      tokens   = query.split
       findings = self.order('created_at DESC')
 
       tokens.each do | token |

@@ -10,59 +10,53 @@
 
   <%= error_messages_for @ticket %>
 
-  <%= form_tag :action => 'new' do %>
-  <fieldset>
-    <legend>Create a new ticket</legend>
+  <%= form_with model: @ticket do |f| %>
+    <fieldset>
+      <legend>Create a new ticket</legend>
 
-    <label class="first">
-      Name or Email:
-<% if hubssolib_privileged? -%>
-      <input id="ticket_author" name="ticket[author]" size="30" type="text" value="<%= h(@ticket.author) %>" />
-<% else -%>
-      <input id="ticket_author" name="ticket[author]" size="30" type="hidden" value="<%= h(@ticket.author) %>" />
-      <br /><b><%= h(@ticket.author) %></b><br style="margin-bottom: 10px" />
-<% end -%>
-    </label>
+      <%= f.label :author, 'Ticket Author:', class: 'first' %>
+      <% if hubssolib_privileged? -%>
+        <%= f.text_field :author %>
+      <% else -%>
+        <%= f.hidden_field :author %>
+        <br /><b><%= h(@ticket.author) %></b><br style="margin-bottom: 10px" />
+      <% end -%>
 
-    <br />
-    <label>Summary:
-    <%= text_field 'ticket', 'summary' -%></label>
+      <%= f.label :summary, 'Summary:' %>
+      <%= f.text_field :summary %>
 
-    <br />
-    <label>Description (<a href="http://redcloth.org/" target="_blank">help and preview tool available here</a>):
-    <%= text_area 'ticket', 'content' -%></label>
+      <%= f.label :description, 'Description (<a href="https://textile-lang.com" target="_blank">help and preview tool available here</a>):'.html_safe() %>
+      <%= f.text_area :content, rows: 12 %>
 
-    <table>
-    <tr>
-      <td>Severity:</td>
-      <td><%= collection_select 'ticket', 'severity_id', @severities, 'id', 'name' -%></td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <br />
-        If you aren't sure what to assign for the part, release or milestone,
-        just leave it blank.
-        <br />
-        <br />
-      </td>
-    </tr>
-    <tr>
-      <td>Part: </td>
-      <td><%= collection_select 'ticket', 'part_id', @parts, 'id', 'name', { :include_blank => true } -%></td>
-    </tr>
-    <tr>
-      <td>Release:</td>
-      <td><%= collection_select 'ticket', 'release_id', @releases, 'id', 'name', { :include_blank => true } -%></td>
-    </tr>
-    <tr>
-      <td>Add to milestone: </td>
-      <td><%= collection_select 'ticket', 'milestone_id', @milestones, 'id', 'name', { :include_blank => true } -%></td>
-    </tr>
-    </table>
-
+      <table>
+        <tr>
+          <td><%= f.label :severity, 'Severity:' %></td>
+          <td><%= f.collection_select :severity_id, @severities, 'id', 'name' %></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <br />
+            If you aren't sure what to assign for the part, release or milestone,
+            just leave it blank.
+            <br />
+            <br />
+          </td>
+        </tr>
+        <tr>
+          <td><%= f.label :part_id, 'Part:' %></td>
+          <td><%= f.collection_select :part_id, @parts, 'id', 'name', { include_blank: true } %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :release_id, 'Release:' %></td>
+          <td><%= f.collection_select :release_id, @releases, 'id', 'name', { include_blank: true } %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :milestone_id, 'Milestone:' %></td>
+          <td><%= f.collection_select :milestone_id, @milestones, 'id', 'name', { include_blank: true } %></td>
+        </tr>
+      </table>
     </fieldset>
 
-    <input type="submit" value="File new ticket" class="submit" />
-
+    <%= f.submit 'File new ticket' %>
   <% end %>
 </div>

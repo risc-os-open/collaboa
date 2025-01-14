@@ -138,7 +138,7 @@ class TicketsController < ApplicationController
       end
     end
 
-    def self.safe_ticket_params
+    def safe_ticket_params
       params.require(:ticket).permit(
         :summary,
         :content,
@@ -164,13 +164,5 @@ class TicketsController < ApplicationController
         ]
       )
     end
-#
-#     def safe_change_params
-#       params.require(:change).permit(
-#         :ticket_id,
-#         :comment,
-#         :attachment
-#       )
-#     end
 
 end

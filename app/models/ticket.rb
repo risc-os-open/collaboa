@@ -81,7 +81,7 @@ class Ticket < ApplicationRecord
   #
   def self.search(query)
     if query.to_s.strip.present?
-      tokens   = query.split.collect {|c| "%#{c.downcase}%"}
+      tokens   = query.split
       findings = self.order('created_at DESC')
 
       tokens.each do | token |
@@ -90,7 +90,7 @@ class Ticket < ApplicationRecord
         findings   = findings.where('(summary ILIKE ? OR content ILIKE ?)', wildcard, wildcard)
       end
 
-      findings.to_a.map do |f|
+      findings.includes(:status).to_a.map do |f|
         {
           title:   f.summary,
           content: f.content,

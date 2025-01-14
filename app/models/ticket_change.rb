@@ -45,7 +45,7 @@ class TicketChange < ApplicationRecord
   #
   def self.search(query)
     if query.to_s.strip.present?
-      tokens   = query.split.collect {|c| "%#{c.downcase}%"}
+      tokens   = query.split
       findings = self.order('created_at DESC')
 
       tokens.each do | token |
@@ -54,7 +54,7 @@ class TicketChange < ApplicationRecord
         findings   = findings.where('comment ILIKE ?', wildcard)
       end
 
-      findings.to_a.map do |f|
+      findings.includes(ticket: :status).to_a.map do |f|
         {
           title:   "Ticket ##{f.ticket_id} comment by #{f.author}",
           content: f.comment,

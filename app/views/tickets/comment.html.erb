@@ -72,7 +72,7 @@
       <legend>Add comment and/or change ticket properties</legend>
 
       <%= f.fields_for(:ticket_changes, @change) do |fc| %>
-        <%= fc.label :author, 'Comment Author:', class: 'first' %>
+        <%= fc.label :author, 'Changes made by:', class: 'first' %>
         <% if hubssolib_privileged? -%>
           <%= fc.text_field :author %>
         <% else -%>
@@ -81,17 +81,15 @@
         <% end -%>
         </label>
 
-        <br />
         <%= fc.label :attachment, 'Attachment:' %>
         <%= fc.file_field :attachment %>
 
-        <br />
         <%= fc.label :comment, 'Comment:' %>
         <%= fc.text_area :comment, rows: 12 -%>
       <% end %>
 
       <br />
-      <%= f.label :summary, 'Ticket Summary:' %>
+      <%= f.label :summary, 'Ticket summary:' %>
       <%= f.text_field :summary %>
 
       <table>
@@ -116,9 +114,9 @@
           <td><%= f.collection_select :milestone_id, @milestones, 'id', 'name', { include_blank: true } %></td>
         </tr>
       </table>
-
     </fieldset>
-    <input type="submit" value="Submit changes" class="submit">
+
+    <%= f.submit 'Submit changes' %>
   <% end %>
   <%= render_next_prev_links -%>
 </div>

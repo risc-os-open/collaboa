@@ -169,6 +169,7 @@ module WhiteListFormattedContentConcern
   #
   class AutoLinkTextFilter < HTMLPipeline::TextFilter
     include ActionView::Helpers::TextHelper
+    include ActionView::Helpers::UrlHelper
 
     def call(text, context: {}, result: {})
 
