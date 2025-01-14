@@ -24,11 +24,11 @@ class Ticket < ApplicationRecord
   #
   LOG_MAP = {
     #'assigned_user_id' => ['Assigned', 'Unspecified', lambda{|v| User.find(v).username if v > 0}],
-    'part_id'      => ['Part',      'Unspecified', lambda{|v|      Part.find(v).name if v > 0}],
-    'release_id'   => ['Release',   'Unspecified', lambda{|v|   Release.find(v).name if v > 0}],
-    'severity_id'  => ['Severity',  nil,           lambda{|v|  Severity.find(v).name if v > 0}],
-    'status_id'    => ['Status',    nil,           lambda{|v|    Status.find(v).name if v > 0}],
-    'milestone_id' => ['Milestone', 'Unspecified', lambda{|v| Milestone.find(v).name if v > 0}],
+    'part_id'      => ['Part',      'Unspecified', lambda{|v|      Part.find(v).name if v.present?}],
+    'release_id'   => ['Release',   'Unspecified', lambda{|v|   Release.find(v).name if v.present?}],
+    'severity_id'  => ['Severity',  nil,           lambda{|v|  Severity.find(v).name if v.present?}],
+    'status_id'    => ['Status',    nil,           lambda{|v|    Status.find(v).name if v.present?}],
+    'milestone_id' => ['Milestone', 'Unspecified', lambda{|v| Milestone.find(v).name if v.present?}],
     'summary'      => ['Summary',   nil,           lambda{|v| v unless v.empty?}],
   }
 
@@ -48,11 +48,12 @@ class Ticket < ApplicationRecord
   # (in which case, examine the object's ActiveRecord errors collection).
   #
   def save_with_new_ticket_change(change, attachment_param)
-    success = false
+    success                         = false
+    annotated_ticket_alteration_log = self.build_log()
 
     ActiveRecord::Base.transaction do
       if save() == true
-        change.log = @log
+        change.log = annotated_ticket_alteration_log
         change.attach(attachment_param) if attachment_param.present?
 
         if change.empty?
@@ -133,31 +134,31 @@ class Ticket < ApplicationRecord
   #
   protected
 
-    # This cool write_attribute override is courtesy of Kent Sibilev
+    # Uses self.changes to build a log of alterations suitable for encoding
+    # into a TicketChange 'log' field.
     #
-    def write_attribute(name, value)
-      @log ||= {}
+    # Call for a 'dirty' record BEFORE saving.
+    #
+    def build_log
+      log = {}
 
-      if converter = LOG_MAP[name]
-        old_value = read_attribute(name)
+      self.changes.each do | attribute, old_new |
+        converter = LOG_MAP[attribute]
+        next if converter.nil?
 
-        column = column_for_attribute(name)
-        if column
-          value = column.type_cast(value) rescue value
-        end
+        old_value = old_new.first
+        new_value = old_new.last
 
-        loader = lambda{ |v|
+        loader = lambda { |v|
           result = converter[2][v] if v
           result = converter[1] unless result
           result
         }
 
-        if old_value != value
-          @log[converter[0]] = [loader[old_value], loader[value]]
-        end
+        log[converter[0]] = [loader[old_value], loader[new_value]]
       end
 
-      super
+      return log
     end
 
 end
