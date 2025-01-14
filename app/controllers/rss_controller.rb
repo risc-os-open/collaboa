@@ -74,7 +74,7 @@ class RssController < ApplicationController
     def add_recent_ticket_changes_to!(items)
       TicketChange.all.order('created_at DESC').limit(5).each do |change|
         content = ''
-        content << "<p>#{ERB::Util.h(change.comment)}</p>\n" unless change.comment.empty?
+        content << "<div>#{htmlize(change.comment)}</div>\n" if change.comment.present?
 
         content << '<ul>'
         change.each_log do |logitem|

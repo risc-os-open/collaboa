@@ -32,8 +32,8 @@ module ApplicationHelper
   def error_messages_for(*objects)
     options = objects.extract_options!
 
-    options[:header_message] ||= I18n.t(:'activerecord.errors.header',  default: 'Invalid fields')
-    options[:message       ] ||= I18n.t(:'activerecord.errors.message', default: 'Correct the following errors and try again.')
+    options[:header_message] ||= 'Problems with form submission'
+    options[:message       ] ||= 'Please correct the following errors and try again.'
 
     messages = objects.compact.map { |o| o.errors.full_messages }.flatten
 
@@ -56,7 +56,7 @@ module ApplicationHelper
 
   def htmlize(text)
     return if text.nil?
-    html = xhtml_sanitize(html, auto_link: true, textile: true) # See WhiteListFormattedContentConcern
+    html = xhtml_sanitize(text, auto_link: true, textile: true) # See WhiteListFormattedContentConcern
     make_links(html)
     return html.html_safe()
   end

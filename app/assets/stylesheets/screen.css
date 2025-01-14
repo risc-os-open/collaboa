@@ -3,8 +3,6 @@
  * Based on the Collaboa default stylesheet.
  */
 
-@import url("/css/risc_os_open_2024.css");
-
 /* Some general properties */
 
 div#content a
@@ -606,6 +604,17 @@ input[type~=hidden]
 /**
  * Error display
  */
+
+div.error_messages {
+  padding: 15px;
+  border-radius: 9px;
+  border: 1px solid #dfc3c3;
+  background-color: #ffe3e3;
+}
+
+div.error_messages ul:last-child {
+  margin-bottom: 0;
+}
 
 .errorExplanation
 {

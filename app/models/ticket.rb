@@ -1,10 +1,17 @@
 class Ticket < ApplicationRecord
-  belongs_to  :milestone
-  belongs_to  :part
-  belongs_to  :severity
-  belongs_to  :status
-  belongs_to  :release
-  has_many    :ticket_changes, -> { order('created_at ASC') }, dependent: :destroy
+  belongs_to :status
+  belongs_to :severity
+  belongs_to :part,      optional: true
+  belongs_to :release,   optional: true
+  belongs_to :milestone, optional: true
+
+  has_many(
+    :ticket_changes,
+    -> { order('created_at ASC') },
+    dependent: :destroy
+  )
+
+  accepts_nested_attributes_for(:ticket_changes, limit: 1)
 
   validates_presence_of :author, :summary, :content
 
@@ -33,25 +40,23 @@ class Ticket < ApplicationRecord
   # A special case for saving a record with a new ticket change that will get
   # the log data and attachments handled on-the-fly herein.
   #
-  # Pass a constructed Change with params[:change] safe-assignment completed,
-  # along with the unsafe original params[:change] from the POST request. The
-  # latter is used for attachment management.
+  # Pass a constructed Change via nested attribute assignment, along with the
+  # params.dig(:ticket, :ticket_changes_attributes, :'0', :attachment) value
+  # from the form submission, or equivalent.
   #
   # Returns the same as base #save - +true+ for success, +false+ for failure
   # (in which case, examine the object's ActiveRecord errors collection).
   #
-  def save_with_change(change, change_params)
+  def save_with_new_ticket_change(change, attachment_param)
     success = false
 
-    ActiveRecord::Base.transation do
+    ActiveRecord::Base.transaction do
       if save() == true
-        self.ticket_changes << change
-
         change.log = @log
-        change.attach(change_params[:attachment]) if change_params[:attachment].blank?
+        change.attach(attachment_param) if attachment_param.present?
 
         if change.empty?
-          self.errors.add_to_base 'No changes has been made'
+          self.errors.add :base, 'You must at least add a comment'
           raise ActiveRecord::Rollback
         else
           success = change.save()

@@ -35,7 +35,7 @@ class TicketsController < ApplicationController
     begin
       @ticket = Ticket.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render text: "Unknown ticket number" and return
+      render plain: "Unknown ticket number" and return
     end
   end
 
@@ -74,37 +74,44 @@ class TicketsController < ApplicationController
     begin
       @ticket = Ticket.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render text: "Unknown ticket number" and return
+      render plain: "Unknown ticket number" and return
     end
 
-    @ticket.assign_attributes(self.safe_ticket_params())
+    change_author_in_params = params.dig(:ticket, :ticket_changes_attributes, :'0')&.delete(:author)
 
-    change_author_in_params = params[:change]&.delete(:author)
-    @change                 = TicketChange.new(self.safe_change_params())
-    @change.ticket          = @ticket
+    if request.post?
+      @ticket.assign_attributes(self.safe_comment_params())
+      @change = @ticket.ticket_changes.last
+    else
+      @change = @ticket.ticket_changes.build
+    end
 
     if hubssolib_privileged? && change_author_in_params.present?
-      @change.author = params[:change][:author]
+      @change.author = change_author_in_params
     else
       @change.author = hubssolib_unique_name()
     end
 
     if request.post?
-      success = @ticket.save_with_change(@change, params[:change])
+      success = @ticket.save_with_new_ticket_change(
+        @change,
+        params.dig(:ticket, :ticket_changes_attributes, :'0', :attachment)
+      )
+
       redirect_to(@ticket) if success
     end
   end
 
   def attachment
-    @change = TicketChange.find(params[:id])
-    unless @change.has_attachment?
-      redirect_to(action: 'show', id: @change.ticket_id)
+    change = TicketChange.find(params[:id])
+    unless change.has_attachment?
+      redirect_to(action: 'show', id: change.ticket_id)
     else
       begin
-        fullpath = @change.attachment_fsname
-        send_file(fullpath, filename: @change.attachment, type: @change.content_type, disposition: 'inline')
+        fullpath = change.attachment_fsname
+        send_file(fullpath, filename: change.attachment, type: change.content_type, disposition: 'inline')
       rescue
-        render text: "Could not find attachment"
+        render plain: "Could not find attachment"
       end
     end
   end
@@ -131,24 +138,39 @@ class TicketsController < ApplicationController
       end
     end
 
-    def safe_ticket_params
+    def self.safe_ticket_params
       params.require(:ticket).permit(
-        :milestone_id,
-        :part_id,
-        :severity_id,
-        :release_id,
-        :status_id,
         :summary,
-        :content
+        :content,
+        :status_id,
+        :severity_id,
+        :part_id,
+        :release_id,
+        :milestone_id
       )
     end
 
-    def safe_change_params
-      params.require(:change).permit(
-        :ticket_id,
-        :comment,
-        :attachment
+    def safe_comment_params
+      params.require(:ticket).permit(
+        :summary,
+        :status_id,
+        :severity_id,
+        :part_id,
+        :release_id,
+        :milestone_id,
+        ticket_changes_attributes: [
+          :comment,
+          :attachment
+        ]
       )
     end
+#
+#     def safe_change_params
+#       params.require(:change).permit(
+#         :ticket_id,
+#         :comment,
+#         :attachment
+#       )
+#     end
 
 end

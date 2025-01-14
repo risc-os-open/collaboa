@@ -10,8 +10,8 @@
     </ul>
   </div>
 
-  <%= error_messages_for 'ticket' %>
-  <%= error_messages_for 'change' %>
+  <%= error_messages_for @ticket %>
+  <%= error_messages_for @change %>
 
   <div id="ticket">
     <h1>Ticket #<%= @ticket.id -%> (<%= @ticket.status.name -%>)<span class="date"><%= @ticket.created_at -%></span></h1>
@@ -59,7 +59,7 @@
       <% end -%>
       </ul>
 
-      <% unless change.comment.nil?  -%>
+      <% if change.comment.present? -%>
         <div id="ticket-change-comment"><%= htmlize(change.comment) %></div>
       <% end -%>
     </div>

@@ -10,8 +10,8 @@
     </ul>
   </div>
 
-  <%= error_messages_for 'ticket' %>
-  <%= error_messages_for 'change' %>
+  <%= error_messages_for @ticket %>
+  <%= error_messages_for @change %>
 
   <div id="ticket">
     <h1>Ticket #<%= @ticket.id -%> (<%= @ticket.status.name -%>)<span class="date"><%= @ticket.created_at -%></span></h1>
@@ -42,79 +42,79 @@
   <%= htmlize(@ticket.content) %>
   </div>
 
-<% first = true %>
-  <% @ticket.ticket_changes.each do |change| -%>
-  <% if (first) -%>
-  <h3>Changelog:</h3>
-  <div id="ticket-changes">
-  <% first = false; end -%>
+  <% if @ticket.ticket_change_ids.compact.any? %>
+    <h3>Changelog:</h3>
+    <div id="ticket-changes">
+      <% @ticket.ticket_changes.each do |change| %>
+        <% next if change.new_record? %>
 
-    <h4>Modified by <%= tickethelp_format_author change.author -%> <%= change.created_at.strftime('%a, %B %d %Y - %H:%M:%S %Z') -%></h4>
-    <ul>
-    <% change.each_log do |log_entry| -%>
-      <li><%= tickethelp_format_changes log_entry %></li>
-    <% end -%>
-    <% if change.has_attachment? -%>
-      <li><strong>Attachment</strong> added: <%= link_to(change.attachment, :action => "attachment", :id => change.id) %></li>
-    <% end -%>
-    </ul>
+        <h4>Modified by <%= tickethelp_format_author change.author -%> <%= change.created_at.strftime('%a, %B %d %Y - %H:%M:%S %Z') -%></h4>
+        <ul>
+          <% change.each_log do |log_entry| -%>
+            <li><%= tickethelp_format_changes log_entry %></li>
+          <% end -%>
+          <% if change.has_attachment? -%>
+            <li><strong>Attachment</strong> added: <%= link_to(change.attachment, :action => "attachment", :id => change.id) %></li>
+          <% end -%>
+        </ul>
 
-    <% unless change.comment.nil?  -%>
-      <div id="ticket-change-comment"><%= htmlize(change.comment) %></div>
-    <% end -%>
-  <% end -%>
-<% unless first -%>
-  </div>
-<% end -%>
+        <% if change.comment.present? -%>
+          <div id="ticket-change-comment"><%= htmlize(change.comment) %></div>
+        <% end -%>
+      <% end %>
+    </div>
+  <% end %>
 
   <h3 id="comment">Update ticket:</h3>
 
-  <%= form_tag({ :action => 'comment', :id => @ticket.id }, :multipart => true) do %>
+  <%= form_with(model: @ticket, url: url_for(action: 'comment', id: @ticket.id), method: :post, html: { multipart: true }) do |f| %>
     <fieldset>
       <legend>Add comment and/or change ticket properties</legend>
-      <label class="first">
-        Name/Email:
-<% if hubssolib_privileged? -%>
-        <input id="change_author" name="change[author]" size="30" type="text" value="<%= h(@change.author) %>">
-<% else -%>
-        <input id="change_author" name="change[author]" size="30" type="hidden" value="<%= h(@change.author) %>">
-        <br /><b><%= h(@change.author) %></b><br style="margin-bottom: 10px" />
-<% end -%>
-      </label>
+
+      <%= f.fields_for(:ticket_changes, @change) do |fc| %>
+        <%= fc.label :author, 'Comment Author:', class: 'first' %>
+        <% if hubssolib_privileged? -%>
+          <%= fc.text_field :author %>
+        <% else -%>
+          <%= fc.hidden_field :author %>
+          <br /><b><%= h(@change.author) %></b><br style="margin-bottom: 10px" />
+        <% end -%>
+        </label>
+
+        <br />
+        <%= fc.label :attachment, 'Attachment:' %>
+        <%= fc.file_field :attachment %>
+
+        <br />
+        <%= fc.label :comment, 'Comment:' %>
+        <%= fc.text_area :comment, rows: 12 -%>
+      <% end %>
 
       <br />
-      <label>Attachment:
-      <%= file_field('change', 'attachment') -%></label>
-
-      <br />
-      <label>Comment:
-      <%= text_area 'change', 'comment', :rows => 12 -%></label>
-
-      <br />
-      <label>Ticket Summary:
-      <%= text_field 'ticket', 'summary' -%></label>
+      <%= f.label :summary, 'Ticket Summary:' %>
+      <%= f.text_field :summary %>
 
       <table>
-      <tr class="set-status">
-        <td>Status:</td>
-        <td><%= collection_select 'ticket', 'status_id', @status, 'id', 'name' -%></td>
-      </tr>
-      <tr>
-        <td>Severity:</td>
-        <td><%= collection_select 'ticket', 'severity_id', @severities, 'id', 'name' -%></td>
-      </tr>
-      <tr>
-        <td>Part: </td>
-        <td><%= collection_select 'ticket', 'part_id', @parts, 'id', 'name', { :include_blank => true } -%></td>
-      </tr>
-      <tr>
-        <td>Release:</td>
-        <td><%= collection_select 'ticket', 'release_id', @releases, 'id', 'name', { :include_blank => true } -%></td>
-      </tr>
-      <tr>
-        <td>Milestone: </td>
-        <td><%= collection_select 'ticket', 'milestone_id', @milestones, 'id', 'name', { :include_blank => true } -%></td>
-       </tr>
+        <tr class="set-status">
+          <td><%= f.label :status_id, 'Status:' %></td>
+          <td><%= f.collection_select :status_id, @status, 'id', 'name' %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :severity_id, 'Severity:' %></td>
+          <td><%= f.collection_select :severity_id, @severities, 'id', 'name' %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :part_id, 'Part:' %></td>
+          <td><%= f.collection_select :part_id, @parts, 'id', 'name', { include_blank: true } %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :release_id, 'Release:' %></td>
+          <td><%= f.collection_select :release_id, @releases, 'id', 'name', { include_blank: true } %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :milestone_id, 'Milestone:' %></td>
+          <td><%= f.collection_select :milestone_id, @milestones, 'id', 'name', { include_blank: true } %></td>
+        </tr>
       </table>
 
     </fieldset>
