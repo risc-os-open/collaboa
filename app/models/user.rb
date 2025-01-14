@@ -24,7 +24,7 @@ class User < ApplicationRecord
 
   def self.authenticate(login, pass)
     return nil if login == 'Public'
-    self.where(login: login, pass: sha1(pass)).first
+    self.where(login: login, password: sha1(pass)).first
   end
 
   def change_password(pass)

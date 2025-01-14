@@ -10,8 +10,8 @@ Rails.application.routes.draw do
     resources :users,      except: :show
   end
 
-  post '/login',  to: 'login#login'
-  get  '/logout', to: 'login#logout'
+  match '/login',  to: 'login#login', via: [:get, :post]
+  get   '/logout', to: 'login#logout'
 
   resources :milestones, only: [:index, :show]
 

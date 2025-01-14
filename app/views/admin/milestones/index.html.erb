@@ -13,12 +13,12 @@
   <% @milestones.each do |milestone| %>
     <li>
       <%= link_to milestone.name, :action => 'edit', :id => milestone.id -%>
-      <small><%= link_to 'delete', {:action => 'delete', :id => milestone.id}, :confirm => 'Really delete this milestone?' -%></small>
+      <small><%= link_to 'delete', {:action => 'destroy', :id => milestone.id}, :confirm => 'Really delete this milestone?' -%></small>
     </li>
   <% end %>
   </ul>
 
-  <%= error_messages_for milestone@ %>
+  <%= error_messages_for @milestone %>
 
   <%= form_tag :action => 'index' do %>
   <fieldset>

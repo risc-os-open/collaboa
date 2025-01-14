@@ -13,9 +13,9 @@ class LoginController < ApplicationController
     HUBSSOLIB_PERMISSIONS
   end
 
-  # POST-only
-  #
   def login
+    render() and return unless request.post?
+
     if user = User.authenticate(params[:user_login], params[:user_password])
       # Reset the session properly to prevent a possible session fixation attack
       return_to = session[:return_to]
@@ -24,7 +24,7 @@ class LoginController < ApplicationController
       session[:return_to] = return_to if return_to.present?
 
       flash[:notice] = "Login successful"
-      redirect_back_or_to(fallback_location: admin_root_path(), allow_other_host: false)
+      redirect_to(admin_root_path())
     else
       @login   = params[:user_login]
       @message = 'Login unsuccessful'
