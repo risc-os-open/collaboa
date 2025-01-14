@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
 
   # Hub single sign-on support. Run the Hub filters for all actions to ensure
   # activity timeouts etc. work properly. The login integration with Hub is
@@ -25,7 +26,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_action :user_obj_required
-  #before_action :sync_with_repos
+  before_action :sync_with_repos
   after_action  :remember_location
 
   def url_for_svn_path(fullpath, rev=nil)
@@ -44,6 +45,33 @@ class ApplicationController < ActionController::Base
     @current_user
   end
   helper_method :current_user
+
+  # ============================================================================
+  # PROTECTED INSTANCE METHODS
+  # ============================================================================
+  #
+  protected
+
+    # Run pagy() on a given ActiveRecord scope/collection, with a default
+    # limit of 20 items per page overridden by the 'default_limit' parameter,
+    # or by query parameter 'items', the latter taking precedence but being
+    # capped to a list size of 200 to keep server resource usage down.
+    #
+    # https://github.com/ddnexus/pagy
+    #
+    def pagy_with_params(scope:, default_limit: 20)
+      limit        = params[:items]&.to_i || default_limit
+      limit        = limit.clamp(1, 200)
+      pagy_options = { :limit => limit }
+
+      # Some Typo views do e.g. "?page=&..." - i.e. the param is there, but it
+      # has no value. This makes Pagy grumpy, as a #to_i turns "nil" into "0"
+      # and it complains that page zero is invalid.
+      #
+      params.delete(:page) if params.key?(:page) && params[:page].blank?
+
+      pagy(scope, **pagy_options)
+    end
 
   # ============================================================================
   # PRIVATE INSTANCE METHODS
@@ -86,7 +114,7 @@ class ApplicationController < ActionController::Base
     end
 
     def sync_with_repos
-      Changeset.sync_changesets
+      Changeset.sync_changesets if SVN_ENABLED
     end
 
     def user_obj_required

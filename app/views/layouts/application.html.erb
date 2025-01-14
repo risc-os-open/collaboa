@@ -93,16 +93,16 @@
               <% if current_user.view_milestones? -%>
                 <li><%= link_to 'Milestones', :controller => '/milestones' -%></li>
               <% end -%>
-              <% if current_user.view_changesets? -%>
+              <% if false && current_user.view_changesets? -%>
                 <li>Subversion: <%= link_to 'Changesets', :controller => '/repository', :action => 'changesets' -%></li>
               <% end -%>
-              <% if current_user.view_code? -%>
+              <% if false && current_user.view_code? -%>
                 <li>Subversion: <%= link_to 'Browse', :controller => '/repository', :action => 'browse', :path => nil -%></li>
               <% end -%>
-              <% if current_user.view_changesets? -%>
+              <% if false && current_user.view_changesets? -%>
                 <li>CVS: <a href="/viewer/revisions">Revisions</a></li>
               <% end -%>
-              <% if current_user.view_code? -%>
+              <% if false && current_user.view_code? -%>
                 <li>CVS: <a href="/viewer/view">Browse</a></li>
               <% end -%>
               <% if current_user.view_tickets? -%>

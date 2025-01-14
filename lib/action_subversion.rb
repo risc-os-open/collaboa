@@ -1,10 +1,12 @@
 require 'time'
 require 'ostruct'
 
-# require 'svn/core'
-# require 'svn/fs'
-# require 'svn/delta'
-# require 'svn/repos'
+if SVN_ENABLED
+  require 'svn/core'
+  require 'svn/fs'
+  require 'svn/delta'
+  require 'svn/repos'
+end
 
 module ActionSubversion; end
 

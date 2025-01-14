@@ -48,7 +48,7 @@ module TicketsHelper
       out << link_to('Previous', :action => 'show', :id => @ticket.previous)
     end
     if @ticket.next
-      out << '|' if @ticket.previous
+      out << '&nbsp;|&nbsp;' if @ticket.previous
       out << link_to('Next', :action => 'show', :id => @ticket.next)
     end
     out << "</small></p>\n</div>"

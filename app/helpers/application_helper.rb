@@ -1,5 +1,6 @@
 module ApplicationHelper
   include WhiteListFormattedContentConcern
+  include Pagy::Frontend
 
   # Turn the Hub and Rails flash data into a simple series of H2 entries,
   # with Hub data first, Rails flash data next. A container DIV will hold
@@ -57,6 +58,16 @@ module ApplicationHelper
   def htmlize(text)
     return if text.nil?
     html = xhtml_sanitize(text, auto_link: true, textile: true) # See WhiteListFormattedContentConcern
+    make_links(html)
+    return html.html_safe()
+  end
+
+  # For things where markup isn't guaranteed, so no Textile, but do all the
+  # other whitelisting and processing.
+  #
+  def simple_htmlize(text)
+    return if text.nil?
+    html = xhtml_sanitize(text, auto_link: true, textile: false) # See WhiteListFormattedContentConcern
     make_links(html)
     return html.html_safe()
   end

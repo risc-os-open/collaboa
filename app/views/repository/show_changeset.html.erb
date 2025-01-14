@@ -10,7 +10,7 @@
   </div>
 
   <h1>Changeset <%= @changeset.revision -%></h1>
-  <div class="log"><%= format_and_make_links(h(@changeset.log)) -%></div>
+  <div class="log"><%= simple_htmlize(@changeset.log) -%></div>
   <ul class="changes">
     <li><strong>Comitted by:</strong> <%= @changeset.author -%></li>
     <li><strong>Date:</strong> <%= @changeset.revised_at.strftime('%A %B %d %H:%M:%S %Y') -%>
@@ -20,7 +20,7 @@
 <% if current_user.view_code? %>
   <h2>Affected files:</h2>
   <ul class="changes">
-  <%= render_collection_of_partials 'change', @changeset.code_changes %>
+  <%= render @changeset.code_changes %>
   </ul>
 
   <% @files_to_diff.each_with_index do |diff, idx| %>

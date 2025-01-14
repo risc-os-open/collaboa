@@ -26,7 +26,12 @@ class TicketsController < ApplicationController
     sort_update()
 
     Rails.logger.info "Sort_clause: #{sort_clause()}"
-    @tickets = Ticket.find_by_filter(params, sort_clause())
+    tickets = Ticket.find_by_filter(params, sort_clause())
+
+    @ticket_pages, @tickets = pagy_with_params(
+      scope:         tickets,
+      default_limit: 50
+    )
 
     render action: 'index'
   end

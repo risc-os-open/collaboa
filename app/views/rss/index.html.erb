@@ -2,19 +2,19 @@
 
 <div id="content">
   <h1>Available RSS Feeds</h1>
-  
+
   <h2><%= link_to 'Everything', :action => 'all' -%></h2>
-  <p>Contains all tickets, ticket changes and changesets combined</p>
-  
-  <h2><%= link_to 'Changesets', :action => 'changesets' -%></h2>
-  <p>Contains all changesets</p>
-  
+  <p>Contains all tickets, ticket changes and legacy Subversion changesets combined</p>
+
   <h2><%= link_to 'Tickets', :action => 'tickets' -%></h2>
   <p>Contains all tickets and ticket changes</p>
-  
+
   <h2><%= link_to 'Ticket creation', :action => 'ticket_creation' -%></h2>
   <p>All new tickets, but no ticket changes</p>
-  
+
   <h2><%= link_to 'Ticket changes', :action => 'ticket_changes' -%></h2>
   <p>Ticket changes only</p>
+
+  <h2><%= link_to 'Changesets', :action => 'changesets' -%></h2>
+  <p>Legacy Subversion changesets only</p>
 </div>

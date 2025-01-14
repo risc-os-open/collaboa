@@ -4,24 +4,24 @@
     <dd><%= node.revision -%></dd>
   </dl>
   <dl>
-    <dt>Log:</dt> 
-    <dd><%= format_and_make_links(h(node.log)) -%></dd>
+    <dt>Log:</dt>
+    <dd><%= simple_htmlize(node.log) -%></dd>
   </dl>
   <dl>
     <dt>Author:</dt>
     <dd><%= node.author -%></dd>
   </dl>
   <dl>
-    <dt>Date:</dt> 
+    <dt>Date:</dt>
     <dd><%= node.date -%></dd>
   </dl>
   <dl>
-    <dt>Size:</dt> 
+    <dt>Size:</dt>
     <dd><%= node.size -%> Bytes</dd>
   </dl>
   <% unless node.proplist.empty? -%>
   <dl>
-    <dt>Properties:</dt> 
+    <dt>Properties:</dt>
   <% node.proplist.each do |name, value| %>
     <dd>Property <%= name -%> is set <%= value.empty? ? '' : "to #{value}" -%></dd>
   <% end %>

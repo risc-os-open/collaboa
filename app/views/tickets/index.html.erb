@@ -1,7 +1,13 @@
 <% @page_title = 'Tickets' %>
 
 <div id="content">
-  <h1>Tickets</h1>
+  <div class="simpleflexrow">
+    <h1>Tickets</h1>
+    <div>
+      <%= link_to 'New ticket', :controller => '/tickets', :action => 'new' %>
+    </div>
+  </div>
+
   <%= render :partial => 'filter' %>
 
   <table class="listing" id="tickets">
@@ -35,4 +41,8 @@
       <% end %>
     </tbody>
   </table>
+</div>
+
+<div class="pagination">
+  <%= pagy_nav(@ticket_pages).html_safe() %>
 </div>

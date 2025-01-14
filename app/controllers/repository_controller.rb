@@ -1,4 +1,5 @@
 class RepositoryController < ApplicationController
+  before_action :redirect_if_unsupported, except: [:changesets, :show_changeset]
   before_action :login_required
 
   def browse
@@ -40,8 +41,10 @@ class RepositoryController < ApplicationController
   end
 
   def changesets
-    @changeset_pages, @changesets =
-          paginate :changesets, :order_by => 'revision DESC', :per_page => 15
+    @changeset_pages, @changesets = pagy_with_params(
+      scope:         Changeset.all,
+      default_limit: 15
+    )
   end
 
   def show_changeset
@@ -50,8 +53,12 @@ class RepositoryController < ApplicationController
     if @changeset.nil?
       redirect_to :action => 'changesets'
     else
-      @files_to_diff = @changeset.code_changes.reject {|change|  change.name != 'M' }
-      @files_to_diff.reject! {|f| !f.diffable? }
+      if SVN_ENABLED
+        @files_to_diff = @changeset.code_changes.reject {|change|  change.name != 'M' }
+        @files_to_diff.reject! {|f| !f.diffable? }
+      else
+        @files_to_diff = []
+      end
     end
   end
 
@@ -75,6 +82,15 @@ class RepositoryController < ApplicationController
   # ============================================================================
   #
   private
+
+    # Ruby bindings and related files in 2024 are a challenge, to say the least.
+    #
+    def redirect_if_unsupported
+      unless SVN_ENABLED
+        flash[:attention] = 'Subversion browsing is no longer supported - all code is maintained on the ROOL GitLab server.'
+        redirect_back_or_to(root_path())
+      end
+    end
 
     def authorize?(user)
       if %w{changesets show_changeset}.include?(action_name)

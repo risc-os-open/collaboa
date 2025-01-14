@@ -62,6 +62,12 @@ small
   color: #666;
 }
 
+div.simpleflexrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 /**
  * Forms
  */

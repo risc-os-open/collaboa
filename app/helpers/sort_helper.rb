@@ -30,9 +30,7 @@
 #   def list
 #     sort_init 'last_name'
 #     sort_update
-#     @contact_pages, @items = paginate :contacts,
-#       :order_by => sort_clause,
-#       :per_page => 10
+#     @contact_pages, @contacts = pagy_with_params(scope: ...order by sort_clause()...)
 #   end
 #
 # View (table header in list.rhtml):

@@ -10,7 +10,7 @@
   </dl>
   <dl>
     <dt>Log:</dt>
-    <dd><%= format_and_make_links(h(@current_entry.log)) -%></dd>
+    <dd><%= simple_htmlize(@current_entry.log) -%></dd>
   </dl>
   <dl>
     <dt>Author:</dt>

@@ -13,7 +13,7 @@ class RssController < ApplicationController
     add_recent_ticket_changes_to!(@items)
     add_recent_changesets_to!(@items)
 
-    render action: 'rss'
+    render action: 'rss', formats: [:xml]
   end
 
   def tickets
@@ -23,7 +23,7 @@ class RssController < ApplicationController
     add_recent_tickets_to!(@items)
     add_recent_ticket_changes_to!(@items)
 
-    render action: 'rss'
+    render action: 'rss', formats: [:xml]
   end
 
   def ticket_creation
@@ -32,7 +32,7 @@ class RssController < ApplicationController
 
     add_recent_tickets_to!(@items)
 
-    render action: 'rss'
+    render action: 'rss', formats: [:xml]
   end
 
   def ticket_changes
@@ -41,7 +41,7 @@ class RssController < ApplicationController
 
     add_recent_ticket_changes_to!(@items)
 
-    render action: 'rss'
+    render action: 'rss', formats: [:xml]
   end
 
   def changesets
@@ -50,7 +50,7 @@ class RssController < ApplicationController
 
     add_recent_changesets_to!(@items)
 
-    render action: 'rss'
+    render action: 'rss', formats: [:xml]
   end
 
   # ============================================================================
@@ -74,7 +74,7 @@ class RssController < ApplicationController
     def add_recent_ticket_changes_to!(items)
       TicketChange.all.order('created_at DESC').limit(5).each do |change|
         content = ''
-        content << "<div>#{htmlize(change.comment)}</div>\n" if change.comment.present?
+        content << "<div>#{helpers.htmlize(change.comment)}</div>\n" if change.comment.present?
 
         content << '<ul>'
         change.each_log do |logitem|
@@ -96,7 +96,7 @@ class RssController < ApplicationController
       Changeset.all.order('created_at DESC').limit(5).each do |changeset|
         items << {
           title:   "Changeset #{changeset.revision} by #{changeset.author}",
-          content: changeset.log,
+          content: helpers.simple_htmlize(changeset.log),
           author:  changeset.author,
           date:    changeset.revised_at,
           link:    repository_show_changeset_path(revision: changeset.revision)

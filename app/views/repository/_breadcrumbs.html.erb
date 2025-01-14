@@ -1,6 +1,11 @@
-You are currently browsing the <b>Subversion</b> repository.<br />
-Changesets can be listed by
-<%= link_to 'changeset number', { :controller=>'repository', :action=>'changesets' } %>.<br />
-The Git repository is <a href="/viewer/events">here</a>.
+<p>
+  You are currently browsing the <b>no-longer-used Subversion</b> repository.<br />
+  Changesets can be listed by
+  <%= link_to 'changeset number', { :controller=>'repository', :action=>'changesets' } %>.
+</p>
+
+<p>
+  Current web site and RISC OS code is all in <a href="https://gitlab.riscosopen.org/">GitLab</a>.
+</p>
 
 <% if trail -%><div class="breadcrumbs"><%= path_breadcrumbs(params[:path], last_clickable) %></div><% end -%>
