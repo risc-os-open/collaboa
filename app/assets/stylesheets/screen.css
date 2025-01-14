@@ -195,6 +195,16 @@ div.breadcrumbs
   margin-bottom: 10px;
 }
 
+.actions::before {
+  float: left;
+  color: #333;
+  content: "▸ ";
+}
+
+.actions.toggle-shown::before {
+  content: "▾ ";
+}
+
 /**
  * General table listings
  */
@@ -304,10 +314,12 @@ table.tickets tr th.ticket-number,
 
 #ticket
 {
-  background: #ffc;
+  background: #ffe;
   border: 1px solid #aaa;
-  padding: 10px;
+  padding: 20px;
   margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px #ccc;
 }
 
 #ticket h1 {border: none; margin-bottom: 10px;}
@@ -361,7 +373,7 @@ fieldset table tr.set-status { background: #ddd; }
 #ticket-changes ul
 {
   list-style: disc inside;
-  margin: 0 0 0 20px;
+  margin: 10px 0 0 10px;
   padding: 0 0 0 10px;
 }
 
@@ -379,18 +391,8 @@ fieldset table tr.set-status { background: #ddd; }
   margin-bottom: 1em;
   color: #333;
 
-  /* border-radius: 8px; */ /* Valid, but the W3C CSS3 validator is buggy and complains - and has since 2006! */
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-
-  box-shadow: 0px 0px 5px #888;
-  -moz-box-shadow: #888 0 0 5px;
-  -webkit-box-shadow: #888 0 0 5px;
-}
-
-#ticket-change-comment
-{
-  margin-left: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px #999;
 }
 
 #ticket-change-comment > p:last-child
@@ -452,6 +454,43 @@ table.revision-log td
   padding-top: 10px;
   vertical-align: top;
   font-size: 80%;
+}
+
+div.log,
+div.cvslog2web_p_entry div.cvslog2web_message
+{
+  background-color: #ffe;
+  border:           1px solid #ccc;
+  margin-bottom:    10px;
+}
+
+div.log
+{
+  margin-top: 10px;
+  padding: 10px;
+}
+
+div.log-small
+{
+  margin: 0 0 20px 20px;
+}
+
+div.log-small p
+{
+  font-size: 80%;
+}
+
+ul.changes {
+  list-style: none;
+  margin-top: 10px;
+  padding:    0;
+  font-size:  80%;
+  color:      #9a9a9a;
+}
+
+ul.changes li.change-name
+{
+  color: #666;
 }
 
 /**
@@ -615,7 +654,7 @@ input[type~=hidden]
 div.error_messages {
   margin: 20px 0;
   padding: 15px;
-  border-radius: 9px;
+  border-radius: 8px;
   border: 1px solid #dfc3c3;
   background-color: #ffe3e3;
 }

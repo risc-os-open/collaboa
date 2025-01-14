@@ -55,6 +55,8 @@ module ApplicationHelper
     return text
   end
 
+  # Special case
+
   def htmlize(text)
     return if text.nil?
     html = xhtml_sanitize(text, auto_link: true, textile: true) # See WhiteListFormattedContentConcern

@@ -13,7 +13,7 @@
   <% @milestones.each do |milestone| %>
     <li>
       <%= link_to milestone.name, :action => 'edit', :id => milestone.id -%>
-      <small><%= link_to 'delete', {:action => 'destroy', :id => milestone.id}, :confirm => 'Really delete this milestone?' -%></small>
+      <small><%= link_to 'delete', {:action => 'destroy', :id => milestone.id}, data: { confirm: 'Really delete this milestone?' } -%></small>
     </li>
   <% end %>
   </ul>

@@ -1,6 +1,7 @@
-<div class="actions">
-  <p><%= link_to_function 'Show/hide filtering options...', 'Element.toggle(\'filter-selector\')' -%></p>
+<div class="actions" id="filter-action">
+  <p><a onclick="toggleVisibility('filter-action', 'filter-selector');">Show/hide filtering options...</a></p>
 </div>
+
 <%= tag.div(id: 'filter-selector', style: tickethelp_filters_active? ? nil : 'display:none') do %>
   <dl>
     <dt>Status:</dt>

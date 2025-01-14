@@ -83,6 +83,8 @@ module SortHelper
   #
   def sort_clause()
     session[@sort_name]['key'] + ' ' + session[@sort_name]['order']
+  rescue
+    'created_at DESC'
   end
 
   # Returns a link which sorts by the named column.

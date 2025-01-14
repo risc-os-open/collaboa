@@ -145,6 +145,21 @@ module WhiteListFormattedContentConcern
 
   # https://github.com/gjtorikian/html-pipeline#textfilters
   #
+  # Bug tracker pre-strip of "<" and ">", encoding as HTML entities instead.
+  # While whitelisted inline HTML is supported in most other applicaftions,
+  # the bug tracker finds itself using "<" or ">" a lot, especially for things
+  # like variable references such as "*Obey <Obey$Dir>...". Historically, these
+  # have always been escaped in advance to make life easier, even if this means
+  # that richer HTML content isn't available to ticket authors.
+  #
+  class AutoEscapeBracketsFilter < HTMLPipeline::TextFilter
+    def call(text, context: {}, result: {})
+      return text.gsub('<', '&lt;').gsub('>', '&gt;')
+    end
+  end
+
+  # https://github.com/gjtorikian/html-pipeline#textfilters
+  #
   # Textile processing via RedCloth.
   #
   # Implemented as a TextFilter not a ConvertFilter because HTMLPipeline only
@@ -177,7 +192,7 @@ module WhiteListFormattedContentConcern
       # that via the HTML pipeline; Auto Link's variant is very aggressive..
       #
       html = auto_link(text, sanitize: false) do | link_text |
-        truncate(link_text, length: 55, omission: '&hellip;')
+        truncate(link_text, length: 55, omission: '…')
       end
 
       return html
@@ -197,8 +212,9 @@ module WhiteListFormattedContentConcern
           content.strip! if content.respond_to?(:strip!)
 
           text_filters  = []
-          text_filters <<  TextileTextFilter.new if textile
-          text_filters << AutoLinkTextFilter.new if auto_link
+          text_filters << AutoEscapeBracketsFilter.new # Bespoke to Tracker; see filter comments
+          text_filters <<        TextileTextFilter.new if textile
+          text_filters <<       AutoLinkTextFilter.new if auto_link
 
           pipeline = HTMLPipeline.new(
             text_filters:        text_filters,

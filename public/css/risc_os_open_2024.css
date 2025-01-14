@@ -660,46 +660,6 @@ div.parsed_directory_listing_md5
   max-width: 100%;
 }
 
-/* CVS revisions and SVN changesets */
-
-div.log,
-div.cvslog2web_p_entry div.cvslog2web_message
-{
-  background-color: #ffc;
-  border:           1px solid #ccc;
-  margin-bottom:    10px;
-}
-
-div.log p
-{
-  margin: 10px;
-}
-
-div.log-small
-{
-  margin: 0 0 20px 20px;
-}
-
-div.log-small p
-{
-  font-size: 80%;
-}
-
-ul.changes,
-div.cvslog2web_p_entry div.cvslog2web_filelist
-{
-  list-style: none;
-  margin-top: 10px;
-  padding:    0;
-  font-size:  80%;
-  color:      #9a9a9a;
-}
-
-ul.changes li.change-name
-{
-  color: #666;
-}
-
 /*****************************************************************************\
  * Browser-specific styles: Firefox
 \*****************************************************************************/
