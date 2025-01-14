@@ -10,24 +10,24 @@
 
   <h2>Current Parts:</h2>
   <ul>
-  <% @parts.each do |part| %>
-    <li>
-      <%= link_to part.name, :action => 'edit', :id => part.id do %>
-      <small><%= link_to 'delete', {:action => 'delete', :id => part.id}, :confirm => 'Really delete this part?' %></small>
-    </li>
-  <% end %>
+    <% @parts.each do |part| %>
+      <li>
+        <%= link_to part.name, :action => 'edit', :id => part.id %>
+        <%= apphelp_inline_delete(part, 'part') %>
+      </li>
+    <% end %>
   </ul>
 
   <%= error_messages_for @part %>
 
-  <%= form_tag :action => 'index' %>
-  <fieldset>
-    <legend>Create new part</legend>
+  <%= form_tag :action => 'index' do %>
+    <fieldset>
+      <legend>Create new part</legend>
 
-    <label class="first">Name of this part (eg 'User Interface'):
-    <%= text_field 'part', 'name' -%></label>
+      <label class="first">Name of this part (eg 'User Interface'):</label>
+      <%= text_field 'part', 'name' -%>
 
-    <input type="submit" value="Create Part" class="submit">
-
+      <input type="submit" value="Create part" class="submit">
+    </fieldset>
   <% end %>
 </div>

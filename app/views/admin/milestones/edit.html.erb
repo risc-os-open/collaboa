@@ -12,19 +12,21 @@
 
   <%= error_messages_for @milestone %>
 
-  <%= form_tag :action => 'edit', :id => @milestone.id do %>
-  <fieldset>
-    <legend>Edit milestone</legend>
+  <%= form_for @milestone, url: admin_milestone_path(@milestone) do |f| %>
+    <fieldset>
+      <legend>Edit milestone</legend>
 
-    <label class="first">Name of this milestone (eg 0.7.5):
-    <%= text_field 'milestone', 'name' -%></label>
+      <%= f.label :name, 'Name of this milestone (eg 0.7.5):', class: 'first' %>
+      <%= f.text_field :name %></label>
 
-    <label class="first">A short description or other info you want displayed (optional):
-    <%= text_area 'milestone', 'info' -%></label>
+      <%= f.label :info, 'A short description or other info you want displayed (optional):' %>
+      <%= f.text_area :info, rows: 3 %>
 
-    <label class="first">Completed?:
-    <%= check_box 'milestone', 'completed' -%></label>
+      <%= f.label :completed do %>
+        <%= f.check_box :completed %> Completed?
+      <% end %>
 
-    <input type="submit" value="Edit milestone" class="submit">
+      <%= f.submit 'Update milestone' %>
+    </fieldset>
   <% end %>
 </div>

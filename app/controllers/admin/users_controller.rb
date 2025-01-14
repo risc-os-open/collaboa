@@ -1,15 +1,20 @@
 class Admin::UsersController < AdminAreaController
 
+  # This doubles up as an inline 'new' action, for convenience.
+  #
   def index
-    @users = User.all
+    @users = User.order('login ASC')
     @user  = User.new
   end
 
+  # Handles submissions from the inline index view form.
+  #
   def create
+    self.index() # Initialise ivars
+
     @user   = User.new(self.safe_params())
     success = @user.save()
-
-    redirect_to(action: 'index') if success
+    success ? redirect_to(action: 'index') : render(action: 'index')
   end
 
   def edit
@@ -24,17 +29,17 @@ class Admin::UsersController < AdminAreaController
     @user.login = 'Public' if is_public
 
     success = @user.save
-
-    redirect_to(action: 'index') if success
+    success ? redirect_to(action: 'index') : render(action: 'edit')
   end
 
   def destroy
-    user = User.find_by_id(params[:id])
+    user = User.find(params[:id])
 
-    if user&.login == 'Public'
-      flash[:message] = 'You cannot delete the Public user placeholder'
+    if user.login == 'Public'
+      flash[:error] = 'You cannot delete the Public user placeholder'
     else
-      user&.destroy!
+      user.destroy!
+      flash[:notice] = "User '#{user.login}' deleted"
     end
 
     redirect_to(action: 'index')

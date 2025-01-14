@@ -1,14 +1,20 @@
 class Admin::MilestonesController < AdminAreaController
+
+  # This doubles up as an inline 'new' action, for convenience.
+  #
   def index
-    @milestones = Milestone.all
+    @milestones = Milestone.order('created_at DESC')
     @milestone  = Milestone.new
   end
 
+  # Handles submissions from the inline index view form.
+  #
   def create
+    self.index() # Initialise ivars
+
     @milestone = Milestone.new(self.safe_params())
     success    = @milestone.save()
-
-    redirect_to(action: 'index') if success
+    success ? redirect_to(action: 'index') : render(action: 'index')
   end
 
   def edit
@@ -18,13 +24,14 @@ class Admin::MilestonesController < AdminAreaController
   def update
     @milestone  = Milestone.find(params[:id])
     success     = @milestone.update(self.safe_params())
-
-    redirect_to(action: 'index') if success
+    success ? redirect_to(action: 'index') : render(action: 'edit')
   end
 
   def destroy
-    milestone = Milestone.find_by_id(params[:id])
-    milestone&.destroy!
+    milestone = Milestone.find(params[:id])
+    milestone.destroy!
+
+    flash[:notice] = "Milestone '#{milestone.name}' deleted"
 
     redirect_to(action: 'index')
   end

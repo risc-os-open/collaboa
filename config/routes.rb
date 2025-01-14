@@ -4,10 +4,13 @@ Rails.application.routes.draw do
   namespace 'admin' do
     root to: 'dashboard#index'
 
-    resources :milestones, except: :show
-    resources :parts,      except: :show
-    resources :releases,   except: :show
-    resources :users,      except: :show
+    # "New" views are inline in the index; "Show" is handled via the public UI,
+    # with no need for a special case in the admin UI.
+    #
+    resources :milestones, except: [:new, :show]
+    resources :parts,      except: [:new, :show]
+    resources :releases,   except: [:new, :show]
+    resources :users,      except: [:new, :show]
   end
 
   match '/login',  to: 'login#login', via: [:get, :post]

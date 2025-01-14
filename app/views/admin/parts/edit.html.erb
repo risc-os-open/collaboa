@@ -12,14 +12,14 @@
 
   <%= error_messages_for @part %>
 
-  <%= form_tag :action => 'edit', :id => @part.id do %>
-  <fieldset>
-    <legend>Edit part</legend>
+  <%= form_for @part, url: admin_part_path(@part) do |f| %>
+    <fieldset>
+      <legend>Edit part</legend>
 
-    <label class="first">Name of this part (eg 'User Interface'):
-    <%= text_field 'part', 'name' -%></label>
+      <%= f.label :name, 'Name of this part (eg "User interface"):', class: 'first' %>
+      <%= f.text_field :name %>
 
-    <input type="submit" value="Edit Part" class="submit">
-
+      <%= f.submit 'Update part' %>
+    </fieldset>
   <% end %>
 </div>

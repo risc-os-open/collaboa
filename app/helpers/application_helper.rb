@@ -49,6 +49,24 @@ module ApplicationHelper
     end
   end
 
+  # Create an inline button that submits to a 'destroy' method using simulated
+  # HTTP 'delete'. Inline properties are managed via CSS on a 'button-to' form
+  # class. JavaScript pre-submission confirmation via 'collaboa.js' and a
+  # data-confirm attribute. Pass the ActiveRecord model instance to delete and
+  # a name to use in the "delete this <foo>?" confirmation prompt.
+  #
+  def apphelp_inline_delete(object, name)
+    button_to(
+      'delete',
+      { action: 'destroy', id: object.id },
+      {
+        method:     :delete,
+        form_class: 'button-to',
+        data:       { confirm: "Really delete this #{name}?" }
+      }
+    )
+  end
+
   def make_links(text)
     text.gsub!(/changeset\s#?([0-9]+)/i){|s| link_to("Changeset ##{$1}", :controller => 'repository', :action => 'show_changeset', :revision => $1)}
     text.gsub!(/ticket\s#?([0-9]+)/i){|s| link_to("Ticket ##{$1}", :controller => 'tickets', :action => 'show', :id => $1)}
@@ -65,7 +83,7 @@ module ApplicationHelper
   end
 
   # For things where markup isn't guaranteed, so no Textile, but do all the
-  # other whitelisting and processing.
+  # other sanitisation / processing.
   #
   def simple_htmlize(text)
     return if text.nil?

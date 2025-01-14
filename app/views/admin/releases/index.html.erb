@@ -10,24 +10,24 @@
 
   <h2>Current Releases:</h2>
   <ul>
-  <% @releases.each do |release| %>
-    <li>
-      <%= link_to release.name, :action => 'edit', :id => release.id  -%>
-      <small><%= link_to 'delete', {:action => 'delete', :id => release.id}, :confirm => 'Really delete this release?' %></small>
+    <% @releases.each do |release| %>
+      <li>
+        <%= link_to release.name, :action => 'edit', :id => release.id %>
+        <%= apphelp_inline_delete(release, 'release') %>
       </li>
-  <% end %>
+    <% end %>
   </ul>
 
   <%= error_messages_for @release %>
 
   <%= form_tag :action => 'index' do %>
-  <fieldset>
-    <legend>Create new release</legend>
+    <fieldset>
+      <legend>Create new release</legend>
 
-    <label class="first">Name of this release (eg 0.7.5):
-    <%= text_field 'release', 'name' -%></label>
+      <label class="first">Name of this release (eg 0.7.5):</label>
+      <%= text_field 'release', 'name' -%>
 
-    <input type="submit" value="Create Release" class="submit">
-
-  <% end %>
+      <input type="submit" value="Create release" class="submit">
+    <% end %>
+  </fieldset>
 </div>

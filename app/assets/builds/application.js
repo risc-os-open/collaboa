@@ -7699,7 +7699,12 @@ function confirmClick(element) {
     const proceed = window.confirm(element.dataset.confirm);
 
     if (proceed) {
-      window.location.href = element.href;
+      if (element.href) {
+        window.location.href = element.href;
+      } else {
+        const presumedFormElement = element.parentNode;
+        presumedFormElement.submit();
+      }
     };
   });
 }

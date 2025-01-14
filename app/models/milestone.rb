@@ -1,5 +1,6 @@
 class Milestone < ApplicationRecord
   has_many :tickets
+  validates_presence_of :name
 
   def open_tickets
     self.tickets.where('status_id <= 1').count

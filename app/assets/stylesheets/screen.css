@@ -102,6 +102,7 @@ label
 {
   font-size: 80%;
   display: block;
+  margin-bottom: 5px;
 }
 
 fieldset br       { display:   block; }
@@ -115,15 +116,29 @@ fieldset input, fieldset textarea
   margin-bottom: 10px;
 }
 
+
+fieldset input[type~=checkbox]
+{
+  display: inline-block;
+  width: auto;
+  margin-left: 0;
+}
+
+
 textarea.largetextarea { height: 350px; }
 textarea.smalltextarea { height: 150px; }
 textarea.bigtextarea   { height: 450px; }
 
-form.button-to input
+form.button-to {
+  display: inline-block;
+}
+
+form.button-to button
 {
   width: auto;
+  font-size: 75%;
   margin: 0;
-  padding: 0;
+  padding: 2px 4px;
 }
 
 .rev-chooser input
@@ -138,11 +153,6 @@ form.button-to input
   font-size: 80%;
   color: #aaa;
   float: right;
-}
-
-input[type~=checkbox]
-{
-  margin: 0;
 }
 
 /**
@@ -663,47 +673,7 @@ div.error_messages ul:last-child {
   margin-bottom: 0;
 }
 
-.errorExplanation
+.error, .field_with_errors > input, .field_with_errors > textarea
 {
-  margin-bottom: 20px;
-}
-
-.errorExplanation h3, .errorExplanation h2
-{
-  background: #e33;
-  padding: 3px;
-  margin-bottom: 0;
-  font-size: 120%;
-  color: #fff;
-}
-
-.errorExplanation ul
-{
-  background: white;
-  list-style: square;
-  border-bottom: 2px solid #e33;
-  margin: 0 0 5px 0;
-  padding: 5px 0 5px 20px;
-}
-
-.errorExplanation li
-{
-  color: #000;
-  margin:0;
-  margin-left: 0;
-  padding: 0;
-}
-
-.errorExplanation p
-{
-  font-size: 80%;
-  color: #000;
-  background: #eee;
-  margin: 0;
-  padding: 5px;
-}
-
-.error, .fieldWithErrors
-{
-  border-left: 5px solid #e33;
+  border: 3px solid #e33;
 }
