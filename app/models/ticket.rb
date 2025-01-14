@@ -24,11 +24,11 @@ class Ticket < ApplicationRecord
   #
   LOG_MAP = {
     #'assigned_user_id' => ['Assigned', 'Unspecified', lambda{|v| User.find(v).username if v > 0}],
-    'part_id'      => ['Part',      'Unspecified', lambda{|v|      Part.find(v).name if v.present?}],
-    'release_id'   => ['Release',   'Unspecified', lambda{|v|   Release.find(v).name if v.present?}],
-    'severity_id'  => ['Severity',  nil,           lambda{|v|  Severity.find(v).name if v.present?}],
-    'status_id'    => ['Status',    nil,           lambda{|v|    Status.find(v).name if v.present?}],
-    'milestone_id' => ['Milestone', 'Unspecified', lambda{|v| Milestone.find(v).name if v.present?}],
+    'part_id'      => ['Part',      'Unspecified', lambda{|v|      Part.find(v).name if v.present? && v > 0}],
+    'release_id'   => ['Release',   'Unspecified', lambda{|v|   Release.find(v).name if v.present? && v > 0}],
+    'severity_id'  => ['Severity',  nil,           lambda{|v|  Severity.find(v).name if v.present? && v > 0}],
+    'status_id'    => ['Status',    nil,           lambda{|v|    Status.find(v).name if v.present? && v > 0}],
+    'milestone_id' => ['Milestone', 'Unspecified', lambda{|v| Milestone.find(v).name if v.present? && v > 0}],
     'summary'      => ['Summary',   nil,           lambda{|v| v unless v.empty?}],
   }
 
@@ -57,7 +57,7 @@ class Ticket < ApplicationRecord
         change.attach(attachment_param) if attachment_param.present?
 
         if change.empty?
-          self.errors.add :base, 'You must at least add a comment'
+          self.errors.add :base, 'No changes were made'
           raise ActiveRecord::Rollback
         else
           success = change.save()
@@ -75,7 +75,6 @@ class Ticket < ApplicationRecord
   def previous
     Ticket.order('id DESC').where('id < ?', id).first
   end
-
 
   # Returns an array of "normalized" hashes, useful for mixing display of search
   # result from other resources (token finder code based on things found in Typo)
