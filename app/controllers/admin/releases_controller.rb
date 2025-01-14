@@ -3,7 +3,7 @@ class Admin::ReleasesController < AdminAreaController
   # This doubles up as an inline 'new' action, for convenience.
   #
   def index
-    @releases = Release.order('created_at DESC')
+    @releases = Release.order('id DESC')
   end
 
   # Handles submissions from the inline index view form.
@@ -17,6 +17,10 @@ class Admin::ReleasesController < AdminAreaController
   end
 
   def edit
+    @release = Release.find(params[:id])
+  end
+
+  def update
     @release = Release.find(params[:id])
     success  = @release.update(self.safe_params())
     success ? redirect_to(action: 'index') : render(action: 'edit')

@@ -12,14 +12,14 @@
 
   <%= error_messages_for @release %>
 
-  <%= form_tag :action => 'edit', :id => @release.id do %>
-  <fieldset>
-    <legend>Edit release</legend>
+  <%= form_for @release, url: admin_release_path(@release) do |f| %>
+    <fieldset>
+      <legend>Edit release</legend>
 
-    <label class="first">Name of this release (eg 0.7.5):
-    <%= text_field 'release', 'name' -%></label>
+      <label class="first">Name of this release (eg 0.7.5):</label>
+      <%= f.text_field :name %>
 
-    <input type="submit" value="Edit release" class="submit">
-
+      <%= f.submit 'Update release' %>
+    </fieldset>
   <% end %>
 </div>
