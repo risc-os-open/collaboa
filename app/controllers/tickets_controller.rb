@@ -39,7 +39,8 @@ class TicketsController < ApplicationController
     begin
       @ticket = Ticket.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render plain: "Unknown ticket number" and return
+      flash[:error] = "Unknown ticket number"
+      redirect_to(root_path())
     end
   end
 
@@ -65,7 +66,7 @@ class TicketsController < ApplicationController
     end
 
     success = @ticket.save()
-    redirect_to(@ticket) if success
+    success ? redirect_to(@ticket) : render(action: 'new')
   end
 
   def comment
