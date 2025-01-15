@@ -25,7 +25,8 @@ module TicketsHelper
   end
 
   def link_to_add_filter(object)
-    safe_params = params.permit(*Ticket::PERMITTED_FILTER_FIELDS)
+    # Note we omit :page here intentionally, so that new filters start on page 1
+    safe_params = params.permit(:sort_key, :sort_order, *Ticket::PERMITTED_FILTER_FIELDS)
     obj_name    = object.class.to_s.downcase
 
     add_params = safe_params.merge({obj_name => object.id.to_s}).each{|p| p}

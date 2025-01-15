@@ -17,9 +17,9 @@
 #   include SortHelper
 #
 #   def list
-#     sort_init 'last_name'
-#     sort_update
-#     @items = Contact.find_all nil, sort_clause
+#     sort_init('last_name')
+#     sort_update()
+#     @items = Contact.order(sort_clause())
 #   end
 #
 # Controller (using Pagination module):
@@ -30,7 +30,7 @@
 #   def list
 #     sort_init 'last_name'
 #     sort_update
-#     @contact_pages, @contacts = pagy_with_params(scope: ...order by sort_clause()...)
+#     @contact_pages, @contacts = pagy_with_params(scope: ...order(sort_clause())...)
 #   end
 #
 # View (table header in list.rhtml):
@@ -69,7 +69,7 @@ module SortHelper
   #
   def sort_update()
     if params[:sort_key]
-      sort = {:key => params[:sort_key], :order => params[:sort_order]}
+      sort = {key: params[:sort_key], order: params[:sort_order]}
     elsif session[@sort_name]
       sort = session[@sort_name]   # Previous sort.
     else
@@ -79,12 +79,31 @@ module SortHelper
   end
 
   # Returns an SQL sort clause corresponding to the current sort state.
-  # Use this to sort the controller's table items collection.
+  # Use this to sort the controller's table items collection. Pass the Hash
+  # to an #order call in an ActiveRecord::Relation chain.
   #
   def sort_clause()
-    session[@sort_name]['key'] + ' ' + session[@sort_name]['order']
-  rescue
-    'created_at DESC'
+    key   = self.get_sort_key()
+    order = self.get_sort_order()
+
+    # The input comes from the URL, so might be malicious.
+    #
+    # https://api.rubyonrails.org/v7.1/classes/ActiveRecord/Sanitization/ClassMethods.html#method-i-sanitize_sql_for_order
+    #
+    # This does not appear to work and I can produce no meaningful results from
+    # it. It wraps things in single quotes breaking them for ORDER statements,
+    # or passes things through unchanged; it does not seem intended for this
+    # use case.
+    #
+    # This would have been noticed sooner, probably, except for something lower
+    # in Rails that throws an exception the minute it sees something bad in an
+    # "order" statement *even without ever compiling and running the query*. It
+    # throws ActiveRecord::UnknownAttributeReference. There are other ways in
+    # which a bad sort will produce other errors (e.g. PG::UndefinedColumn, at
+    # the point where the view is rendering) so we just let that all throw as a
+    # 500 error if it happens.
+    #
+    return {key => order}
   end
 
   # Returns a link which sorts by the named column.
@@ -94,7 +113,9 @@ module SortHelper
   # - A sort icon image is positioned to the right of the sort link.
   #
   def sort_link(column, caption=nil)
-    key, order = session[@sort_name][:key], session[@sort_name][:order]
+    key   = self.get_sort_key()
+    order = self.get_sort_order()
+
     if key == column
       if order.downcase == 'asc'
         icon = 'sort_asc'
@@ -107,6 +128,7 @@ module SortHelper
       icon = nil
       order = 'asc'
     end
+
     caption = column.humanize.titleize unless caption
     params[:sort_key] = column
     params[:sort_order] = order
@@ -148,10 +170,18 @@ module SortHelper
 
   private
 
-    # Return n non-breaking spaces.
+    # The ID fallback is a result of some tables not having 'created_at' and a
+    # wider, historic assumption of monotonically rising ID integers. This is
+    # OK for us at the moment, since that is indeed what our data layer uses.
+    # For someone with e.g. UUIDs, though, the sort order would be nonsensical
+    # (but this is only a just-in-chance fallback).
     #
-    def nbsp(n)
-      '&nbsp;' * n
+    def get_sort_key
+      session.dig(@sort_name, 'key'  ) || session.dig(@sort_name, :key  ) || 'id'
+    end
+
+    def get_sort_order
+      session.dig(@sort_name, 'order') || session.dig(@sort_name, :order) || 'desc'
     end
 
 end

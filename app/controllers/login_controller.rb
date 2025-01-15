@@ -25,7 +25,7 @@ class LoginController < ApplicationController
       session[:return_to] = return_to if return_to.present?
 
       flash[:notice] = 'Login successful'
-      redirect_back_or_default(controller: 'admin', action: 'index') # See LoginSystem
+      redirect_back_or_default(controller: 'admin/dashboard', action: 'index') # See LoginSystem
     else
       @login = params.dig(:user, :login)
       flash[:error] = 'Login unsuccessful'

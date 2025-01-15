@@ -265,17 +265,17 @@ table.listing tr.odd                           { background-color: #f1f1f1; }
 
 table.listing thead th a.asc
 {
-  background-image: url("/tracker/images/sort_asc.png");
+  background-image: url("sort_asc.png");
   background-repeat: no-repeat;
-  padding-right: 10px;
+  padding-right: 12px;
   background-position: 100% 50%;
 }
 
 table.listing thead th a.desc
 {
-  background-image: url("/tracker/images/sort_desc.png");
+  background-image: url("sort_desc.png");
   background-repeat: no-repeat;
-  padding-right: 10px;
+  padding-right: 12px;
   background-position: 100% 50%;
 }
 
@@ -659,25 +659,4 @@ form.user_form ul {
 form.user_form ul > li > label {
   margin: 0;
   padding: 0;
-}
-
-/**
- * Error display
- */
-
-div.error_messages {
-  margin: 20px 0;
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px solid #dfc3c3;
-  background-color: #ffe3e3;
-}
-
-div.error_messages ul:last-child {
-  margin-bottom: 0;
-}
-
-.error, .field_with_errors > input, .field_with_errors > textarea
-{
-  border: 3px solid #e33;
 }

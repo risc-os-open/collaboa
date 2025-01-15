@@ -25,7 +25,6 @@ class TicketsController < ApplicationController
     sort_init('created_at', 'desc')
     sort_update()
 
-    Rails.logger.info "Sort_clause: #{sort_clause()}"
     tickets = Ticket.find_by_filter(params, sort_clause())
 
     @ticket_pages, @tickets = pagy_with_params(
