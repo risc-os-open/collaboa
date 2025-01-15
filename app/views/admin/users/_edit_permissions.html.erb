@@ -1,0 +1,41 @@
+<h4>Permissions</h4>
+
+<ul>
+  <li>
+    <%= f.label :view_tickets do %>
+      <%= f.check_box :view_tickets %> View tickets?
+    <% end %>
+  </li>
+
+  <li>
+    <%= f.label :create_tickets do %>
+      <%= f.check_box :create_tickets %> Create new tickets?
+    <% end %>
+  </li>
+
+  <li>
+    <%= f.label :view_milestones do %>
+      <%= f.check_box :view_milestones %> View milestones?
+    <% end %>
+  </li>
+
+  <li>
+    <%= f.label :view_changesets do %>
+      <%= f.check_box :view_changesets %> View <%= 'legacy ' unless SVN_ENABLED %>Subversion changesets?
+    <% end %>
+  </li>
+
+  <% if SVN_ENABLED %>
+    <li>
+      <%= f.label :view_code do %>
+        <%= f.check_box :view_code %> View code?
+      <% end %>
+    </li>
+  <% end %>
+
+  <li>
+    <%= f.label :admin do %>
+      <%= f.check_box :admin %> <strong>Administrator?</strong>
+    <% end %>
+  </li>
+</ul>

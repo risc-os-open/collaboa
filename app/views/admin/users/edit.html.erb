@@ -1,42 +1,41 @@
-<% @page_title = "Edit User" %>
+<% @page_title = "Edit user" %>
 
 <div id="content">
   <div class="breadcrumbs">
     <ul>
       <li><%= link_to 'Administration', :controller => 'dashboard' -%></li>
       <li>&#187; <%= link_to 'Users', :action => 'index' -%></li>
-      <li>&#187; Editing User</li>
+      <li>&#187; Editing user</li>
     </ul>
   </div>
 
   <%= error_messages_for @user %>
 
-  <%= form_tag :action => 'edit', :id => @user.id do %>
-  <fieldset>
-    <legend>Edit User</legend>
+  <%= form_for @user, url: admin_user_path(@user), class: 'user_form' do |f| %>
+    <fieldset>
+      <legend>Edit user</legend>
 
-    <label class="first">Login for user:
-    <% if @user.login == 'Public' -%>
-    <br />Public (placeholder for visitors not logged in)<% else -%>
-    <%= text_field 'user', 'login' -%><% end -%></label>
+      <% if @user.login == 'Public' %>
+        <p>
+          Public placeholder for visitors not logged in.
+        </p>
+      <% else %>
+        <%= f.label :name, 'Login:', class: 'first' %>
+        <%= f.text_field :login %></label>
 
+        <%= f.label :name, 'Password:' %>
+        <%= f.password_field :new_password %></label>
 
-    <label>New Password: <%= password_field "user", "new_password" -%></label>
-    <label>New Password confirmation: <%= password_field "user", "new_password_confirmation" -%></label>
-    <small>Leave these two blank to keep the current password</small>
+        <%= f.label :name, 'Password confirmation:' %>
+        <%= f.password_field :new_password_confirmation %></label>
 
-    <h3>Permissions</h3>
-    <ul>
-      <li><%= check_box 'user', 'view_changesets', :style => 'width:auto;display:inline' %> View Changesets</li>
-      <li><%= check_box 'user', 'view_code', :style => 'width:auto;display:inline' %> View Code</li>
-      <li><%= check_box 'user', 'view_milestones', :style => 'width:auto;display:inline;' %> View Milestones</li>
-      <li><%= check_box 'user', 'view_tickets', :style => 'width:auto;display:inline' %> View Tickets</li>
-      <li><%= check_box 'user', 'create_tickets', :style => 'width:auto;display:inline' %> Create Tickets</li>
-      <li><%= check_box 'user', 'admin', :style => 'width:auto;display:inline;' %> Admin</li>
-    </ul>
+        <small>Leave the password fields blank to keep the current password</small>
+      <% end %>
 
-    <%= submit_tag 'Edit user' %>
-  </fieldset>
+      <%= render partial: 'edit_permissions', locals: { f: f } %>
+
+      <%= submit_tag 'Update user' %>
+    </fieldset>
   <% end %>
 </div>
 

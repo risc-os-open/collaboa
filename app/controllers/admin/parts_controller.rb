@@ -4,7 +4,6 @@ class Admin::PartsController < AdminAreaController
   #
   def index
     @parts = Part.order('name ASC')
-    @part  = Part.new
   end
 
   # Handles submissions from the inline index view form.

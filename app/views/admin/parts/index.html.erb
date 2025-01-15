@@ -8,7 +8,7 @@
     </ul>
   </div>
 
-  <h2>Current Parts:</h2>
+  <h2>Current parts:</h2>
   <ul>
     <% @parts.each do |part| %>
       <li>
@@ -20,14 +20,14 @@
 
   <%= error_messages_for @part %>
 
-  <%= form_tag :action => 'index' do %>
+  <%= form_for :part, url: admin_parts_path() do |f| %>
     <fieldset>
       <legend>Create new part</legend>
 
-      <label class="first">Name of this part (eg 'User Interface'):</label>
-      <%= text_field 'part', 'name' -%>
+      <%= f.label :name, 'Name of this part (eg "User interface"):', class: 'first' %>
+      <%= f.text_field :name %>
 
-      <input type="submit" value="Create part" class="submit">
+      <%= f.submit 'Create part' %>
     </fieldset>
   <% end %>
 </div>

@@ -3,9 +3,11 @@
 <div id="content">
   <div class="simpleflexrow">
     <h1>Tickets</h1>
-    <div>
-      <%= link_to 'New ticket', :controller => '/tickets', :action => 'new' %>
-    </div>
+    <% if current_user.create_tickets? -%>
+      <div>
+        <%= link_to 'New ticket', :controller => '/tickets', :action => 'new' %>
+      </div>
+    <% end %>
   </div>
 
   <%= render :partial => 'filter' %>

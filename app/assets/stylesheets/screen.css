@@ -80,6 +80,10 @@ fieldset
   background: #f6f6f6;
 }
 
+fieldset legend,
+fieldset input,
+fieldset textarea { box-sizing: border-box; }
+
 fieldset legend
 {
   padding: 2px 10px 2px 10px;
@@ -116,14 +120,12 @@ fieldset input, fieldset textarea
   margin-bottom: 10px;
 }
 
-
 fieldset input[type~=checkbox]
 {
   display: inline-block;
   width: auto;
-  margin-left: 0;
+  margin: 5px 0;
 }
-
 
 textarea.largetextarea { height: 350px; }
 textarea.smalltextarea { height: 150px; }
@@ -219,7 +221,7 @@ div.breadcrumbs
  * General table listings
  */
 
-#content table.listing
+table.listing
 {
   border-collapse: collapse;
   border-spacing: 0;
@@ -244,8 +246,12 @@ table.listing th
 table.listing td
 {
   vertical-align: middle;
-  padding: 0 2px 0 2px;
+  padding: 2px 3px;
   font-size: 80%;
+}
+
+table.listing td.boolean {
+  text-align: center;
 }
 
 table.listing tr.even, table#browser tr.parent { background-color: #fbfbfb; }
@@ -641,20 +647,18 @@ table.codediff td.ins { background: #dfd; }
  * Admin Users
  */
 
-input#user_view_changesets,
-  input#user_view_code,
-  input#user_view_tickets,
-  input#user_create_tickets,
-  input#user_admin,
-  input#user_view_milestones
-{
-  margin: .5em .5em;
-  vertical-align: middle;
+table#user_list {
+  margin: 20px 0;
 }
 
-input[type~=hidden]
-{
-  display: none;
+form.user_form ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+form.user_form ul > li > label {
+  margin: 0;
+  padding: 0;
 }
 
 /**

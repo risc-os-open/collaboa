@@ -4,7 +4,6 @@ class Admin::MilestonesController < AdminAreaController
   #
   def index
     @milestones = Milestone.order('created_at DESC')
-    @milestone  = Milestone.new
   end
 
   # Handles submissions from the inline index view form.

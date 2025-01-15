@@ -8,61 +8,61 @@
     </ul>
   </div>
 
-  <h2>Current Users:</h2>
+  <h2>Current users:</h2>
 
   <table class="listing" id="user_list">
     <thead>
       <th>User</th>
-      <th>View Changesets</th>
-      <th>View Code</th>
-      <th>View Milestones</th>
-      <th>View Tickets</th>
-      <th>Create Tickets</th>
-      <th>Admin Area</th>
-      <th>Actions</th>
+      <th>View tickets</th>
+      <th>Create tickets</th>
+      <th>View milestones</th>
+      <th>View changesets</th>
+      <% if SVN_ENABLED %>
+        <th>View code</th>
+      <% end %>
+      <th>Admin</th>
+      <th style="width: 1px">Actions</th>
     </thead>
-  <% @users do |user| %>
-    <tr class="<%= cycle("odd", "even") -%>">
-      <td><%= user.login %></td>
-      <td><%= (user.view_changesets?) ? 'Y' : 'N' %></td>
-      <td><%= (user.view_code?) ? 'Y' : 'N' %></td>
-      <td><%= (user.view_milestones?) ? 'Y' : 'N' %></td>
-      <td><%= (user.view_tickets?) ? 'Y' : 'N' %></td>
-      <td><%= (user.create_tickets?) ? 'Y' : 'N' %></td>
-      <td><%= (user.admin?) ? 'Y' : 'N' %></td>
-      <td><%= link_to 'Edit', { :action => 'edit', :id => user.id }, :style => 'display: inline;' -%> <%= link_to('Delete', {:action => 'delete', :id => user.id}, :style => 'display: inline;', :confirm => 'Really delete user?') unless user.login == 'Public' %></td>
-    </tr>
-  <% end %>
+
+    <tbody>
+      <% @users.each do |user| %>
+        <tr class="<%= cycle("odd", "even") -%>">
+          <td><%= user.login %></td>
+          <td class="boolean"><%= (user.view_tickets?) ? 'Y' : 'N' %></td>
+          <td class="boolean"><%= (user.create_tickets?) ? 'Y' : 'N' %></td>
+          <td class="boolean"><%= (user.view_milestones?) ? 'Y' : 'N' %></td>
+          <td class="boolean"><%= (user.view_changesets?) ? 'Y' : 'N' %></td>
+          <% if SVN_ENABLED %>
+            <td class="boolean"><%= (user.view_code?) ? 'Y' : 'N' %></td>
+          <% end %>
+          <td class="boolean"><%= (user.admin?) ? 'Y' : 'N' %></td>
+          <td style="white-space: nowrap">
+            <%= link_to 'Edit', { :action => 'edit', :id => user.id }, :style => 'display: inline;' -%>
+            <%= apphelp_inline_delete(user, 'user') unless user.login == 'Public' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
 
   <%= error_messages_for @user %>
 
-  <%= form_tag do %>
-  <fieldset>
-    <legend>Create new user</legend>
+  <%= form_for :user, url: admin_users_path(), class: 'user_form' do |f| %>
+    <fieldset>
+      <legend>Create new user</legend>
 
-    <label class="first">Login for user:
-    <%= text_field 'user', 'login' -%></label>
+      <%= f.label :name, 'Login:', class: 'first' %>
+      <%= f.text_field :login %></label>
 
-    <label class="first">Password:
-    <%= password_field 'user', 'password' -%></label>
+      <%= f.label :name, 'Password:' %>
+      <%= f.password_field :password %></label>
 
-    <label class="first">Password Again:
-    <%= password_field 'user', 'password_confirmation' -%></label>
+      <%= f.label :name, 'Password confirmation:' %>
+      <%= f.password_field :password_confirmation %></label>
 
-    <h4>Permissions</h4>
-    <ul>
-      <li><%= check_box 'user', 'view_changesets', :style => 'width:auto;display:inline;' %> View Changesets</li>
-      <li><%= check_box 'user', 'view_code', :style => 'width:auto;display:inline;' %> View Code</li>
-      <li><%= check_box 'user', 'view_milestones', :style => 'width:auto;display:inline;' %> View Milestones</li>
-      <li><%= check_box 'user', 'view_tickets', :style => 'width:auto;display:inline;' %> View Tickets</li>
-      <li><%= check_box 'user', 'create_tickets', :style => 'width:auto;display:inline;' %> Create Tickets</li>
-      <li><%= check_box 'user', 'admin', :style => 'width:auto;display:inline;' %> Admin</li>
-    </ul>
+      <%= render partial: 'edit_permissions', locals: { f: f } %>
 
-    <%= submit_tag 'Create User' %>
-  </fieldset>
-
+      <%= submit_tag 'Create user' %>
+    </fieldset>
   <% end %>
-
 </div>

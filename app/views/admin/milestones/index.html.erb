@@ -8,7 +8,8 @@
     </ul>
   </div>
 
-  <h2>Current Milestones:</h2>
+  <h2>Current milestones:</h2>
+
   <ul>
     <% @milestones.each do |milestone| %>
       <li>
@@ -20,17 +21,17 @@
 
   <%= error_messages_for @milestone %>
 
-  <%= form_tag :action => 'index' do %>
+  <%= form_for :milestone, url: admin_milestones_path() do |f| %>
     <fieldset>
       <legend>Create new milestone</legend>
 
-      <label class="first">Name of this milestone (e.g. 0.7.5):</label>
-      <%= text_field 'milestone', 'name' -%>
+      <%= f.label :name, 'Name of this milestone (eg 0.7.5):', class: 'first' %>
+      <%= f.text_field :name %></label>
 
-      <label class="first">A short description or other info you want displayed (optional):</label>
-      <%= text_area 'milestone', 'info', rows: 3 -%>
+      <%= f.label :info, 'A short description or other info you want displayed (optional):' %>
+      <%= f.text_area :info, rows: 3 %>
 
-      <input type="submit" value="Create milestone" class="submit">
+      <%= f.submit 'Create milestone' %>
     </fieldset>
   <% end %>
 </div>

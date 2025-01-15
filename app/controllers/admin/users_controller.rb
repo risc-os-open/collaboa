@@ -4,7 +4,6 @@ class Admin::UsersController < AdminAreaController
   #
   def index
     @users = User.order('login ASC')
-    @user  = User.new
   end
 
   # Handles submissions from the inline index view form.
@@ -56,6 +55,8 @@ class Admin::UsersController < AdminAreaController
         :login,
         :password,
         :password_confirmation,
+        :new_password,
+        :new_password_confirmation,
         :view_changesets,
         :view_code,
         :view_tickets,

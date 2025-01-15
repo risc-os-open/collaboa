@@ -16,18 +16,19 @@ class LoginController < ApplicationController
   def login
     render() and return unless request.post?
 
-    if user = User.authenticate(params[:user_login], params[:user_password])
+    if user = User.authenticate(params.dig(:user, :login), params.dig(:user, :password))
       # Reset the session properly to prevent a possible session fixation attack
       return_to = session[:return_to]
       self.reset_session()
+
       session[:user_id  ] = user.id
       session[:return_to] = return_to if return_to.present?
 
-      flash[:notice] = "Login successful"
-      redirect_to(admin_root_path())
+      flash[:notice] = 'Login successful'
+      redirect_back_or_default(controller: 'admin', action: 'index') # See LoginSystem
     else
-      @login   = params[:user_login]
-      @message = 'Login unsuccessful'
+      @login = params.dig(:user, :login)
+      flash[:error] = 'Login unsuccessful'
     end
   end
 
