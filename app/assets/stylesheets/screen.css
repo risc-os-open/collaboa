@@ -64,12 +64,6 @@ small
   color: #666;
 }
 
-div.simpleflexrow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 /**
  * Forms
  */
@@ -167,7 +161,6 @@ form.button-to button
 {
   text-align: center;
   margin: 10px 0;
-  border-top: 1px solid #c4ccd8;
 }
 
 div.breadcrumbs
@@ -220,46 +213,16 @@ div.breadcrumbs
 }
 
 /**
- * General table listings
+ * Various table variations - base styles come from the imported ROOL CSS
  */
-
-table.listing
-{
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  table-layout: auto;
-}
-
-table.listing thead
-{
-  background: #ddd;
-}
-
-table.listing th
-{
-  font-size: 80%;
-  font-weight: bold;
-  padding: 3px 5px;
-  vertical-align: top;
-  text-align: center;
-}
-
-table.listing td
-{
-  vertical-align: middle;
-  padding: 2px 3px;
-  font-size: 80%;
-}
 
 table.listing td.boolean {
   text-align: center;
 }
 
-table.listing tr.even, table#browser tr.parent { background-color: #fbfbfb; }
-table.listing tr.odd                           { background-color: #f1f1f1; }
+table#browser tr.parent { background-color: #fbfbfb; }
 
-#content table.listing td a
+table.listing td a
 {
   display: block;
   padding: 2px;
