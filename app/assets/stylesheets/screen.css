@@ -390,6 +390,7 @@ fieldset table tr.set-status { background: #ddd; }
 .ticket-change-citation img.gravatar
 {
   float: right;
+  padding-bottom: 10px; // Push text away
 }
 
 .ticket-change-comment > p:last-child
