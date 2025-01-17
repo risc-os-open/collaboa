@@ -14,7 +14,14 @@
   <%= error_messages_for @change %>
 
   <div id="ticket">
-    <h1>Ticket #<%= @ticket.id -%> (<%= @ticket.status.name -%>)<span class="date"><%= @ticket.created_at -%></span></h1>
+    <div class="simple_flex_row">
+      <h1>Ticket #<%= @ticket.id -%> (<%= @ticket.status.name -%>)</h1>
+      <div class="simple_flex_row">
+        <span class="date"><%= @ticket.created_at -%></span>
+        <%= gravatar_tag(@ticket.author_email) %>
+      </div>
+    </div>
+
     <h2><%=h @ticket.summary -%></h2>
 
     <table id="ticket-details">

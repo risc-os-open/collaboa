@@ -306,12 +306,12 @@ table.tickets tr th.ticket-number,
 #ticket h1 {border: none; margin-bottom: 10px;}
 #ticket h2 {margin-top: 10px;}
 
-#ticket h1 span
+#ticket span.date
 {
   font-size: 12px;
   font-weight: normal;
   color: #650;
-  float: right;
+  margin-right: 10px;
 }
 
 table#ticket-details
@@ -381,10 +381,15 @@ fieldset table tr.set-status { background: #ddd; }
   margin-top: 0;
 }
 
+#ticket img.gravatar,
+.ticket-change-citation img.gravatar
+{
+  border-radius: 3px;
+}
+
 .ticket-change-citation img.gravatar
 {
   float: right;
-  border-radius: 3px;
 }
 
 .ticket-change-comment > p:last-child
