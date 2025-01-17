@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_14_024436) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_17_060029) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,12 +47,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_024436) do
     t.string "name", limit: 25
   end
 
-  create_table "sessions", id: :serial, force: :cascade do |t|
-    t.string "sessid", limit: 32
-    t.text "data"
-    t.index ["sessid"], name: "index_sessions_sessid"
-  end
-
   create_table "severities", id: :serial, force: :cascade do |t|
     t.integer "position"
     t.string "name", limit: 50
@@ -71,6 +65,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_024436) do
     t.string "attachment", limit: 255
     t.string "content_type", limit: 100
     t.string "attachment_fsname", limit: 255
+    t.text "author_email"
   end
 
   create_table "tickets", id: :serial, force: :cascade do |t|
@@ -84,6 +79,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_024436) do
     t.text "content"
     t.string "author_host", limit: 100
     t.datetime "created_at", precision: nil
+    t.text "author_email"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

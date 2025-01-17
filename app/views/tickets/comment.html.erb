@@ -73,13 +73,8 @@
 
       <%= f.fields_for(:ticket_changes, @change) do |fc| %>
         <%= fc.label :author, 'Changes made by:', class: 'first' %>
-        <% if hubssolib_privileged? -%>
-          <%= fc.text_field :author %>
-        <% else -%>
-          <%= fc.hidden_field :author %>
-          <br /><b><%= h(@change.author) %></b><br style="margin-bottom: 10px" />
-        <% end -%>
-        </label>
+        <br />
+        <b><%= h(@change.author) %></b><br style="margin-bottom: 10px" />
 
         <%= fc.label :attachment, 'Attachment:' %>
         <%= fc.file_field :attachment %>

@@ -47,8 +47,6 @@ class TicketsController < ApplicationController
   def new
     @milestones = @milestones.where(completed: 0)
     @ticket     = Ticket.new
-
-    @ticket.author ||= hubssolib_unique_name()
   end
 
   def create
@@ -56,14 +54,10 @@ class TicketsController < ApplicationController
 
     ticket_author_in_params = params[:ticket]&.delete(:author)
     @ticket                 = Ticket.new(self.safe_ticket_params())
+    @ticket.author          = hubssolib_unique_name()
+    @ticket.author_email    = hubssolib_current_user()&.user_email
     @ticket.author_host     = request.remote_ip
     @ticket.status          = Status.find_by_name('Open')
-
-    if hubssolib_privileged? && ticket_author_in_params.present?
-      @ticket.author = ticket_author_in_params
-    else
-      @ticket.author = hubssolib_unique_name()
-    end
 
     success = @ticket.save()
     success ? redirect_to(@ticket) : render(action: 'new')
@@ -82,8 +76,6 @@ class TicketsController < ApplicationController
       render plain: "Unknown ticket number" and return
     end
 
-    change_author_in_params = params.dig(:ticket, :ticket_changes_attributes, :'0')&.delete(:author)
-
     if request.post?
       @ticket.assign_attributes(self.safe_comment_params())
       @change = @ticket.ticket_changes.last
@@ -91,11 +83,8 @@ class TicketsController < ApplicationController
       @change = @ticket.ticket_changes.build
     end
 
-    if hubssolib_privileged? && change_author_in_params.present?
-      @change.author = change_author_in_params
-    else
-      @change.author = hubssolib_unique_name()
-    end
+    @change.author       = hubssolib_unique_name()
+    @change.author_email = hubssolib_current_user()&.user_email
 
     if request.post?
       success = @ticket.save_with_new_ticket_change(

@@ -15,12 +15,8 @@
       <legend>Create a new ticket</legend>
 
       <%= f.label :author, 'Ticket Author:', class: 'first' %>
-      <% if hubssolib_privileged? -%>
-        <%= f.text_field :author %>
-      <% else -%>
-        <%= f.hidden_field :author %>
-        <br /><b><%= h(@ticket.author) %></b><br style="margin-bottom: 10px" />
-      <% end -%>
+      <br />
+      <b><%= h(@ticket.author) %></b><br style="margin-bottom: 10px" />
 
       <%= f.label :summary, 'Summary:' %>
       <%= f.text_field :summary %>

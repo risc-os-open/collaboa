@@ -337,12 +337,12 @@ fieldset table { border-collapse: collapse; }
 fieldset table tr td { padding: 3px 5px 3px 5px; }
 fieldset table tr.set-status { background: #ddd; }
 
-#ticket-changes
+.ticket-changes
 {
   margin: 20px;
 }
 
-#ticket-changes h4
+.ticket-changes h4
 {
   font-size: 100%;
   font-weight: normal;
@@ -351,21 +351,21 @@ fieldset table tr.set-status { background: #ddd; }
   margin-bottom: 5px;
 }
 
-#ticket-changes ul
+.ticket-changes ul
 {
   list-style: disc inside;
   margin: 10px 0 0 10px;
   padding: 0 0 0 10px;
 }
 
-#ticket-changes ul li em
+.ticket-changes ul li em
 {
   font-style: normal;
   background: #ffe;
   padding: 1px;
 }
 
-#ticket-change-entry
+.ticket-change-entry
 {
   background: #f0f0f0 url( /images/risc_os_open/top_fade.png ) top left repeat-x;
   padding: 15px;
@@ -376,7 +376,18 @@ fieldset table tr.set-status { background: #ddd; }
   box-shadow: 0px 0px 5px #999;
 }
 
-#ticket-change-comment > p:last-child
+.ticket-change-citation h4
+{
+  margin-top: 0;
+}
+
+.ticket-change-citation img.gravatar
+{
+  float: right;
+  border-radius: 3px;
+}
+
+.ticket-change-comment > p:last-child
 {
   margin-bottom: 0;
 }

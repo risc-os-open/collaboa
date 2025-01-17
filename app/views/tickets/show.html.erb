@@ -38,39 +38,45 @@
       </tr>
     </table>
 
-  <h3>Details by <%= tickethelp_format_author @ticket.author -%>:</h3>
-  <%= htmlize(@ticket.content) %>
+    <h3>Details by <%= tickethelp_format_author @ticket.author -%>:</h3>
+    <%= htmlize(@ticket.content) %>
   </div>
 
-<% first = true %>
+  <% if @ticket.ticket_changes.size > 0 %>
+    <h3>Changelog:</h3>
+    <div class="ticket-changes">
+  <% end %>
+
   <% @ticket.ticket_changes.each do |change| -%>
-  <% if (first) -%>
-  <h3>Changelog:</h3>
-  <div id="ticket-changes">
-  <% first = false; end -%>
-    <div id="ticket-change-entry">
-      <h4>Modified by <%= tickethelp_format_author change.author -%> <%= change.created_at.strftime('%a, %B %d %Y - %H:%M:%S %Z') -%></h4>
+    <div class="ticket-change-entry">
+      <div class="ticket-change-citation">
+        <%= gravatar_tag(change.author_email) %>
+        <h4>Modified by <%= tickethelp_format_author change.author -%> <%= change.created_at.strftime('%a, %B %d %Y - %H:%M:%S %Z') -%></h4>
+      </div>
+
       <ul>
-      <% change.each_log do |log_entry| -%>
-        <li><%= tickethelp_format_changes log_entry %></li>
-      <% end -%>
-      <% if change.has_attachment? -%>
-        <li><strong>Attachment</strong> added: <%= link_to(change.attachment, :action => "attachment", :id => change.id) %></li>
-      <% end -%>
+        <% change.each_log do |log_entry| -%>
+          <li><%= tickethelp_format_changes log_entry %></li>
+        <% end -%>
+        <% if change.has_attachment? -%>
+          <li><strong>Attachment</strong> added: <%= link_to(change.attachment, :action => "attachment", :id => change.id) %></li>
+        <% end -%>
       </ul>
 
       <% if change.comment.present? -%>
-        <div id="ticket-change-comment"><%= htmlize(change.comment) %></div>
+        <div class="ticket-change-comment"><%= htmlize(change.comment) %></div>
       <% end -%>
     </div>
   <% end -%>
-<% unless first -%>
-  </div>
-<% end -%>
+
+  <% if @ticket.ticket_changes.size > 0 %>
+    </div>
+  <% end %>
 
   <p />
   <ul>
-    <li><%= link_to 'Comment on, or change status of, this ticket', :action => 'comment', :id => @ticket.id, :anchor => 'comment' %></li>
+    <li><%= link_to 'Comment on, or change status of, this ticket', action: 'comment', id: @ticket.id, anchor: 'comment' %></li>
   </ul>
+
   <%= render_next_prev_links -%>
 </div>
