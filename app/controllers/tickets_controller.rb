@@ -45,8 +45,10 @@ class TicketsController < ApplicationController
   end
 
   def new
-    @milestones = @milestones.where(completed: 0)
-    @ticket     = Ticket.new
+    @milestones          = @milestones.where(completed: 0)
+    @ticket              = Ticket.new
+    @ticket.author       = hubssolib_unique_name()
+    @ticket.author_email = hubssolib_current_user()&.user_email
   end
 
   def create

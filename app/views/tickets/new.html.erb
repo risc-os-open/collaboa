@@ -14,11 +14,7 @@
     <fieldset>
       <legend>Create a new ticket</legend>
 
-      <%= f.label :author, 'Ticket Author:', class: 'first' %>
-      <br />
-      <b><%= h(@ticket.author) %></b><br style="margin-bottom: 10px" />
-
-      <%= f.label :summary, 'Summary:' %>
+      <%= f.label :summary, 'Summary:', class: 'first' %>
       <%= f.text_field :summary %>
 
       <%= f.label :description, 'Description (<a href="https://textile-lang.com" target="_blank">help and preview tool available here</a>):'.html_safe() %>

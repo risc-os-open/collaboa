@@ -72,11 +72,7 @@
       <legend>Add comment and/or change ticket properties</legend>
 
       <%= f.fields_for(:ticket_changes, @change) do |fc| %>
-        <%= fc.label :author, 'Changes made by:', class: 'first' %>
-        <br />
-        <b><%= h(@change.author) %></b><br style="margin-bottom: 10px" />
-
-        <%= fc.label :attachment, 'Attachment:' %>
+        <%= fc.label :attachment, 'Attachment:', class: 'first' %>
         <%= fc.file_field :attachment %>
 
         <%= fc.label :comment, 'Comment:' %>
