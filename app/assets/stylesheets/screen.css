@@ -381,6 +381,11 @@ fieldset table tr.set-status { background: #ddd; }
   margin-top: 0;
 }
 
+#ticket img.gravatar
+{
+  display: none; // Remove this is you want the ticket author gravatars
+}
+
 #ticket img.gravatar,
 .ticket-change-citation img.gravatar
 {
