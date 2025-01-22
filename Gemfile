@@ -6,7 +6,7 @@ gem "rails", "~> 7.2"
 
 # Use PostgresSQL
 #
-gem 'pg', '~> 1.5.8'
+gem 'pg', '~> 1.5'
 
 # Use the Puma web server [https://github.com/puma/puma]
 #
