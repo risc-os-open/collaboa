@@ -1,24 +1,26 @@
 source "https://rubygems.org"
 
-ruby "3.3.5"
+gem 'rails', '~> 8.0'
 
-gem "rails", "~> 7.2"
-
-# Use PostgresSQL
+# Use PostgresSQL as the database for Active Record
 #
 gem 'pg', '~> 1.5'
 
 # Use the Puma web server [https://github.com/puma/puma]
 #
-gem "puma", ">= 5.0"
+gem 'puma', '~> 6.0'
 
-# Reduces boot times through caching; required in config/boot.rb
+# This isn't part of Ruby anymore.
 #
-gem "bootsnap", require: false
+gem 'ostruct', '~> 0.6'
 
 # For Windows or esoteric Unix/Linux-like distributions.
 #
 gem 'tzinfo-data'
+
+# Reduces boot times through caching; required in config/boot.rb
+#
+gem 'bootsnap', require: false
 
 # Use SCSS for stylesheets via a robust preprocessing step:
 # https://rubygems.org/gems/cssbundling-rails/
@@ -39,19 +41,13 @@ gem 'propshaft', '~> 1.1'
 
 # Use Hub for authentication [https://github.com/pond/hubssolib]
 #
-gem 'hubssolib', '~> 2.0', require: 'hub_sso_lib'
+gem 'hubssolib', '~> 2.1', require: 'hub_sso_lib'
 
 # Easy pagination [https://rubygems.org/gems/pagy]
 #
-gem 'pagy', '~> 9.0'
+gem 'pagy', '~> 9.3'
 
-# Replace Rails <= 3.0 'auto_link' [https://rubygems.org/gems/rails_autolink]
-#
-gem 'rails_autolink', '~> 1.1'
 
-# List positioning [https://rubygems.org/gems/acts_as_list]
-#
-gem 'acts_as_list', '~> 1.2'
 
 # Textile support [https://rubygems.org/gems/RedCloth]
 #
@@ -59,7 +55,7 @@ gem 'RedCloth', '~> 4.3'
 
 # Markdown with GFM extensions etc. [https://rubygems.org/gems/commonmarker]
 #
-gem 'commonmarker', '~> 1.1'
+gem 'commonmarker', '~> 2.0'
 
 # Wider support for markup formats [https://rubygems.org/gems/github-markup]
 #
@@ -69,10 +65,13 @@ gem 'github-markup', '~> 5.0'
 #
 gem 'html-pipeline', '~> 3.2'
 
-# Custom data structures (removed from Ruby core in 3.5.0)
-# [https://rubygems.org/gems/ostruct]
+# Replace Rails <= 3.0 'auto_link' [https://rubygems.org/gems/rails_autolink]
 #
-gem 'ostruct', '~> 0.6'
+gem 'rails_autolink', '~> 1.1'
+
+# List positioning [https://rubygems.org/gems/acts_as_list]
+#
+gem 'acts_as_list', '~> 1.2'
 
 group :development, :test do
 
