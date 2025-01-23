@@ -97,6 +97,7 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     drb (2.2.1)
+    error_highlight (0.7.0)
     erubi (1.13.1)
     eventmachine (1.2.7)
     faye-websocket (0.11.3)
@@ -113,7 +114,7 @@ GEM
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     io-console (0.8.0)
-    irb (1.15.0)
+    irb (1.15.1)
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
@@ -264,7 +265,7 @@ GEM
     zeitwerk (2.7.1)
 
 PLATFORMS
-  arm64-darwin
+  arm64-darwin-24
   ruby
 
 DEPENDENCIES
@@ -274,6 +275,7 @@ DEPENDENCIES
   commonmarker (~> 2.0)
   cssbundling-rails
   debug
+  error_highlight (>= 0.4.0)
   foreman
   github-markup (~> 5.0)
   html-pipeline (~> 3.2)
