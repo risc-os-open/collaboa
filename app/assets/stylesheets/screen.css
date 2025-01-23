@@ -460,7 +460,7 @@ table.revision-log td
 }
 
 div.log,
-div.cvslog2web_p_entry div.cvslog2web_message
+div.source_control_p_entry div.source_control_message
 {
   background-color: #ffe;
   border:           1px solid #ccc;
@@ -646,4 +646,67 @@ form.user_form ul {
 form.user_form ul > li > label {
   margin: 0;
   padding: 0;
+}
+
+/**
+ * Source control (e.g. for the ROOL-specific canned GitLab events view)
+ */
+
+div.source_control_title
+{
+  font-size: 140%;
+  font-weight: bold;
+  margin: 0;
+}
+
+div.source_control_title a
+{
+  border: none;
+}
+
+span.source_control_authors,
+div.source_control_timestamp,
+div.source_control_filelist,
+div.source_control_filelist p
+{
+  display: block;
+  font-size: small;
+  font-weight: normal;
+  color: #888;
+  margin: 0;
+}
+
+span.source_control_authorsprefix,
+span.source_control_timestampprefix
+{
+  font-weight: bold;
+}
+
+div.source_control_message p
+{
+  margin: 0 0 0 20px;
+  padding: 0;
+  font-size: small;
+}
+
+div.source_control_message p:last-child
+{
+  margin-bottom: 40px;
+}
+
+div.source_control_message p code
+{
+  font-size: 11pt;
+  font-family: monospace;
+}
+
+span.source_control_authors
+{
+  margin-top: 12px;
+}
+
+div.source_control_message,
+div.source_control_filelist
+{
+  margin-bottom: 12px;
 }

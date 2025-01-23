@@ -16,7 +16,8 @@ Rails.application.routes.draw do
   match '/login',  to: 'login#login', via: [:get, :post]
   get   '/logout', to: 'login#logout'
 
-  resources :milestones, only: [:index, :show]
+  resources :milestones,     only: [:index, :show]
+  resources :git_lab_events, only: [:index]
 
   get '/repository',                            to: redirect('repository/browse')
   get '/repository/browse/(*path)',             to: 'repository#browse'

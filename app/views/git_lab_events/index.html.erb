@@ -1,0 +1,49 @@
+<% @page_title = 'GitLab Events' %>
+
+<div id="content">
+  <h1><%= @page_title %></h1>
+
+  <p>
+    Recent <a href="https://gitlab.riscosopen.org/RiscOS">GitLab server</a> activity.
+  </p>
+
+  <div class="source_control_index">
+    <% @events.each do | event | -%>
+      <div class="source_control_h_entry">
+        <div class="source_control_title">
+          <a href="<%= event['action_url']%>">
+            <span class="source_control_message">
+              <%= event['summary'] %>
+            </span>
+          </a>
+          <span class="source_control_authors">
+            <span class="source_control_authorsprefix">Author:</span>
+            <%= event['author'] %>
+          </span>
+        </div>
+        <div class="source_control_timestamp">
+          <span class="source_control_timestampprefix">Date:</span>
+          <%= (Time.parse(event['date']).utc.to_s rescue 'Unknown') %>
+        </div>
+        <div class="source_control_filelist">
+          <p>
+            <span class="source_control_filestatus">Modified:</span>
+            <a href="<%= event['project_url'] %>">
+              <%= event['project'] %>
+            </a>
+          </p>
+        </div>
+        <div class="source_control_message">
+          <p>
+              <%= event['action'].capitalize %> <%= event['target_prefix'] %>
+              <a href="<%= event['target_url'] %>">
+                <%= event['target'] %>
+              </a>
+          </p>
+          <br />
+          <%= gitlabeventshelp_wrappable_pre(event['details']) %>
+        </div>
+      </div>
+    <% end -%>
+  </div>
+</div>
