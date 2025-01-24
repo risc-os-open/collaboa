@@ -47,8 +47,6 @@ gem 'hubssolib', '~> 2.1', require: 'hub_sso_lib'
 #
 gem 'pagy', '~> 9.3'
 
-
-
 # Textile support [https://rubygems.org/gems/RedCloth]
 #
 gem 'RedCloth', '~> 4.3'
