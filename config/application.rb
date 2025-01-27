@@ -68,7 +68,7 @@ module Collaboa
       config.action_mailer.smtp_settings = {
         address:        'beta.arachsys.com',
         port:           25,
-        domain:         'epsilon.arachsys.com',
+        domain:         'riscosopen.org',
         user_name:      nil,
         password:       nil,
         authentication: nil,
