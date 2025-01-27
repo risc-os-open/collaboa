@@ -8,6 +8,9 @@
   </p>
 
   <div class="source_control_index">
+    <% if @events.empty? %>
+      No events found.
+    <% end %>
     <% @events.each do | event | -%>
       <div class="source_control_h_entry">
         <div class="source_control_title">
@@ -35,10 +38,10 @@
         </div>
         <div class="source_control_message">
           <p>
-              <%= event['action'].capitalize %> <%= event['target_prefix'] %>
-              <a href="<%= event['target_url'] %>">
-                <%= event['target'] %>
-              </a>
+            <%= event['action'].capitalize %> <%= event['target_prefix'] %>
+            <a href="<%= event['target_url'] %>">
+              <%= event['target'] %>
+            </a>
           </p>
           <br />
           <%= gitlabeventshelp_wrappable_pre(event['details']) %>

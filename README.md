@@ -9,6 +9,12 @@ The application was built by starting with a new Rails 7 application shell, then
 
 The ROOL fork is based on whatever version was in use by ROOL on the old web site at the time the fork was constructed. There may have been later additions to the original software that were not merged into to the old ROOL code base and, if so, those additions will not be present here either.
 
+## GitLab event viewer addition
+
+There's a read-only simplistic GitLab event viewer added at `/tracker`, mostly to avoid the overhead of maintaining an entire other Rails application just to serve that endpoint. This is completely tied to ROOL and that web site's requirements, making a GitLab call to the server and cacheing event details based on a pre-configured set of users that have merge authority in `config/gitlab_users_to_include_in_recent_events.json`. **This is considered a sensitive file and is not present in this repository.**
+
+You'll get a 500 response if you try to use the endpoint without that file present and its contents are ROOL-specific, so to use the software if you _aren't_ ROOL, disable this endpoint by deleting `resources :git_lab_events, only: [:index]` from `config/routes.rb`.
+
 ## Old `README`
 
 Since there no longer seems to be an easily accessible copy of the original code online, the original plain text `README` contents are included below - although of course, it is now outdated.

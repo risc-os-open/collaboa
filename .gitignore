@@ -36,6 +36,9 @@ public/files/*
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+# Ignore the "users to include in GitLab events" list, if present.
+/config/gitlab_users_to_include_in_recent_events.json
+
 # Ignore NPM output.
 package-lock.json
 node_modules/
