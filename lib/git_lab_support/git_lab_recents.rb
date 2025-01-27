@@ -139,7 +139,7 @@ class GitLabSupport::GitLabRecents
 
           break if (
             user_events.size  >= GitLabSupport::EVENTS_TO_INCLUDE ||
-            total_events_read >= GitLabSupport::EVENTS_TO_INCLUDE * 3
+            total_events_read >= GitLabSupport::EVENTS_TO_INCLUDE * 2
           )
         end
 
