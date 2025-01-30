@@ -64,9 +64,15 @@ gem 'rails_autolink', '~> 1.1'
 #
 gem 'acts_as_list', '~> 1.2'
 
-# Monitoring and alerting [http://rubygems.org/gems/newrelic_rpm]
+# Monitoring and alerting [http://sentry.io]
 #
-gem 'newrelic_rpm'
+# * https://rubygems.org/gems/stackprof
+# * https://rubygems.org/gems/sentry-ruby
+# * https://rubygems.org/gems/sentry-rails
+#
+gem 'stackprof'
+gem 'sentry-ruby'
+gem 'sentry-rails'
 
 group :development, :test do
 

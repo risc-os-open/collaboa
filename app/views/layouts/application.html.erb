@@ -4,9 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="imagetoolbar" content="false" />
     <meta name="robots" content="all" />
-    <meta name="MSSmartTagsPreventParsing" content="true" />
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= Sentry.get_trace_propagation_meta.html_safe %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -14,11 +12,15 @@
 
     <%= stylesheet_link_tag '/css/risc_os_open_2024' %>
     <%= stylesheet_link_tag 'screen' %>
-    <% if params[:controller] == 'repository' && params[:action] == 'view_file' %>
-    <%= stylesheet_link_tag '/stylesheets/syntaxes/ruby' %>
-    <%= stylesheet_link_tag '/stylesheets/syntaxes/xml' %>
-    <%= stylesheet_link_tag '/stylesheets/syntaxes/yaml' %>
+
+    <% if controller_name == 'repository' && action_name == 'view_file' %>
+      <%= stylesheet_link_tag '/stylesheets/syntaxes/ruby' %>
+      <%= stylesheet_link_tag '/stylesheets/syntaxes/xml' %>
+      <%= stylesheet_link_tag '/stylesheets/syntaxes/yaml' %>
     <% end %>
+
+    <%= javascript_include_tag 'application' %>
+
     <% if params["controller"] == 'repository' -%>
       <%= auto_discovery_link_tag(:rss, {:controller => '/rss', :action => 'changesets'}) %>
     <% elsif params["controller"] == 'tickets' -%>
@@ -26,7 +28,6 @@
     <% else -%>
       <%= auto_discovery_link_tag(:rss, {:controller => '/rss', :action => 'all'}) %>
     <% end -%>
-    <%= javascript_include_tag "application" %>
   </head>
 
   <body>
