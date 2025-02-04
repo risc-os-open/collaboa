@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_17_060029) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_04_035329) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "changes", id: :serial, force: :cascade do |t|
     t.integer "changeset_id"
@@ -66,6 +66,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_17_060029) do
     t.string "content_type", limit: 100
     t.string "attachment_fsname", limit: 255
     t.text "author_email"
+    t.index ["ticket_id"], name: "index_ticket_changes_on_ticket_id"
   end
 
   create_table "tickets", id: :serial, force: :cascade do |t|
@@ -80,6 +81,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_17_060029) do
     t.string "author_host", limit: 100
     t.datetime "created_at", precision: nil
     t.text "author_email"
+    t.index ["milestone_id"], name: "index_tickets_on_milestone_id"
+    t.index ["part_id"], name: "index_tickets_on_part_id"
+    t.index ["release_id"], name: "index_tickets_on_release_id"
+    t.index ["severity_id"], name: "index_tickets_on_severity_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
