@@ -11,8 +11,13 @@ module TicketsHelper
     changed = change_arr[0]
     ch_from = change_arr[1]
     ch_to   = change_arr[2]
+    html    = "<strong>#{h(changed)}</strong> changed from <em>#{h(ch_from)}</em> to <em>#{h(ch_to)}</em>".html_safe()
 
-    "<strong>#{h(changed)}</strong> changed from <em>#{h(ch_from)}</em> to <em>#{h(ch_to)}</em>".html_safe()
+    if HIDE_RELEASES && changed&.downcase == 'release'
+      html << ' <small>(releases are historic, relevant to CVS source control only)</small>'.html_safe()
+    end
+
+    return html
   end
 
   # Returns 'true' if anything other than the *default* "status 1" set is in

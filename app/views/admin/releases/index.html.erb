@@ -19,6 +19,8 @@
     <% end %>
   </ul>
 
+  <%= render partial: 'admin/shared/hide_releases_warning' %>
+
   <%= error_messages_for @release %>
 
   <%= form_for :release, url: admin_releases_path() do |f| %>

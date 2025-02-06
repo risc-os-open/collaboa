@@ -28,8 +28,9 @@
         <tr>
           <td colspan="2">
             <br />
-            If you aren't sure what to assign for the part, release or milestone,
-            just leave it blank.
+            If you aren't sure what to assign for the
+            part<%= ', release' unless HIDE_RELEASES %>
+            or milestone, just leave it blank.
             <br />
             <br />
           </td>
@@ -38,10 +39,12 @@
           <td><%= f.label :part_id, 'Part:' %></td>
           <td><%= f.collection_select :part_id, @parts, 'id', 'name', { include_blank: true } %></td>
         </tr>
-        <tr>
-          <td><%= f.label :release_id, 'Release:' %></td>
-          <td><%= f.collection_select :release_id, @releases, 'id', 'name', { include_blank: true } %></td>
-        </tr>
+        <% unless HIDE_RELEASES %>
+          <tr>
+            <td><%= f.label :release_id, 'Release:' %></td>
+            <td><%= f.collection_select :release_id, @releases, 'id', 'name', { include_blank: true } %></td>
+          </tr>
+        <% end %>
         <tr>
           <td><%= f.label :milestone_id, 'Milestone:' %></td>
           <td><%= f.collection_select :milestone_id, @milestones, 'id', 'name', { include_blank: true } %></td>

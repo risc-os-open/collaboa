@@ -10,6 +10,8 @@
     <li><%= link_to 'Users',      controller: 'users'      %></li>
   </ul>
 
+  <%= render partial: 'admin/shared/hide_releases_warning' %>
+
   <p>
     <%= link_to 'Log out', :controller => '/login', :action => 'logout' %>
   </p>

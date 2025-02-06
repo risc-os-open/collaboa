@@ -34,14 +34,24 @@
       <tr>
         <td class="info">Part:</td>
         <td><%= @ticket.part.name unless @ticket.part.nil? -%></td>
-        <td class="info">Release:</td>
-        <td><%= @ticket.release.name unless @ticket.release.nil? -%></td>
+        <% if HIDE_RELEASES %>
+          <td class="info">Status</td>
+          <td><%= @ticket.status.name-%></td>
+        <% else %>
+          <td class="info">Release:</td>
+          <td><%= @ticket.release.name unless @ticket.release.nil? -%></td>
+        <% end %>
       </tr>
       <tr>
         <td class="info">Milestone:</td>
         <td><%= @ticket.milestone.name unless @ticket.milestone.nil? -%></td>
-        <td class="info">Status</td>
-        <td><%= @ticket.status.name-%></td>
+        <% if HIDE_RELEASES %>
+          <td class="info">&nbsp;</td>
+          <td>&nbsp;</td>
+        <% else %>
+          <td class="info">Status</td>
+          <td><%= @ticket.status.name-%></td>
+        <% end %>
       </tr>
     </table>
 

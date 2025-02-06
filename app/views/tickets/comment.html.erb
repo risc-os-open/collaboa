@@ -27,8 +27,10 @@
       <tr>
         <td class="info">Part:</td>
         <td><%= @ticket.part.name unless @ticket.part.nil? -%></td>
-        <td class="info">Release:</td>
-        <td><%= @ticket.release.name unless @ticket.release.nil? -%></td>
+        <% unless HIDE_RELEASES %>
+          <td class="info">Release:</td>
+          <td><%= @ticket.release.name unless @ticket.release.nil? -%></td>
+        <% end %>
       </tr>
       <tr>
         <td class="info">Milestone:</td>
@@ -96,10 +98,12 @@
           <td><%= f.label :part_id, 'Part:' %></td>
           <td><%= f.collection_select :part_id, @parts, 'id', 'name', { include_blank: true } %></td>
         </tr>
-        <tr>
-          <td><%= f.label :release_id, 'Release:' %></td>
-          <td><%= f.collection_select :release_id, @releases, 'id', 'name', { include_blank: true } %></td>
-        </tr>
+        <% unless HIDE_RELEASES %>
+          <tr>
+            <td><%= f.label :release_id, 'Release:' %></td>
+            <td><%= f.collection_select :release_id, @releases, 'id', 'name', { include_blank: true } %></td>
+          </tr>
+        <% end %>
         <tr>
           <td><%= f.label :milestone_id, 'Milestone:' %></td>
           <td><%= f.collection_select :milestone_id, @milestones, 'id', 'name', { include_blank: true } %></td>
