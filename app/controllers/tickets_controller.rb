@@ -15,13 +15,9 @@ class TicketsController < ApplicationController
     HUBSSOLIB_PERMISSIONS
   end
 
-  # Redirect to a "default" filter once we've added, so we can save filters.
-  #
   def index
-    redirect_to(url_for(action: 'filter', status: 1)) # Not HTTP status! Yields "...?status=1"
-  end
+    params[:status] ||= '1'
 
-  def filter
     sort_init('created_at', 'desc')
     sort_update()
 

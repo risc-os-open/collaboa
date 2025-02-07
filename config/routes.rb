@@ -34,9 +34,9 @@ Rails.application.routes.draw do
   get '/rss/ticket_creation', to: 'rss#ticket_creation'
   get '/rss/ticket_changes',  to: 'rss#ticket_changes'
 
-  get        'tickets/filter',         to: 'tickets#filter'
-  get        'tickets/attachment/:id', to: 'tickets#attachment'
-  match      'tickets/comment/:id',    to: 'tickets#comment', via: [:get, :post]
+  get       'tickets/filter',         to: 'tickets#index'
+  get       'tickets/attachment/:id', to: 'tickets#attachment'
+  match     'tickets/comment/:id',    to: 'tickets#comment', via: [:get, :post]
   resources :tickets, only: [:index, :new, :create, :show]
 
   get '/search', to: 'search#index'
