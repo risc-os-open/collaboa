@@ -14,7 +14,7 @@
   <%= error_messages_for @change %>
 
   <div id="ticket">
-    <h1>Ticket #<%= @ticket.id -%> (<%= @ticket.status.name -%>)<span class="date"><%= @ticket.created_at -%></span></h1>
+    <h1>Ticket #<%= @ticket.id -%> (<%= @ticket.status.name -%>)<span class="date"><%= @ticket.created_at.strftime(t('format.datetime_long')) -%></span></h1>
     <h2><%=h @ticket.summary -%></h2>
 
     <table id="ticket-details">
@@ -50,7 +50,7 @@
       <% @ticket.ticket_changes.each do |change| %>
         <% next if change.new_record? %>
 
-        <h4>Modified by <%= tickethelp_format_author change.author -%> <%= change.created_at.strftime('%a, %B %d %Y - %H:%M:%S %Z') -%></h4>
+        <h4>Modified by <%= tickethelp_format_author change.author -%> <%= change.created_at.strftime(t('format.datetime_long')) -%></h4>
         <ul>
           <% change.each_log do |log_entry| -%>
             <li><%= tickethelp_format_changes log_entry %></li>

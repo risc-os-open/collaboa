@@ -13,7 +13,7 @@
   <div class="log"><%= simple_htmlize(@changeset.log) -%></div>
   <ul class="changes">
     <li><strong>Comitted by:</strong> <%= @changeset.author -%></li>
-    <li><strong>Date:</strong> <%= @changeset.revised_at.strftime('%A %B %d %H:%M:%S %Y') -%>
+    <li><strong>Date:</strong> <%= @changeset.revised_at.strftime(t('format.datetime_long')) -%>
     (<%= distance_of_time_in_words(@changeset.revised_at, Time.now) %> ago)</li>
   </ul>
 

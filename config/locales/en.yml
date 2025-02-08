@@ -28,4 +28,6 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  format:
+    datetime_long: "%a, %B %d %Y - %H:%M:%S %Z" # For Time#strftime
+    datetime_short: "%Y‑%m‑%d %H:%M" # *NOT* hyphens; uses U+2011 (non-breaking hyphen)

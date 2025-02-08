@@ -26,7 +26,7 @@
         </div>
         <div class="source_control_timestamp">
           <span class="source_control_timestampprefix">Date:</span>
-          <%= (Time.parse(event['date']).utc.to_s rescue 'Unknown') %>
+          <%= (Time.parse(event['date']).utc.strftime(t('format.datetime_short')) rescue 'Unknown') %>
         </div>
         <div class="source_control_filelist">
           <p>

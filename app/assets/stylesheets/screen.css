@@ -157,12 +157,6 @@ form.button-to button
  * Main
  */
 
-.pagination
-{
-  text-align: center;
-  margin: 10px 0;
-}
-
 div.breadcrumbs
 {
   margin: 10px 0 6px 0;
@@ -273,24 +267,10 @@ div.milestone-progress div.percent-completed
  * Tickets
  */
 
-table.tickets tr td { vertical-align: top; }
-table.tickets tr td.ticket-status,
-  table.tickets tr td.ticket-severity,
-  table.tickets tr td.ticket-part,
-  table.tickets tr td.ticket-milestone,
-  table.tickets tr td.ticket-release,
-  table.tickets tr td.ticket-created,
-  table.user_list tr td
+table#tickets tr td.ticket-status,
+table#tickets tr td.ticket-severity
 {
-  font-size: 80%;
   text-align: center;
-  vertical-align: top;
-}
-
-table.tickets tr th.ticket-number,
-  table.tickets tr th.ticket-summary
-{
-  text-align: left;
 }
 
 #ticket

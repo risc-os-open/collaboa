@@ -1,6 +1,7 @@
 <% @page_title = 'Tickets' %>
 
 <div id="content">
+
   <div class="simple_flex_row">
     <h1>Tickets</h1>
     <% if current_user.create_tickets? -%>
@@ -12,40 +13,50 @@
 
   <%= render :partial => 'filter' %>
 
-  <table class="listing" id="tickets">
-    <thead>
-      <tr>
-        <%= sort_header_tag('id', :caption => 'Ticket', :title => 'Sort by ticket #', :class => 'ticket-number') %>
-        <%= sort_header_tag('summary', :class => 'ticket-summary') %>
-        <%= sort_header_tag('status_id', :caption => 'Status', :title => 'Sort by status', :class => 'ticket-status') %>
-        <%= sort_header_tag('severity_id', :caption => 'Severity', :title => 'Sort by severity', :class => 'ticket-severity') %>
-        <%= sort_header_tag('part_id', :caption => 'Part', :title => 'Sort by part', :class => 'ticket-part') %>
-        <%= sort_header_tag('milestone_id', :caption => 'Milestone', :title => 'Sort by milestone', :class => 'ticket-milestone') %>
-        <% unless HIDE_RELEASES %>
-          <%= sort_header_tag('release_id', :caption => 'Release', :title => 'Sort by release', :class => 'ticket-release') %>
-        <% end %>
-        <%= sort_header_tag('created_at', :caption => 'Created', :title => 'Sort by creation date', :class => 'ticket-created') %>
-        <th>Updated</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @tickets.each do |ticket| %>
-        <tr class="<%= cycle("odd", "even") %>">
-          <td class="ticket-number"><%= link_to "##{ticket.id}", :action => 'show', :id => ticket.id -%></td>
-          <td class="ticket-summary smaller"><%= link_to h(ticket.summary), :action => 'show', :id => ticket.id  -%></td>
-          <td class="ticket-status smaller"><%= ticket.status.name -%></td>
-          <td class="ticket-severity smaller"><%= ticket.severity.name if ticket.severity&.name.present? -%></td>
-          <td class="ticket-part smaller"><%= ticket.part.name if ticket.part&.name.present? -%></td>
-          <td class="ticket-milestone smaller"><%= ticket.milestone.name if ticket.milestone&.name.present? -%></td>
+  <% unless @ticket_pages.pages == 1 %>
+    <div class="pagination">
+      <%= pagy_nav(@ticket_pages).html_safe() %>
+    </div>
+  <% end %>
+
+  <% if @tickets.size.zero? %>
+    There are no tickets matching the selected filters.
+  <% else %>
+    <table border="1" cellspacing="0" cellpadding="4" class="listing" id="tickets">
+      <thead>
+        <tr>
+          <%= sort_header_tag('id', :caption => 'Ticket', :title => 'Sort by ticket #', :class => 'ticket-number') %>
+          <%= sort_header_tag('summary', :class => 'ticket-summary') %>
+          <%= sort_header_tag('status_id', :caption => 'Status', :title => 'Sort by status', :class => 'ticket-status') %>
+          <%= sort_header_tag('severity_id', :caption => 'Severity', :title => 'Sort by severity', :class => 'ticket-severity') %>
+          <%= sort_header_tag('part_id', :caption => 'Part', :title => 'Sort by part', :class => 'ticket-part') %>
+          <%= sort_header_tag('milestone_id', :caption => 'Milestone', :title => 'Sort by milestone', :class => 'ticket-milestone') %>
           <% unless HIDE_RELEASES %>
-            <td class="ticket-release smaller"><%= ticket.release.name if ticket.release&.name.present? -%></td>
+            <%= sort_header_tag('release_id', :caption => 'Release', :title => 'Sort by release', :class => 'ticket-release') %>
           <% end %>
-          <td class="ticket-created smaller"><%= ticket.created_at.strftime("%Y-%m-%d %H:%M") -%></td>
-          <td class="ticket-updated smaller"><%= ticket.ticket_changes.empty? ? ticket.created_at.strftime("%Y-%m-%d %H:%M") : ticket.ticket_changes.last.created_at.strftime("%Y-%m-%d %H:%M") -%></td>
+          <th>Created</th>
+          <th>Updated</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @tickets.each do |ticket| %>
+          <tr class="<%= cycle("odd", "even") %>">
+            <td class="ticket-number"><%= link_to "##{ticket.id}", :action => 'show', :id => ticket.id -%></td>
+            <td class="ticket-summary smaller"><%= link_to h(ticket.summary), :action => 'show', :id => ticket.id  -%></td>
+            <td class="ticket-status"><%= ticket.status.name -%></td>
+            <td class="ticket-severity"><%= ticket.severity.name if ticket.severity&.name.present? -%></td>
+            <td class="ticket-part smaller"><%= ticket.part.name if ticket.part&.name.present? -%></td>
+            <td class="ticket-milestone smaller"><%= ticket.milestone.name if ticket.milestone&.name.present? -%></td>
+            <% unless HIDE_RELEASES %>
+              <td class="ticket-release smaller"><%= ticket.release.name if ticket.release&.name.present? -%></td>
+            <% end %>
+            <td class="ticket-created smaller"><%= ticket.created_at.strftime(t('format.datetime_short')) -%></td>
+            <td class="ticket-updated smaller"><%= ticket.ticket_changes.empty? ? ticket.created_at.strftime(t('format.datetime_short')) : ticket.ticket_changes.last.created_at.strftime(t('format.datetime_short')) -%></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 </div>
 
 <div class="pagination">

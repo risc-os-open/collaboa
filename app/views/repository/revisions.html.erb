@@ -13,7 +13,7 @@
     </tr>
     <% @changes.each do |change| %>
     <tr>
-      <td><%= link_to change.changeset.created_at.strftime("%m/%d/%Y %H:%M"), :action => 'view_file',
+      <td><%= link_to change.changeset.created_at.strftime(t('format.datetime_short')), :action => 'view_file',
                 :path => params[:path], :rev => change.revision -%></td>
       <td><%= link_to change.revision, :action => 'show_changeset',
                 :revision => change.revision -%></td>

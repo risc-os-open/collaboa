@@ -8,7 +8,7 @@
     <h2><%= link_to 'Changeset ' + changeset.revision.to_s, :action => 'show_changeset', :revision => changeset.revision %>:</h2>
     <ul class="changes">
       <li><strong>Author:</strong> <%= changeset.author -%></li>
-      <li><strong>Date:</strong> <%= changeset.revised_at.strftime('%a %b %d %H:%M %Y') -%></li>
+      <li><strong>Date:</strong> <%= changeset.revised_at.strftime(t('format.datetime_long')) -%></li>
     </ul>
     <div class="log-small"><%= simple_htmlize(changeset.log) -%></div>
   <% end -%>
