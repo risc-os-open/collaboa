@@ -47,12 +47,12 @@
 
       <div id="template_sidebar">
         <div id="template_sidebar_content">
-          <div class="template_sidebar_node">
-            <h3>Search tickets</h3>
+          <div class="template_sidebar_node" id="search">
+            <h3>Search</h3>
 
-            <%= form_tag({:controller => '/search', :action => 'index'}, :method => 'get') do %>
-              <input name="q" type="text" value="<%= params[:q] -%>" size="15" />
-              <input type="submit" value="Go" />
+            <%= form_with(url: search_path(), method: 'get', class: 'search_form') do |f| %>
+              <%= f.search_field :q, value: params[:q], size: 14, placeholder: 'Search tickets' %>
+              <%= f.submit('Go') %>
             <% end %>
           </div>
 

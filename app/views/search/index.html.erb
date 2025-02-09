@@ -1,24 +1,25 @@
 <% @page_title = 'Search' %>
 
 <div id="content">
+  <h1><%= params[:q].blank? ? 'Search' : 'Search results' %></h1>
+
   <%= form_tag({:action => 'index'}, :method => 'get') do %>
-    <table border="0" cellspacing="0" cellpadding="1">
+    <table border="0" cellspacing="0" cellpadding="1" style="margin: 10px 0">
       <tr valign="middle" align="left">
         <th>Search in tickets:</th>
         <td>&nbsp;</td>
         <td><input name="q" type="text" value="<%= params[:q] -%>" /></td>
       </tr>
-    <% if current_user.view_changesets? %>
-      <tr valign="middle" align="left">
-        <th>Search in Changesets too?</th>
-        <td>&nbsp;</td>
-        <td><%= check_box_tag 'changesets', 1, params[:changesets], {:class => 'checkbox'} -%></td>
-      </tr>
-    <% end %>
-      <tr align="left">
-        <td colspan="3"><br /><input type="submit" value="Go!" /></td>
-      </tr>
+
+      <% if current_user.view_changesets? %>
+        <tr valign="middle" align="left">
+          <th>Search in Changesets too?</th>
+          <td>&nbsp;</td>
+          <td><%= check_box_tag 'changesets', 1, params[:changesets], {:class => 'checkbox'} -%></td>
+        </tr>
+      <% end %>
     </table>
+    <input type="submit" value="&nbsp;Go&nbsp;" />
   <% end -%>
 
   <% if (@found_items.size > 0) -%>
@@ -44,11 +45,11 @@
         <% records += 1 -%>
       <% end -%>
     <% end -%>
-    <% if (records == 0) -%>
+    <% if (records == 0) && params[:q].present? -%>
       <p />
-      <div class="search-result">
-        <h1>Sorry, your search returned no results.</h1>
-      </div>
+      <p class="search-result">
+        Sorry, your search returned no results.
+      </p>
     <% end -%>
   <% end -%>
 </div>
