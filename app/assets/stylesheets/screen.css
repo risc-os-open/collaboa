@@ -78,13 +78,23 @@ fieldset
 
 fieldset legend,
 fieldset input,
-fieldset textarea { box-sizing: border-box; }
+fieldset select,
+fieldset textarea
+{
+  box-sizing: border-box;
+  max-width: 100%;
+}
 
 fieldset legend
 {
   padding: 2px 10px 2px 10px;
   border: 1px solid #ccc;
   background-attachment: #fff;
+}
+
+fieldset table
+{
+  width: 100%;
 }
 
 legend

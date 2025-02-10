@@ -18,7 +18,7 @@ class TicketsController < ApplicationController
   def index
     params[:status] ||= '1'
 
-    sort_init('created_at', 'desc')
+    sort_init('id', 'desc')
     sort_update()
 
     tickets = Ticket.find_by_filter(params, sort_clause())

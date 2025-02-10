@@ -85,7 +85,7 @@
       <%= f.label :summary, 'Ticket summary:' %>
       <%= f.text_field :summary %>
 
-      <table>
+      <table class="collapsible">
         <tr class="set-status">
           <td><%= f.label :status_id, 'Status:' %></td>
           <td><%= f.collection_select :status_id, @status, 'id', 'name' %></td>

@@ -22,20 +22,21 @@
   <% if @tickets.size.zero? %>
     There are no tickets matching the selected filters.
   <% else %>
-    <table border="1" cellspacing="0" cellpadding="4" class="listing" id="tickets">
+    <table border="1" cellspacing="0" cellpadding="4" id="tickets" class="listing flexible annotated sortable">
       <thead>
         <tr>
-          <%= sort_header_tag('id', :caption => 'Ticket', :title => 'Sort by ticket #', :class => 'ticket-number') %>
-          <%= sort_header_tag('summary', :class => 'ticket-summary') %>
-          <%= sort_header_tag('status_id', :caption => 'Status', :title => 'Sort by status', :class => 'ticket-status') %>
-          <%= sort_header_tag('severity_id', :caption => 'Severity', :title => 'Sort by severity', :class => 'ticket-severity') %>
-          <%= sort_header_tag('part_id', :caption => 'Part', :title => 'Sort by part', :class => 'ticket-part') %>
-          <%= sort_header_tag('milestone_id', :caption => 'Milestone', :title => 'Sort by milestone', :class => 'ticket-milestone') %>
+          <%= sort_header_tag('id',           caption: 'Ticket',    title: 'Sort by ticket #',  class: 'ticket-number'   ) %>
+          <%= sort_header_tag('summary',      caption: "Summary",   title: 'Sort by summary',   class: 'ticket-summary'  ) %>
+          <%= sort_header_tag('status_id',    caption: 'Status',    title: 'Sort by status',    class: 'ticket-status'   ) %>
+          <%= sort_header_tag('severity_id',  caption: 'Severity',  title: 'Sort by severity',  class: 'ticket-severity' ) %>
+          <%= sort_header_tag('part_id',      caption: 'Part',      title: 'Sort by part',      class: 'ticket-part'     ) %>
+          <%= sort_header_tag('milestone_id', caption: 'Milestone', title: 'Sort by milestone', class: 'ticket-milestone') %>
+
           <% unless HIDE_RELEASES %>
-            <%= sort_header_tag('release_id', :caption => 'Release', :title => 'Sort by release', :class => 'ticket-release') %>
+            <%= sort_header_tag('release_id', caption: 'Release', title: 'Sort by release', class: 'ticket-release') %>
           <% end %>
-          <th>Created</th>
-          <th>Updated</th>
+          <th class="not_sortable">Created</th>
+          <th class="not_sortable">Updated</th>
         </tr>
       </thead>
       <tbody>
@@ -43,15 +44,15 @@
           <tr class="<%= cycle("odd", "even") %>">
             <td class="ticket-number"><%= link_to "##{ticket.id}", :action => 'show', :id => ticket.id -%></td>
             <td class="ticket-summary smaller"><%= link_to h(ticket.summary), :action => 'show', :id => ticket.id  -%></td>
-            <td class="ticket-status"><%= ticket.status.name -%></td>
-            <td class="ticket-severity"><%= ticket.severity.name if ticket.severity&.name.present? -%></td>
-            <td class="ticket-part smaller"><%= ticket.part.name if ticket.part&.name.present? -%></td>
-            <td class="ticket-milestone smaller"><%= ticket.milestone.name if ticket.milestone&.name.present? -%></td>
+            <td data-label="Status:" class="ticket-status"><%= ticket.status.name -%></td>
+            <td data-label="Severity:" class="ticket-severity"><%= ticket.severity.name if ticket.severity&.name.present? -%></td>
+            <td data-label="Part:" class="ticket-part smaller"><%= ticket.part.name if ticket.part&.name.present? -%></td>
+            <td data-label="Milestone:" class="ticket-milestone smaller"><%= ticket.milestone.name if ticket.milestone&.name.present? -%></td>
             <% unless HIDE_RELEASES %>
-              <td class="ticket-release smaller"><%= ticket.release.name if ticket.release&.name.present? -%></td>
+              <td data-label="Release:" class="ticket-release smaller"><%= ticket.release.name if ticket.release&.name.present? -%></td>
             <% end %>
-            <td class="ticket-created smaller"><%= ticket.created_at.strftime(t('format.datetime_short')) -%></td>
-            <td class="ticket-updated smaller"><%= ticket.ticket_changes.empty? ? ticket.created_at.strftime(t('format.datetime_short')) : ticket.ticket_changes.last.created_at.strftime(t('format.datetime_short')) -%></td>
+            <td data-label="Created:" class="ticket-created smaller"><%= ticket.created_at.strftime(t('format.datetime_short')) -%></td>
+            <td data-label="Updated:" class="ticket-updated smaller"><%= ticket.ticket_changes.empty? ? ticket.created_at.strftime(t('format.datetime_short')) : ticket.ticket_changes.last.created_at.strftime(t('format.datetime_short')) -%></td>
           </tr>
         <% end %>
       </tbody>
