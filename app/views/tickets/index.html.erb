@@ -45,11 +45,11 @@
             <td class="ticket-number"><%= link_to "##{ticket.id}", :action => 'show', :id => ticket.id -%></td>
             <td class="ticket-summary smaller"><%= link_to h(ticket.summary), :action => 'show', :id => ticket.id  -%></td>
             <td data-label="Status:" class="ticket-status"><%= ticket.status.name -%></td>
-            <td data-label="Severity:" class="ticket-severity"><%= ticket.severity.name if ticket.severity&.name.present? -%></td>
-            <td data-label="Part:" class="ticket-part smaller"><%= ticket.part.name if ticket.part&.name.present? -%></td>
-            <td data-label="Milestone:" class="ticket-milestone smaller"><%= ticket.milestone.name if ticket.milestone&.name.present? -%></td>
+            <td data-label="Severity:" class="ticket-severity"><%= ticket.severity&.name || '&ndash;'.html_safe() -%></td>
+            <td data-label="Part:" class="ticket-part smaller"><%= ticket.part&.name || '&ndash;'.html_safe() -%></td>
+            <td data-label="Milestone:" class="ticket-milestone smaller"><%= ticket.milestone&.name || '&ndash;'.html_safe() -%></td>
             <% unless HIDE_RELEASES %>
-              <td data-label="Release:" class="ticket-release smaller"><%= ticket.release.name if ticket.release&.name.present? -%></td>
+              <td data-label="Release:" class="ticket-release smaller"><%= ticket.release&.name || '&ndash;'.html_safe() -%></td>
             <% end %>
             <td data-label="Created:" class="ticket-created smaller"><%= ticket.created_at.strftime(t('format.datetime_short')) -%></td>
             <td data-label="Updated:" class="ticket-updated smaller"><%= ticket.ticket_changes.empty? ? ticket.created_at.strftime(t('format.datetime_short')) : ticket.ticket_changes.last.created_at.strftime(t('format.datetime_short')) -%></td>
