@@ -20,7 +20,7 @@
       <%= f.label :description, 'Description (<a href="https://textile-lang.com" target="_blank">help and preview tool available here</a>):'.html_safe() %>
       <%= f.text_area :content, rows: 12 %>
 
-      <table>
+      <table class="collapsible">
         <tr>
           <td><%= f.label :severity, 'Severity:' %></td>
           <td><%= f.collection_select :severity_id, @severities, 'id', 'name' %></td>
