@@ -5,7 +5,10 @@
     "nodemon": "^3.1"
   },
   "scripts": {
-    "build:js": "cat app/javascript/libraries/prototype.js app/javascript/libraries/scriptaculous.js app/javascript/libraries/effects.js app/javascript/libraries/controls.js app/javascript/libraries/dragdrop.js  app/javascript/libraries/slider.js app/javascript/collaboa.js > app/assets/builds/application.js",
-    "dev:build:js": "nodemon --watch app/javascript -e js -x \"npm run build:js\""
+    "build": "cat app/javascript/libraries/prototype.js app/javascript/libraries/scriptaculous.js app/javascript/libraries/effects.js app/javascript/libraries/controls.js app/javascript/libraries/dragdrop.js  app/javascript/libraries/slider.js app/javascript/collaboa.js > app/assets/builds/application.js",
+    "build:css": "",
+
+    "dev:build": "nodemon --watch app/javascript -e js -x \"npm run build\"",
+    "dev:build:css": ""
   }
 }

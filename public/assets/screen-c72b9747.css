@@ -1,0 +1,702 @@
+/* RISC OS Open Collaboa stylesheet.
+ *
+ * Based on the Collaboa default stylesheet.
+ */
+
+@import url("https://www.riscosopen.org/css/risc_os_open_2025.css");
+
+/* Some general properties */
+
+div#content a
+{
+  border: none;
+}
+
+/* Put the dotted border back for links that
+ * are in the milestone list, else they're too
+ * hard to recognise as links.
+ */
+
+div#content p.milestone-details a
+{
+  border-bottom: 1px dotted;
+}
+
+div#ticket h1
+{
+  padding: 0;
+  font-size: 160%;
+  margin-bottom: 10px;
+}
+
+div#ticket h2
+{
+  font-size: 140%;
+}
+
+div#ticket h3
+{
+  margin: 10px 0;
+}
+
+div#ticket > p:last-child
+{
+  margin-bottom: 0;
+}
+
+blockquote p
+{
+  color: #555;
+}
+
+code, pre
+{
+  font: 80% "Courier New", Courier, monaco, monospace;
+}
+
+pre
+{
+  padding: 10px 0 10px 10px;
+}
+
+small
+{
+  color: #666;
+}
+
+/**
+ * Forms
+ */
+
+fieldset
+{
+  display: block;
+  margin: 10px 0 10px 0;
+  border: 1px solid #ccc;
+  background: #f6f6f6;
+}
+
+fieldset legend,
+fieldset input,
+fieldset select,
+fieldset textarea
+{
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+fieldset legend
+{
+  padding: 2px 10px 2px 10px;
+  border: 1px solid #ccc;
+  background-attachment: #fff;
+}
+
+fieldset table
+{
+  width: 100%;
+}
+
+legend
+{
+  font-weight: bold;
+  font-size: 80%;
+}
+
+label.first
+{
+  padding-top: 10px;
+}
+
+label
+{
+  font-size: 80%;
+  display: block;
+  margin-bottom: 5px;
+}
+
+fieldset br       { display:   block; }
+fieldset td       { font-size: 80%;   }
+fieldset td label { font-size: 100%;  }
+
+fieldset input, fieldset textarea
+{
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+fieldset input[type~=checkbox]
+{
+  display: inline-block;
+  width: auto;
+  margin: 5px 0;
+}
+
+textarea.largetextarea { height: 350px; }
+textarea.smalltextarea { height: 150px; }
+textarea.bigtextarea   { height: 450px; }
+
+form.button-to {
+  display: inline-block;
+}
+
+form.button-to button
+{
+  width: auto;
+  font-size: 75%;
+  margin: 0;
+  padding: 2px 4px;
+}
+
+.rev-chooser input
+{
+  width: 50px;
+  display: inline;
+}
+
+.rev-chooser P
+{
+  margin: 10px 0;
+  font-size: 80%;
+  color: #aaa;
+  float: right;
+}
+
+/**
+ * Main
+ */
+
+div.breadcrumbs
+{
+  margin: 10px 0 6px 0;
+  border-top: 1px solid #c4ccd8;
+}
+
+.breadcrumbs ul
+{
+  margin: 0 0 5px 0;
+  padding: 0;
+}
+
+.breadcrumbs ul li
+{
+  display: inline;
+  font-size: 80%;
+  color: #333;
+  margin: 0;
+  padding:0;
+}
+
+.actions p
+{
+  font-size: 80%;
+  margin:0;
+  padding:0;
+}
+
+.actions p a
+{
+  display: block;
+  padding: 3px;
+}
+
+.actions
+{
+  margin-bottom: 10px;
+}
+
+.actions::before {
+  float: left;
+  color: #333;
+  content: "▸ ";
+}
+
+.actions.toggle-shown::before {
+  content: "▾ ";
+}
+
+/**
+ * Various table variations - base styles come from the imported ROOL CSS
+ */
+
+table.listing td.boolean {
+  text-align: center;
+}
+
+table#browser tr.parent { background-color: #fbfbfb; }
+
+table.listing td a
+{
+  display: block;
+  padding: 2px;
+}
+
+table.listing thead th a.asc
+{
+  background-image: url("/assets/sort_asc-5cf0cbc5.png");
+  background-repeat: no-repeat;
+  padding-right: 12px;
+  background-position: 100% 50%;
+}
+
+table.listing thead th a.desc
+{
+  background-image: url("/assets/sort_desc-a8955788.png");
+  background-repeat: no-repeat;
+  padding-right: 12px;
+  background-position: 100% 50%;
+}
+
+/**
+ * Milestones
+ */
+
+div.milestone-progress
+{
+  border: 1px solid #aaa;
+  height: 25px;
+  margin: 20px 10% 0 10%;
+  background: #ddd;
+}
+
+div.milestone-progress div.percent-completed
+{
+  background: #3c0;
+  height: 100%;
+}
+
+.milestone-details
+{
+  font-size: 80%;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/**
+ * Tickets
+ */
+
+table#tickets tr td.ticket-status,
+table#tickets tr td.ticket-severity
+{
+  text-align: center;
+}
+
+#ticket
+{
+  background: #ffe;
+  border: 1px solid #aaa;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px #ccc;
+}
+
+#ticket h1 {border: none; margin-bottom: 10px;}
+#ticket h2 {margin-top: 10px;}
+
+#ticket span.date
+{
+  font-size: 12px;
+  font-weight: normal;
+  color: #650;
+  margin-right: 10px;
+}
+
+table#ticket-details
+{
+  margin: 20px auto 20px auto;
+  width: 90%;
+  border-collapse: collapse;
+}
+
+table#ticket-details tr td
+{
+  border-bottom: 1px solid #eea;
+  font-size: 80%;
+}
+
+table#ticket-details tr td.info
+{
+  width: 100px;
+  color: #650;
+}
+
+fieldset table { border-collapse: collapse; }
+fieldset table tr td { padding: 3px 5px 3px 5px; }
+fieldset table tr.set-status { background: #ddd; }
+
+.ticket-changes
+{
+  margin: 20px;
+}
+
+.ticket-changes h4
+{
+  font-size: 100%;
+  font-weight: normal;
+  color: #888;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 5px;
+}
+
+.ticket-changes ul
+{
+  list-style: disc inside;
+  margin: 10px 0 0 10px;
+  padding: 0 0 0 10px;
+}
+
+.ticket-changes ul li em
+{
+  font-style: normal;
+  background: #ffe;
+  padding: 1px;
+}
+
+.ticket-change-entry
+{
+  background: #f0f0f0 url("/images/risc_os_open/top_fade.png") top left repeat-x;
+  padding: 15px;
+  margin-bottom: 1em;
+  color: #333;
+
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px #999;
+}
+
+.ticket-change-citation h4
+{
+  margin-top: 0;
+}
+
+#ticket img.gravatar
+{
+  display: none; // Remove this is you want the ticket author gravatars
+}
+
+#ticket img.gravatar,
+.ticket-change-citation img.gravatar
+{
+  border-radius: 3px;
+}
+
+.ticket-change-citation img.gravatar
+{
+  float: right;
+  padding-bottom: 10px; // Push text away
+}
+
+.ticket-change-comment > p:last-child
+{
+  margin-bottom: 0;
+}
+
+#filter-selector
+{
+  border: 1px solid #333;
+  font-size: 80%;
+  background: #ffe;
+  margin: 0 0 10px 0;
+  padding-bottom: 10px;
+}
+
+#filter-selector dl
+{
+  margin: 0;
+  padding: 5px 0 0 10px
+}
+
+#filter-selector dl dt, #filter-selector dl dd
+{
+  display: inline;
+  margin: 0;
+}
+
+#filter-selector dl dt
+{
+  float: left;
+  width: 70px;
+}
+
+#filter-selector dl dd
+{
+  margin-right: 5px;
+  color: #333;
+}
+
+#filter-selector dl dd p { margin-left: 70px; }
+#filter-selector p       { margin: 5px 0 0 10px; }
+#filter-selector p a     { font-weight: bold; }
+
+.ticket-next-prev
+{
+  text-align: right;
+  margin-bottom: -12px;
+}
+
+/**
+ * Revision logs
+ */
+
+table.revision-log       { margin-top: 10px; }
+table.revision-log tr th { background: #eee; }
+table.revision-log td
+{
+  padding-top: 10px;
+  vertical-align: top;
+  font-size: 80%;
+}
+
+div.log,
+div.source_control_p_entry div.source_control_message
+{
+  background-color: #ffe;
+  border:           1px solid #ccc;
+  margin-bottom:    10px;
+}
+
+div.log
+{
+  margin-top: 10px;
+  padding: 10px;
+}
+
+div.log-small
+{
+  margin: 0 0 20px 20px;
+}
+
+div.log-small p
+{
+  font-size: 80%;
+}
+
+ul.changes {
+  list-style: none;
+  margin-top: 10px;
+  padding:    0;
+  font-size:  80%;
+  color:      #9a9a9a;
+}
+
+ul.changes li.change-name
+{
+  color: #666;
+}
+
+/**
+ * Repository browser
+ */
+
+#content table#browser tr td   { white-space: nowrap; }
+#content table#browser td.name { width: 75%; }
+#content table#browser td.rev  { width:  5%; }
+#content table#browser td.age  { width:  5%; }
+#content table#browser td.msg  { width: 15%; }
+
+#content table#browser td.name A
+{
+  padding-left: 25px;
+  background-position: 4px 50%;
+  background-repeat: no-repeat;
+}
+
+#content table#browser td.rev, #content table#browser td.age
+{
+  font-size: 80%;
+  text-align: center;
+}
+
+#content table#browser td.msg
+{
+  font-size: 80%;
+  color: #666;
+}
+
+#content table#browser td.File a
+{
+  background-image: url("/tracker/images/icon_file.gif");
+}
+
+#content table#browser td.Dir a
+{
+  background-image: url("/tracker/images/icon_folder.gif");
+}
+
+#content table#browser td.parent a
+{
+  background-image: url("/tracker/images/icon_up.gif");
+}
+
+#download-alternate { margin-top: 10px; }
+#download-alternate h4, #download-alternate p { text-align: center; }
+#download-alternate h4 { font-weight: bold; font-size: 80%; }
+#download-alternate p { color: #ccc; }
+
+#html-preview
+{
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 5px;
+}
+
+#html-preview table
+{
+  border-collapse: collapse;
+  color: #000;
+}
+
+/**
+ * Common code display
+ */
+
+table tr td.line-numbers
+{
+  text-align: right;
+  vertical-align: top;
+  background: #eee;
+  color: #555;
+  font-size: 70%;
+  padding: 2px;
+  width: 35px;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ddd;
+}
+
+table tr td.code
+{
+  display: block;
+  padding-left: 2px;
+  background: #fff;
+  white-space: pre;
+  font: 80% "Courier New", Courier, monaco, monospace;
+  overflow: auto;
+}
+
+/**
+ * Code Diff table.
+ */
+
+table.codediff
+{
+  border: 1px solid #ccc;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.codediff td.line-num-cut
+{
+  background: #ccc;
+  border-top: 1px dashed #ccc;
+  border-bottom: 1px dashed #ccc;
+}
+
+table.codediff thead td.line-numbers, table.codediff thead
+{
+  background: #ddd;
+}
+
+table.codediff td.cut-line
+{
+  background: #eee;
+  border-top: 1px dashed #aaa;
+  border-bottom: 1px dashed #aaa;
+}
+
+del { background: #fbb; text-decoration: none; }
+ins { background: #afa; text-decoration: none; }
+table.codediff td.del { background: #fdd; }
+table.codediff td.ins { background: #dfd; }
+
+/**
+ * Search
+ */
+
+.search-result p strong.highlight
+{
+  font-weight: normal;
+  background: #ff9;
+}
+
+/**
+ * Admin Users
+ */
+
+table#user_list {
+  margin: 20px 0;
+}
+
+form.user_form ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+form.user_form ul > li > label {
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Source control (e.g. for the ROOL-specific canned GitLab events view)
+ */
+
+div.source_control_title
+{
+  font-size: 140%;
+  font-weight: bold;
+  margin: 0;
+}
+
+div.source_control_title a
+{
+  border: none;
+}
+
+span.source_control_authors,
+div.source_control_timestamp,
+div.source_control_filelist,
+div.source_control_filelist p
+{
+  display: block;
+  font-size: small;
+  font-weight: normal;
+  color: #888;
+  margin: 0;
+}
+
+span.source_control_authorsprefix,
+span.source_control_timestampprefix
+{
+  font-weight: bold;
+}
+
+div.source_control_message p
+{
+  margin: 0 0 0 20px;
+  padding: 0;
+  font-size: small;
+}
+
+div.source_control_message p:last-child
+{
+  margin-bottom: 40px;
+}
+
+div.source_control_message p code
+{
+  font-size: 11pt;
+  font-family: monospace;
+}
+
+span.source_control_authors
+{
+  margin-top: 12px;
+}
+
+div.source_control_message,
+div.source_control_filelist
+{
+  margin-bottom: 12px;
+}
