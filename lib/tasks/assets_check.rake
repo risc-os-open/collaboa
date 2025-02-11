@@ -35,4 +35,12 @@ namespace :assets do
     puts('...Done. Precompiled assets are up to date.')
   end
 
+  desc 'Clobber and precompile assets for Production, regardless of current RAILS_ENV'
+  task :productionize => :environment do | t, args |
+    Rails.env = 'production' # Here be dragons!
+
+    Rake::Task['assets:clobber'].invoke
+    Rake::Task['assets:precompile'].invoke
+  end
+
 end
