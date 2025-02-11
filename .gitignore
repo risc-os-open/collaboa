@@ -35,6 +35,7 @@ public/files/*
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/credentials.yml.enc
 
 # Ignore the "users to include in GitLab events" list, if present.
 /config/gitlab_users_to_include_in_recent_events.json

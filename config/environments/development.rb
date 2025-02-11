@@ -6,8 +6,7 @@ Rails.application.configure do
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
 
-  # To ensure that every file gets a syntax check even in development, always
-  # load the entire application. It's quite small and doesn't take long.
+  # Eager load code on boot, to detect issues early.
   config.eager_load = true
 
   # Show full error reports.
