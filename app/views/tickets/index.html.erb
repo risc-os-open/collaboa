@@ -13,11 +13,10 @@
 
   <%= render :partial => 'filter' %>
 
-  <% unless @ticket_pages.pages == 1 %>
-    <div class="pagination">
-      <%= pagy_nav(@ticket_pages).html_safe() %>
-    </div>
-  <% end %>
+  <div class="simple_flex_row with_moderation_info becomes_column_if_narrow space_between">
+    <%= pagy_nav(@ticket_pages).html_safe() %>
+    <%= render partial: 'shared/ask_a_moderator' %>
+  </div>
 
   <% if @tickets.size.zero? %>
     There are no tickets matching the selected filters.
