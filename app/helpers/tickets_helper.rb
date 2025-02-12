@@ -48,17 +48,17 @@ module TicketsHelper
   end
 
   def render_next_prev_links
-    out = %{<div class="ticket-next-prev">}
-    out << "<p><small>"
-    if @ticket.previous
-      out << link_to('Previous', :action => 'show', :id => @ticket.previous)
+    tag.div(class: 'ticket-next-prev') do
+      tag.small do
+        if @ticket.previous
+          concat link_to('Previous', :action => 'show', :id => @ticket.previous)
+        end
+        if @ticket.next
+          concat '&nbsp;|&nbsp;'.html_safe() if @ticket.previous
+          concat link_to('Next', :action => 'show', :id => @ticket.next)
+        end
+      end
     end
-    if @ticket.next
-      out << '&nbsp;|&nbsp;' if @ticket.previous
-      out << link_to('Next', :action => 'show', :id => @ticket.next)
-    end
-    out << "</small></p>\n</div>"
-    out.html_safe()
   end
 
 end

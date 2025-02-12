@@ -91,9 +91,12 @@
   <% end %>
 
   <p />
-  <ul>
+  <ul class="ticket-comment-links">
     <li><%= link_to 'Comment on, or change status of, this ticket', action: 'comment', id: @ticket.id, anchor: 'comment' %></li>
   </ul>
 
-  <%= render_next_prev_links -%>
+  <div class="simple_flex_row space_before with_moderation_info">
+    <span>&nbsp;</span>
+    <%= render 'shared/ask_a_moderator' %>
+  </div>
 </div>

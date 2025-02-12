@@ -44,6 +44,24 @@ div#ticket > p:last-child
   margin-bottom: 0;
 }
 
+ul.ticket-comment-links li
+{
+  list-style: none;
+}
+
+div.simple_flex_row.with_moderation_info
+{
+  margin-top: 5px;
+  align-items: baseline;
+}
+
+div.simple_flex_row.with_moderation_info div.moderation
+{
+  text-align: right;
+  font-size: 12px;
+  color: #909090;
+}
+
 blockquote p
 {
   color: #555;
@@ -329,7 +347,7 @@ fieldset table tr.set-status { background: #ddd; }
 
 .ticket-changes
 {
-  margin: 20px;
+  margin: 20px 5px 20px 40px;
 }
 
 .ticket-changes h4
@@ -431,8 +449,8 @@ fieldset table tr.set-status { background: #ddd; }
 
 .ticket-next-prev
 {
-  text-align: right;
-  margin-bottom: -12px;
+  text-align: left;
+  margin-bottom: -4px;
 }
 
 /**
