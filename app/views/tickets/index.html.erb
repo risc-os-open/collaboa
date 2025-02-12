@@ -13,7 +13,7 @@
 
   <%= render :partial => 'filter' %>
 
-  <div class="simple_flex_row with_moderation_info becomes_column_if_narrow space_between">
+  <div class="simple_flex_row with_moderation_info space_between">
     <%= pagy_nav(@ticket_pages).html_safe() %>
     <%= render partial: 'shared/ask_a_moderator' %>
   </div>
