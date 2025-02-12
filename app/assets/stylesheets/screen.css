@@ -357,7 +357,7 @@ fieldset table tr.set-status { background: #ddd; }
 
 .ticket-change-entry
 {
-  background: #f0f0f0 url( /images/risc_os_open/top_fade.png ) top left repeat-x;
+  background: #f0f0f0 url("/images/risc_os_open/top_fade.png") top left repeat-x;
   padding: 15px;
   margin-bottom: 1em;
   color: #333;
@@ -517,17 +517,17 @@ ul.changes li.change-name
 
 #content table#browser td.File a
 {
-  background-image: url("/tracker/images/icon_file.gif");
+  background-image: url("icon_file.gif");
 }
 
 #content table#browser td.Dir a
 {
-  background-image: url("/tracker/images/icon_folder.gif");
+  background-image: url("icon_folder.gif");
 }
 
 #content table#browser td.parent a
 {
-  background-image: url("/tracker/images/icon_up.gif");
+  background-image: url("icon_up.gif");
 }
 
 #download-alternate { margin-top: 10px; }

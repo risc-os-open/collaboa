@@ -517,17 +517,17 @@ ul.changes li.change-name
 
 #content table#browser td.File a
 {
-  background-image: url("/tracker/images/icon_file.gif");
+  background-image: url("/tracker/assets/icon_file-a00ddcee.gif");
 }
 
 #content table#browser td.Dir a
 {
-  background-image: url("/tracker/images/icon_folder.gif");
+  background-image: url("/tracker/assets/icon_folder-48b0e349.gif");
 }
 
 #content table#browser td.parent a
 {
-  background-image: url("/tracker/images/icon_up.gif");
+  background-image: url("/tracker/assets/icon_up-5c5f5cb3.gif");
 }
 
 #download-alternate { margin-top: 10px; }
