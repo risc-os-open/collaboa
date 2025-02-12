@@ -234,7 +234,7 @@ table.listing td a
 
 table.listing thead th a.asc
 {
-  background-image: url("/assets/sort_asc-5cf0cbc5.png");
+  background-image: url("/tracker/assets/sort_asc-5cf0cbc5.png");
   background-repeat: no-repeat;
   padding-right: 12px;
   background-position: 100% 50%;
@@ -242,7 +242,7 @@ table.listing thead th a.asc
 
 table.listing thead th a.desc
 {
-  background-image: url("/assets/sort_desc-a8955788.png");
+  background-image: url("/tracker/assets/sort_desc-a8955788.png");
   background-repeat: no-repeat;
   padding-right: 12px;
   background-position: 100% 50%;
