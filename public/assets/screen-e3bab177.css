@@ -74,6 +74,16 @@ small
   color: #666;
 }
 
+/* A flex row with space-between is used to push the 'new ticket' link on the
+ * ticket index page over to the right, but NetSurf doesn't support that
+ * property, so add a left margin to avoid it abutting the header in that case.
+ */
+
+#content #ticket_list_new_ticket_link
+{
+  margin-left: 20px;
+}
+
 /**
  * Forms
  */

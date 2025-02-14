@@ -5,7 +5,7 @@
   <div class="simple_flex_row">
     <h1>Tickets</h1>
     <% if current_user.create_tickets? -%>
-      <div>
+      <div id="ticket_list_new_ticket_link">
         <%= link_to 'New ticket', :controller => '/tickets', :action => 'new' %>
       </div>
     <% end %>
