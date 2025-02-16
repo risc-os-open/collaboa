@@ -107,7 +107,7 @@ GEM
     html-pipeline (3.2.2)
       selma (~> 0.4)
       zeitwerk (~> 2.5)
-    hubssolib (3.1.0)
+    hubssolib (3.2.1)
       base64 (~> 0.2)
       drb (~> 2.2)
     i18n (1.14.7)
@@ -207,9 +207,9 @@ GEM
     rails-html-sanitizer (1.6.2)
       loofah (~> 2.21)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
-    rails-pg-extras (5.6.2)
+    rails-pg-extras (5.6.6)
       rails
-      ruby-pg-extras (= 5.6.2)
+      ruby-pg-extras (= 5.6.6)
     rails_autolink (1.1.8)
       actionview (> 3.1)
       activesupport (> 3.1)
@@ -230,7 +230,7 @@ GEM
       psych (>= 4.0.0)
     reline (0.6.0)
       io-console (~> 0.5)
-    ruby-pg-extras (5.6.2)
+    ruby-pg-extras (5.6.6)
       pg
       terminal-table
     ruby2_keywords (0.0.5)
